@@ -1,0 +1,106 @@
+{
+  "packages": [
+    {
+      "slug": "marble-package",
+      "name": "Marble Package",
+      "currentPrice": "16,900.00",
+      "originalPrice": "18,900.00",
+      "salePercentage": "10% OFF",
+      "deliveryTime": "4-6 days",
+      "rating": 5,
+      "reviewCount": 1,
+      "defaultColor": "White",
+      "colors": [
+        { "name": "White", "hex": "#ffffff" },
+        { "name": "Dark", "hex": "#2c3e50" },
+        { "name": "Gray", "hex": "#95a5a6" }
+      ],
+      "roomTypes": [
+        { "name": "1 Bedroom/15 Items", "active": true },
+        { "name": "Studio/10 Items", "active": false },
+        { "name": "2 Bedroom/27 Items", "active": false },
+        { "name": "3 Bedroom/35 Items", "active": false },
+        { "name": "Villa/40 Items", "active": false }
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      ],
+      "description": "The Marble White Package adds effortless elegance and timeless charm to your home, creating a serene and stylish ambiance. This set includes living room, dining room, and bedroom items, offering a cohesive design that brings modern sophistication to every space for a sophisticated touch.",
+      "features": [
+        "The living room pieces offer a minimalist design with neutral tones and elegant finishes, providing a calm space for relaxation and entertainment.",
+        "The dining room furniture blends simplicity with luxury, featuring marble elements and clean lines that elevate any meal.",
+        "The bedroom set is a peaceful retreat, where soft tones create a restful, elegant environment for sleep and relaxation.",
+        "Perfect for those seeking modern sophistication and serene beauty, with a design that's both contemporary and timeless."
+      ]
+    },
+    {
+      "slug": "minimalism-package",
+      "name": "Minimalism Package",
+      "currentPrice": "27,500.00",
+      "originalPrice": "34,380.00",
+      "salePercentage": "20% OFF",
+      "deliveryTime": "1-6 days",
+      "rating": 5,
+      "reviewCount": 3,
+      "defaultColor": "White",
+      "colors": [
+        { "name": "White", "hex": "#ffffff" },
+        { "name": "Beige", "hex": "#f5f5dc" },
+        { "name": "Gray", "hex": "#808080" }
+      ],
+      "roomTypes": [
+        { "name": "1 Bedroom/15 Items", "active": true },
+        { "name": "Studio/10 Items", "active": false },
+        { "name": "2 Bedroom/27 Items", "active": false },
+        { "name": "3 Bedroom/35 Items", "active": false },
+        { "name": "Villa/40 Items", "active": false }
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      ],
+      "description": "The Minimalism Package embodies clean lines and functional beauty, creating spaces that breathe with simplicity and purpose.",
+      "features": [
+        "Clean, uncluttered design philosophy",
+        "Functional furniture with hidden storage",
+        "Neutral color palette for timeless appeal",
+        "Quality materials with sustainable practices"
+      ]
+    },
+    {
+      "slug": "sand-package",
+      "name": "Sand Package",
+      "currentPrice": "12,900.00",
+      "originalPrice": "17,200.00",
+      "salePercentage": "25% OFF",
+      "deliveryTime": "12-14 days",
+      "rating": 4,
+      "reviewCount": 2,
+      "defaultColor": "Sand",
+      "colors": [
+        { "name": "Sand", "hex": "#c2b280" },
+        { "name": "Cream", "hex": "#fffdd0" },
+        { "name": "Taupe", "hex": "#483c32" }
+      ],
+      "roomTypes": [
+        { "name": "1 Bedroom/15 Items", "active": true },
+        { "name": "Studio/10 Items", "active": false },
+        { "name": "2 Bedroom/27 Items", "active": false }
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      ],
+      "description": "The Sand Package brings warmth and earthiness to your space, inspired by natural desert tones and organic textures.",
+      "features": [
+        "Warm, earthy color palette",
+        "Natural textures and materials",
+        "Comfortable, inviting atmosphere",
+        "Perfect for creating cozy, welcoming spaces"
+      ]
+    }
+  ]
+}

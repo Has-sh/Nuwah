@@ -60,7 +60,6 @@ function preloadCategoryImages(categoryImages) {
 		});
 	}
 }
-
 function changeBackgroundImages() {
 	const categoryImages = {
 		kitchen: [
@@ -75,44 +74,63 @@ function changeBackgroundImages() {
 		furniture: [
 			'/assets/img/furniture1.webp',
 			'/assets/img/furniture2.webp'
-
 		]
 	};
 
 	preloadCategoryImages(categoryImages);
 
-	document.querySelectorAll('.category-card').forEach(card => {
-		const category = card.dataset.category;
-		const images = categoryImages[category];
-		if (!images || images.length === 0) return;
+	const observers = new Map();
 
-		const bg1 = card.querySelector('.bg1');
-		const bg2 = card.querySelector('.bg2');
-		let currentIndex = 0;
-		let showingFirst = true;
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			const card = entry.target;
+			const category = card.dataset.category;
+			const images = categoryImages[category];
+			const bg1 = card.querySelector('.bg1');
+			const bg2 = card.querySelector('.bg2');
 
-		// Set initial background
-		bg1.style.backgroundImage = `url('${images[currentIndex]}')`;
-		bg1.classList.add('show');
+			if (entry.isIntersecting) {
+				if (observers.has(card)) return; // Already running
 
-		setInterval(() => {
-			currentIndex = (currentIndex + 1) % images.length;
-			const nextImage = `url('${images[currentIndex]}')`;
+				let currentIndex = 0;
+				let showingFirst = true;
 
-			if (showingFirst) {
-				bg2.style.backgroundImage = nextImage;
-				bg2.classList.add('show');
-				bg1.classList.remove('show');
-			} else {
-				bg1.style.backgroundImage = nextImage;
+				bg1.style.backgroundImage = `url('${images[currentIndex]}')`;
 				bg1.classList.add('show');
-				bg2.classList.remove('show');
-			}
 
-			showingFirst = !showingFirst;
-		}, 5000);
+				const interval = setInterval(() => {
+					currentIndex = (currentIndex + 1) % images.length;
+					const nextImage = `url('${images[currentIndex]}')`;
+
+					if (showingFirst) {
+						bg2.style.backgroundImage = nextImage;
+						bg2.classList.add('show');
+						bg1.classList.remove('show');
+					} else {
+						bg1.style.backgroundImage = nextImage;
+						bg1.classList.add('show');
+						bg2.classList.remove('show');
+					}
+
+					showingFirst = !showingFirst;
+				}, 5000);
+
+				observers.set(card, interval);
+			} else {
+				// Stop interval when card not in view
+				if (observers.has(card)) {
+					clearInterval(observers.get(card));
+					observers.delete(card);
+				}
+			}
+		});
+	}, { threshold: 0.1 });
+
+	document.querySelectorAll('.category-card').forEach(card => {
+		observer.observe(card);
 	});
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
 	changeBackgroundImages();
