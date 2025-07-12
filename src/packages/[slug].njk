@@ -1,12 +1,4 @@
----
-pagination:
-  data: collections.packages
-  size: 1
-  alias: package
-  addAllPagesToCollections: true
-permalink: "packages/{{ package.slug }}/index.html"
----
-
+  
 <h1>{{ package.name }}</h1>
 <p><strong>Price:</strong> {{ package.currentPrice }} <del>{{ package.originalPrice }}</del> ({{ package.salePercentage }})</p>
 <p><strong>Delivery:</strong> {{ package.deliveryTime }}</p>
