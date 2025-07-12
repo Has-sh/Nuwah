@@ -8,8 +8,11 @@ layout: layout.njk
 ---
 
 <style>
-        .custom-navbar {
-            background:rgba(0, 0, 0, 0.5);
+        @media(min-width:926px){
+            .custom-navbar {
+                background:rgba(0, 0, 0, 0.8);
+                transition: background-color 0.3s ease-in-out;
+                }
         }
         :root {
             --primary-color: #2c3e50;
