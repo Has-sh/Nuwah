@@ -60,37 +60,100 @@ function preloadCategoryImages(categoryImages) {
 		});
 	}
 }
-function changeBackgroundImages() {
-	const categoryImages = {
-		kitchen: [
-			'/assets/img/kitchen_appliances1.webp',
-			'/assets/img/kitchen_appliances2.webp',
-			'/assets/img/kitchen_appliances3.webp'
-		],
-		living: [
-			'/assets/img/living_room1.webp',
-			'/assets/img/living_room2.webp'
-		],
-		furniture: [
-			'/assets/img/furniture1.webp',
-			'/assets/img/furniture2.webp'
-		]
-	};
 
-	preloadCategoryImages(categoryImages);
+function changeBackgroundImages() {
+	const cardImages = {
+    'sectional-sofas': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'leather-sofas': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'fabric-sofas': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'vanity-units': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'shower-systems': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'bathroom-accessories': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'coffee-tables': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'tv-units': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'armchairs': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'crystal-chandeliers': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'modern-chandeliers': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'vintage-chandeliers': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'bed-frames': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'wardrobes': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'nightstands': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'table-lamps': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'floor-lamps': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ],
+    'pendant-lights': [
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'
+    ]
+};
+
+
+	preloadCategoryImages(cardImages);
 
 	const observers = new Map();
 
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
 			const card = entry.target;
-			const category = card.dataset.category;
-			const images = categoryImages[category];
+			const cardId = card.dataset.id;
+			const images = cardImages[cardId];
 			const bg1 = card.querySelector('.bg1');
 			const bg2 = card.querySelector('.bg2');
 
+			if (!images || !bg1 || !bg2) return;
+
 			if (entry.isIntersecting) {
-				if (observers.has(card)) return; // Already running
+				if (observers.has(card)) return;
 
 				let currentIndex = 0;
 				let showingFirst = true;
@@ -117,7 +180,6 @@ function changeBackgroundImages() {
 
 				observers.set(card, interval);
 			} else {
-				// Stop interval when card not in view
 				if (observers.has(card)) {
 					clearInterval(observers.get(card));
 					observers.delete(card);
@@ -131,9 +193,224 @@ function changeBackgroundImages() {
 	});
 }
 
+const categoryContent = {
+	sofas: {
+		title: "Sofas Collection",
+		description: "Discover our premium sofa collection featuring contemporary designs and luxurious comfort.",
+		cards: [
+			{
+				id: "sectional-sofas",  // <-- ADD THIS
+				title: "Sectional Sofas",
+				subtitle: "Perfect for large living spaces with modular design",
+				category: "sofas"
+			},
+			{
+				title: "Leather Sofas",
+				subtitle: "Premium leather craftsmanship for timeless elegance",
+				category: "sofas"
+			},
+			{
+				title: "Fabric Sofas",
+				subtitle: "Comfortable and stylish fabric options in various colors",
+				category: "sofas"
+			}
+		]
+	},
+	bathroom: {
+		title: "Bathroom Essentials",
+		description: "Transform your bathroom with our modern fixtures and elegant accessories.",
+		cards: [
+			{
+				title: "Vanity Units",
+				subtitle: "Stylish storage solutions for your bathroom",
+				category: "bathroom"
+			},
+			{
+				title: "Shower Systems",
+				subtitle: "Luxurious shower experiences with modern technology",
+				category: "bathroom"
+			},
+			{
+				title: "Bathroom Accessories",
+				subtitle: "Complete your bathroom with premium accessories",
+				category: "bathroom"
+			}
+		]
+	},
+	living: {
+		title: "Living Room Furniture",
+		description: "Create the perfect living space with our curated collection of modern furniture.",
+		cards: [
+			{
+				title: "Coffee Tables",
+				subtitle: "Centerpiece furniture for your living room",
+				category: "living"
+			},
+			{
+				title: "TV Units",
+				subtitle: "Stylish entertainment centers for modern homes",
+				category: "living"
+			},
+			{
+				title: "Armchairs",
+				subtitle: "Comfortable seating with contemporary design",
+				category: "living"
+			}
+		]
+	},
+	chandelier: {
+		title: "Chandelier Collection",
+		description: "Illuminate your space with our stunning chandelier designs for every room.",
+		cards: [
+			{
+				title: "Crystal Chandeliers",
+				subtitle: "Elegant crystal designs for formal dining rooms",
+				category: "chandelier"
+			},
+			{
+				title: "Modern Chandeliers",
+				subtitle: "Contemporary lighting solutions for modern spaces",
+				category: "chandelier"
+			},
+			{
+				title: "Vintage Chandeliers",
+				subtitle: "Classic designs with timeless appeal",
+				category: "chandelier"
+			}
+		]
+	},
+	bedroom: {
+		title: "Bedroom Furniture",
+		description: "Create your dream bedroom with our comfortable and stylish furniture collection.",
+		cards: [
+			{
+				title: "Bed Frames",
+				subtitle: "Comfortable and stylish beds for restful sleep",
+				category: "bedroom"
+			},
+			{
+				title: "Wardrobes",
+				subtitle: "Spacious storage solutions for your clothes",
+				category: "bedroom"
+			},
+			{
+				title: "Nightstands",
+				subtitle: "Convenient bedside storage with modern design",
+				category: "bedroom"
+			}
+		]
+	},
+	lamps: {
+		title: "Lighting Collection",
+		description: "Brighten your home with our diverse range of lamps and lighting solutions.",
+		cards: [
+			{
+				title: "Table Lamps",
+				subtitle: "Perfect accent lighting for any room",
+				category: "lamps"
+			},
+			{
+				title: "Floor Lamps",
+				subtitle: "Statement lighting pieces for modern interiors",
+				category: "lamps"
+			},
+			{
+				title: "Pendant Lights",
+				subtitle: "Stylish hanging lights for kitchen and dining",
+				category: "lamps"
+			}
+		]
+	}
+};
 
+// Function to update content with enhanced fade animations
+function updateContent(category) {
+	const content = categoryContent[category];
+	if (!content) return;
+
+	// Get elements
+	const sectionTitle = document.getElementById('section-title');
+	const sectionDescription = document.getElementById('section-description');
+	const categoryGrid = document.getElementById('category-grid');
+	const headerSection = sectionTitle.closest('.header-padding');
+
+	// Start fade out animations
+	headerSection.classList.add('section-fade-out');
+	categoryGrid.classList.add('card-fade-out');
+
+	// Wait for fade out to complete
+	setTimeout(() => {
+		// Update header text
+		sectionTitle.textContent = content.title;
+		sectionDescription.textContent = content.description;
+
+		// Update cards
+		let cardHTML = '';
+		content.cards.forEach((card, index) => {
+			const colClass = index === 0 ? 'col-lg-6 col-md-12 col-12' : 'col-lg-3 col-md-6 col-sm-6 col-12';
+			cardHTML += `
+                        <div class="${colClass}">
+            				<div class="category-card" data-category="${card.category}" data-id="${card.id || card.title.replace(/\s+/g, '-').toLowerCase()}">
+                                <div class="bg-layer bg1"></div>
+                                <div class="bg-layer bg2"></div>
+                                <div class="category-content">
+                                    <h2 class="category-title">${card.title}</h2>
+                                    <p class="category-subtitle">${card.subtitle}</p>
+                                    <div class="arrow-btn">
+                                        <span>›</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+		});
+
+		categoryGrid.innerHTML = cardHTML;
+
+		// Remove fade out classes and add fade in classes
+		headerSection.classList.remove('section-fade-out');
+		categoryGrid.classList.remove('card-fade-out');
+
+		// Trigger fade in animations
+		setTimeout(() => {
+			headerSection.classList.add('section-fade-in');
+			categoryGrid.classList.add('card-fade-in');
+
+			// Re-initialize background images for new cards
+			changeBackgroundImages();
+		}, 50);
+
+		// Clean up animation classes after transition
+		setTimeout(() => {
+			headerSection.classList.remove('section-fade-in');
+			categoryGrid.classList.remove('card-fade-in');
+		}, 600);
+
+	}, 400); // Wait for fade out duration
+}
+
+// Add click event listeners to navigation items
+document.querySelectorAll('.furn-item').forEach(item => {
+	item.addEventListener('click', function () {
+		// Remove active class from all items
+		document.querySelectorAll('.furn-item').forEach(i => i.classList.remove('active'));
+
+		// Add active class to clicked item
+		this.classList.add('active');
+
+		// Get category from data attribute
+		const category = this.dataset.category;
+
+		// Update content
+		updateContent(category);
+	});
+});
+
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
 	changeBackgroundImages();
+	updateContent("sofas");
+	document.querySelector('.furn-item[data-category="sofas"]').classList.add("active");
 });
 
 const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -450,4 +727,6 @@ function loadReviews() {
 }
 
 window.onload = loadReviews;
+
+
 
