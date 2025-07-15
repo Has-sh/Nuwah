@@ -1,0 +1,92 @@
+{
+  "products": [
+    {
+      "id": "boston-accent-chair",
+      "name": "Boston Accent Chair",
+      "price": "2,390.00",
+      "currency": "Dhs.",
+      "image": "/images/boston-chair.jpg",
+      "color": "White Boucle",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "White Boucle",
+          "code": "#F5F5F5",
+          "image": "/images/boston-chair-white.jpg"
+        }
+      ],
+      "description": "The Boston Accent Chair combines timeless elegance with exceptional comfort. Wrapped in soft white boucle fabric, its gracefully curved lines, broad arms, and plush cushions create an inviting and stylish seating experience.",
+      "features": "Designed for lasting comfort, it features dense foam padding that maintains its shape over time, ensuring both durability and coziness.",
+      "deliveryDays": 12,
+      "monthlyPayment": "233.03",
+      "installmentPayment": "597.50",
+      "gallery": [
+        "/images/boston-chair-1.jpg",
+        "/images/boston-chair-2.jpg",
+        "/images/boston-chair-3.jpg",
+        "/images/boston-chair-4.jpg",
+        "/images/boston-chair-5.jpg",
+        "/images/boston-chair-6.jpg"
+      ]
+    },
+    {
+      "id": "twist-accent-chair",
+      "name": "Twist Accent Chair",
+      "price": "1,990.00",
+      "currency": "Dhs.",
+      "image": "/images/twist-chair.jpg",
+      "color": "Charcoal Grey",
+      "colorCode": "#4A4A4A",
+      "colorOptions": [
+        {
+          "name": "Charcoal Grey",
+          "code": "#4A4A4A",
+          "image": "/images/twist-chair-grey.jpg"
+        }
+      ],
+      "description": "The Twist Accent Chair features a bold, contemporary design with curved armrests and a distinctive twisted silhouette. Upholstered in premium charcoal grey fabric, it adds a modern touch to any space.",
+      "features": "Built with high-quality materials and expert craftsmanship, featuring supportive cushioning and durable construction for long-lasting comfort.",
+      "deliveryDays": 10,
+      "monthlyPayment": "194.50",
+      "installmentPayment": "497.50",
+      "gallery": [
+        "/images/twist-chair-1.jpg",
+        "/images/twist-chair-2.jpg",
+        "/images/twist-chair-3.jpg",
+        "/images/twist-chair-4.jpg"
+      ]
+    },
+    {
+      "id": "alta-accent-chair",
+      "name": "Alta Accent Chair",
+      "price": "2,590.00",
+      "currency": "Dhs.",
+      "image": "/images/alta-chair.jpg",
+      "color": "Forest Green",
+      "colorCode": "#2D5A2D",
+      "colorOptions": [
+        {
+          "name": "Forest Green",
+          "code": "#2D5A2D",
+          "image": "/images/alta-chair-green.jpg"
+        },
+        {
+          "name": "Cream",
+          "code": "#F8F6F0",
+          "image": "/images/alta-chair-cream.jpg"
+        }
+      ],
+      "description": "The Alta Accent Chair showcases a playful yet sophisticated design with distinctive rounded armrests and a bold silhouette. Available in rich forest green, it makes a statement in any modern interior.",
+      "features": "Ergonomically designed with premium upholstery and structured support, combining style with exceptional comfort for everyday use.",
+      "deliveryDays": 14,
+      "monthlyPayment": "253.25",
+      "installmentPayment": "647.50",
+      "gallery": [
+        "/images/alta-chair-1.jpg",
+        "/images/alta-chair-2.jpg",
+        "/images/alta-chair-3.jpg",
+        "/images/alta-chair-4.jpg"
+      ]
+    }
+  ]
+}

@@ -567,7 +567,6 @@ body {
 
         .furn-item.active {
             background-color: #000000;
-            transform: scale(1.05);
 			z-index: 10;
         }
 
