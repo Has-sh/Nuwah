@@ -6,90 +6,35 @@
       "name": "Boston Accent Chair",
       "price": "2,390.00",
       "currency": "Dhs.",
-      "image": "https://images.unsplash.com/photo-1615874959474-d609969a9b95", 
       "color": "White Boucle",
       "colorCode": "#F5F5F5",
       "colorOptions": [
         {
           "name": "White Boucle",
           "code": "#F5F5F5",
-          "image": "https://images.unsplash.com/photo-1598300051320-f5d3d4f25c9c"
+          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+          "gallery": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+          ]
+        },
+        {
+          "name": "Black Boucle",
+          "code": "#FFFFFF",
+          "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+          "gallery": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+          ]
         }
       ],
       "description": "The Boston Accent Chair combines timeless elegance with exceptional comfort. Wrapped in soft white boucle fabric, its gracefully curved lines, broad arms, and plush cushions create an inviting and stylish seating experience.",
       "features": "Designed for lasting comfort, it features dense foam padding that maintains its shape over time, ensuring both durability and coziness.",
       "deliveryDays": 12,
       "monthlyPayment": "233.03",
-      "installmentPayment": "597.50",
-      "gallery": [
-        "https://images.unsplash.com/photo-1616627982292-41c8a050e2c5",
-        "https://images.unsplash.com/photo-1629244313887-4cb5bd3ccab6",
-        "https://images.unsplash.com/photo-1630698563904-9c9a3470f140",
-        "https://images.unsplash.com/photo-1622554963160-e407b4a8b43f",
-        "https://images.unsplash.com/photo-1606813902764-e032ec1a0aa6",
-        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
-      ]
-    },
-    {
-      "id": "twist-accent-chair",
-      "slug": "twist-accent-chair",
-      "name": "Twist Accent Chair",
-      "price": "1,990.00",
-      "currency": "Dhs.",
-      "image": "https://images.unsplash.com/photo-1601933470928-c6fcd6ff089e",
-      "color": "Charcoal Grey",
-      "colorCode": "#4A4A4A",
-      "colorOptions": [
-        {
-          "name": "Charcoal Grey",
-          "code": "#4A4A4A",
-          "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b"
-        }
-      ],
-      "description": "The Twist Accent Chair features a bold, contemporary design with curved armrests and a distinctive twisted silhouette. Upholstered in premium charcoal grey fabric, it adds a modern touch to any space.",
-      "features": "Built with high-quality materials and expert craftsmanship, featuring supportive cushioning and durable construction for long-lasting comfort.",
-      "deliveryDays": 10,
-      "monthlyPayment": "194.50",
-      "installmentPayment": "497.50",
-      "gallery": [
-        "https://images.unsplash.com/photo-1616627457561-5b342d38358e",
-        "https://images.unsplash.com/photo-1622554942008-944f4b911c2b",
-        "https://images.unsplash.com/photo-1607082349566-1873422752d1",
-        "https://images.unsplash.com/photo-1582582423413-d81f6fc09c07"
-      ]
-    },
-    {
-      "id": "alta-accent-chair",
-      "slug": "alta-accent-chair",
-      "name": "Alta Accent Chair",
-      "price": "2,590.00",
-      "currency": "Dhs.",
-      "image": "https://images.unsplash.com/photo-1582582494700-6db0f2f35d25",
-      "color": "Forest Green",
-      "colorCode": "#2D5A2D",
-      "colorOptions": [
-        {
-          "name": "Forest Green",
-          "code": "#2D5A2D",
-          "image": "https://images.unsplash.com/photo-1622554953377-d7e6a37676ef"
-        },
-        {
-          "name": "Cream",
-          "code": "#F8F6F0",
-          "image": "https://images.unsplash.com/photo-1622554991462-f4e6e157d7df"
-        }
-      ],
-      "description": "The Alta Accent Chair showcases a playful yet sophisticated design with distinctive rounded armrests and a bold silhouette. Available in rich forest green, it makes a statement in any modern interior.",
-      "features": "Ergonomically designed with premium upholstery and structured support, combining style with exceptional comfort for everyday use.",
-      "deliveryDays": 14,
-      "monthlyPayment": "253.25",
-      "installmentPayment": "647.50",
-      "gallery": [
-        "https://images.unsplash.com/photo-1622554977038-86f5acfb6872",
-        "https://images.unsplash.com/photo-1632911770233-2cf23e62d6ed",
-        "https://images.unsplash.com/photo-1606813902764-e032ec1a0aa6",
-        "https://images.unsplash.com/photo-1616627457559-d836fa3d2926"
-      ]
+      "installmentPayment": "597.50"
     }
   ]
 }
