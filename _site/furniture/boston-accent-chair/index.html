@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nuwah is a premium interior design studio in Dubai, UAE, transforming residential and commercial spaces with elegance, functionality, and emotion. Discover bespoke designs that redefine luxury living in the UAE.">
+  <title>Nuwah - Creating Emotion Through Space</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <script src="/assets/js/script.js" defer></script>
+  
+  <noscript>
+    <link rel="stylesheet" href="/assets/css/wdt-styles.css">
+  </noscript>
+</head>
+<body>
+<header>
+	<nav class="custom-navbar">
+		<div class="navbar-logo">
+			<a href="/">
+				<img src="/assets/img/header-logo.svg" alt="Nuwah Logo" class="logo-img">
+				<img src="/assets/img/nuwah.svg" alt="Nuwah" class="logo-text">
+			</a>
+
+		</div>
+		<div class="navbar-links">
+			<ul>
+				<li><a href="/packages" class="">Packages</a></li>
+        <li><a href="/furniture" class="">Furniture</a></li>
+        <li><a href="/renovation" class="">Renovation & Fitout</a></li>
+        <li><a href="/design" class="">Design Services</a></li>
+        <li><a href="/contact" class="">Contact Us</a></li>
+			</ul>
+		</div>
+		<div class="nav-toggle-btn">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</nav>
+</header>
+
+  <main>
+    
+<style>
+@media(min-width:926px){
+    .custom-navbar {
+        background:rgba(0, 0, 0, 0.8);
+        transition: background-color 0.3s ease-in-out;
+    }
+}
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #95a5a6;
+    --accent-color: #e74c3c;
+    --light-gray: #f8f9fa;
+    --dark-gray: #343a40;
+    --text-muted: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-gray);
+    background-color: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Back Button */
+.back-section {
+    padding: 20px 0;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.back-btn:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background: none;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: var(--text-muted);
+}
+
+.breadcrumb-item a {
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--primary-color);
+}
+
+/* Product Detail Layout */
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    padding: 40px 0;
+}
+
+/* Product Images */
+.product-images {
+    position: relative;
+}
+
+.main-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: var(--light-gray);
+    margin-bottom: 20px;
+}
+
+.image-gallery {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.gallery-thumb {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+}
+
+.gallery-thumb:hover {
+    opacity: 0.8;
+}
+
+.gallery-thumb.active {
+    border-color: var(--primary-color);
+}
+
+.zoom-icon {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.zoom-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Product Info */
+.product-info {
+    padding: 20px 0;
+}
+
+.product-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.product-price {
+    font-size: 24px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Color Selection */
+.color-section {
+    margin-bottom: 30px;
+}
+
+.color-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.color-options {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.color-option {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.color-option:hover,
+.color-option.active {
+    box-shadow: 0 0 0 2px var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Quantity Section */
+.quantity-section {
+    margin-bottom: 30px;
+}
+
+.quantity-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.quantity-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.quantity-btn {
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-muted);
+    transition: background-color 0.3s ease;
+}
+
+.quantity-btn:hover {
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+}
+
+.quantity-input {
+    width: 60px;
+    height: 40px;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.quantity-input:focus {
+    outline: none;
+}
+
+.delivery-info {
+    background: #e8f5e8;
+    color: #2d5a2d;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.btn-add-cart {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.btn-add-cart:hover {
+    background: #7f8c8d;
+    color: white;
+}
+
+.btn-buy-now {
+    background: var(--dark-gray);
+    color: white;
+}
+
+.btn-buy-now:hover {
+    background: #23272b;
+    color: white;
+}
+
+/* Payment Options */
+.payment-section {
+    margin-bottom: 30px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: var(--light-gray);
+    border-radius: 8px;
+}
+
+.payment-option:last-child {
+    margin-bottom: 0;
+}
+
+.payment-logo {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: lowercase;
+}
+
+.payment-logo.tabby {
+    background: var(--success-color);
+    color: white;
+}
+
+.payment-logo.tamara {
+    background: var(--warning-color);
+    color: var(--dark-gray);
+}
+
+.payment-text {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.payment-text strong {
+    color: var(--dark-gray);
+}
+
+.payment-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.payment-link:hover {
+    text-decoration: underline;
+}
+
+/* Product Description */
+.product-description {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+}
+
+.product-description p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .product-detail {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .product-title {
+        font-size: 24px;
+    }
+
+    .product-price {
+        font-size: 20px;
+    }
+
+    .main-image {
+        height: 400px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .quantity-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-image {
+        height: 300px;
+    }
+
+    .product-info {
+        padding: 10px 0;
+    }
+
+    .payment-option {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+</style>
+
+<div class="container mt-4 custom-padding">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="breadcrumb mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/furniture/">Furniture</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Boston Accent Chair</li>
+        </ol>
+    </nav>
+
+    <!-- Product Detail -->
+    <div class="product-detail">
+        <!-- Product Images -->
+        <div class="product-images">
+            <div class="main-image-container" style="position: relative;">
+                <img id="mainImage" src="https://images.unsplash.com/photo-1616627982292-41c8a050e2c5" alt="Boston Accent Chair" class="main-image">
+                <button class="zoom-icon">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+            </div>
+            <div class="image-gallery">
+                
+                <img src="https://images.unsplash.com/photo-1616627982292-41c8a050e2c5" alt="Boston Accent Chair" class="gallery-thumb active" />
+                
+                <img src="https://images.unsplash.com/photo-1629244313887-4cb5bd3ccab6" alt="Boston Accent Chair" class="gallery-thumb " />
+                
+                <img src="https://images.unsplash.com/photo-1630698563904-9c9a3470f140" alt="Boston Accent Chair" class="gallery-thumb " />
+                
+                <img src="https://images.unsplash.com/photo-1622554963160-e407b4a8b43f" alt="Boston Accent Chair" class="gallery-thumb " />
+                
+                <img src="https://images.unsplash.com/photo-1606813902764-e032ec1a0aa6" alt="Boston Accent Chair" class="gallery-thumb " />
+                
+                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc" alt="Boston Accent Chair" class="gallery-thumb " />
+                
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+            <h1 class="product-title">Boston Accent Chair</h1>
+            <p class="product-price">Dhs. 2,390.00</p>
+
+            <!-- Color Selection -->
+            <div class="color-section">
+                <label class="color-label">Color: <span id="selectedColor">White Boucle</span></label>
+                <div class="color-options">
+                    
+                    <div class="color-option active"
+                         style="background-color: #F5F5F5" 
+                         title="White Boucle"
+                         data-color="White Boucle">
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="quantity-section">
+                <div class="quantity-row">
+                    <label class="quantity-label">Quantity:</label>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn quantity-decrease">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1" readonly>
+                        <button class="quantity-btn quantity-increase">+</button>
+                    </div>
+                    <div class="delivery-info">
+                        <i class="fas fa-truck"></i>
+                        <span>12 days</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-add-cart">Add to cart</button>
+                <button class="btn btn-buy-now">Buy it now</button>
+            </div>
+
+            <!-- Payment Options -->
+            <div class="payment-section">
+                <div class="payment-option">
+                    <div class="payment-logo tabby">tabby</div>
+                    <div class="payment-text">
+                        As low as <strong>৳ 233.03/month</strong> or 4 interest-free payments. 
+                        <a href="#" class="payment-link">More options</a>
+                    </div>
+                </div>
+                <div class="payment-option">
+                    <div class="payment-logo tamara">tamara</div>
+                    <div class="payment-text">
+                        Or split in 4 payments of <strong>৳ 597.50</strong> - No late fees. Sharia compliant! 
+                        <a href="#" class="payment-link">More options</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Description -->
+            <div class="product-description">
+                <p>The Boston Accent Chair combines timeless elegance with exceptional comfort. Wrapped in soft white boucle fabric, its gracefully curved lines, broad arms, and plush cushions create an inviting and stylish seating experience.</p>
+                <p>Designed for lasting comfort, it features dense foam padding that maintains its shape over time, ensuring both durability and coziness.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Quantity controls
+    document.querySelectorAll('.quantity-decrease').forEach(btn => {
+        btn.onclick = () => {
+            const input = btn.nextElementSibling;
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        };
+    });
+
+    document.querySelectorAll('.quantity-increase').forEach(btn => {
+        btn.onclick = () => {
+            const input = btn.previousElementSibling;
+            input.value = parseInt(input.value) + 1;
+        };
+    });
+
+    // Gallery thumbnails
+    document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+        thumb.onclick = () => {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = thumb.src;
+            
+            // Update active state
+            document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        };
+    });
+
+    // Color options
+    document.querySelectorAll('.color-option').forEach(opt => {
+        opt.onclick = () => {
+            // Remove active from all options
+            opt.parentNode.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+            opt.classList.add('active');
+            
+            // Update selected color text
+            const selectedColorSpan = document.getElementById('selectedColor');
+            if (selectedColorSpan) {
+                selectedColorSpan.textContent = opt.getAttribute('data-color');
+            }
+        };
+    });
+
+    // Zoom functionality (placeholder)
+    document.querySelector('.zoom-icon')?.addEventListener('click', function() {
+        // Add zoom functionality here
+        console.log('Zoom clicked');
+    });
+
+    // Add to cart functionality (placeholder)
+    document.querySelector('.btn-add-cart')?.addEventListener('click', function() {
+        // Add cart functionality here
+        console.log('Add to cart clicked');
+    });
+
+    // Buy now functionality (placeholder)
+    document.querySelector('.btn-buy-now')?.addEventListener('click', function() {
+        // Add buy now functionality here
+        console.log('Buy now clicked');
+    });
+});
+</script>
+  </main>
+
+  <footer>
+  <div class="container-fluid" style="background-color: #F7F7F7;">
+    <div class="md-main-wrapper d-flex flex-column align-items-center">
+
+      <!-- Logo -->
+      <div class="md-logo-image-wrapper mb-3">
+        <img src="/assets/img/footer-logo-Photoroom.png" alt="Nuwah - interior design" class="md-logo-image">
+      </div>
+
+      <!-- Navigation -->
+      <nav class="md-navigation mb-3">
+        <ul class="list-inline m-0">
+          <li class="list-inline-item"><a href="#about">About me</a></li>
+          <li class="list-inline-item"><a href="#services">Services</a></li>
+          <li class="list-inline-item"><a href="#pricing">Pricing</a></li>
+          <li class="list-inline-item"><a href="#testimonials">Testimonials</a></li>
+          <li class="list-inline-item"><a href="#contact">Contact us</a></li>
+        </ul>
+      </nav>
+
+      <!-- Social Links -->
+      <div class="md-social-container mb-3">
+        <a href="#" class="md-social-link md-facebook me-3">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="md-social-link md-instagram me-3">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" class="md-social-link md-youtube">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+
+      <!-- Copyright -->
+      <p class="md-footer-text text-muted text-center mb-0">
+        © Created by Einzcare &nbsp;&nbsp; All rights reserved
+      </p>
+
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
+</body>
+</html>
