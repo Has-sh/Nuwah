@@ -1,0 +1,502 @@
+---
+layout: layout.njk
+title: Furniture Collection
+permalink: "/furniture/"
+---
+<style>
+@media(min-width:926px){
+    .custom-navbar {
+        background:rgba(0, 0, 0, 0.8);
+        transition: background-color 0.3s ease-in-out;
+    }
+}
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #95a5a6;
+    --accent-color: #e74c3c;
+    --light-gray: #f8f9fa;
+    --dark-gray: #343a40;
+    --text-muted: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background: none;
+    padding: 1rem 0;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+    .breadcrumb {
+        font-size: 0.9rem;
+    }
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: var(--text-muted);
+    margin: 0 0.5rem;
+}
+
+.breadcrumb-item a {
+    color: var(--text-muted);
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.breadcrumb-item.active {
+    color: var(--primary-color);
+}
+
+
+        /* Header Controls */
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 40px;
+            margin-bottom: 0;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 400;
+            color: #333;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover {
+            color: #666;
+        }
+
+        .dropdown-arrow {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .dropdown-arrow::after {
+            content: '▼';
+        }
+
+        .sort-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .sort-dropdown {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            font-weight: 400;
+            appearance: none;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-dropdown::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 10px;
+        }
+
+        .sort-dropdown:hover {
+            color: #666;
+        }
+
+        /* Product Grid */
+        .product-container {
+            background-color: #ffffff;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border-radius: 0;
+            overflow: visible;
+            border: none;
+            box-shadow: none;
+        }
+
+        .product-image-container {
+            background-color: #f5f5f5;
+            border-radius: 0;
+            margin-bottom: 25px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.02);
+        }
+
+        .product-info {
+            padding: 0;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            object-fit: cover;
+        }
+
+        .color-option:hover {
+            border-color: #333;
+        }
+
+        .color-option.active {
+            border-color: #333;
+            border-width: 2px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .product-container {
+                padding: 0 30px 40px 30px;
+            }
+            
+            .header-controls {
+                padding: 20px 30px 30px 30px;
+            }
+            
+            .breadcrumb {
+                padding: 15px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-controls {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+                padding: 20px 20px 30px 20px;
+            }
+
+            .filter-controls {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .sort-control {
+                justify-content: center;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-container {
+                padding: 0 20px 40px 20px;
+            }
+
+            .breadcrumb {
+                padding: 15px 20px;
+            }
+
+            .product-image-container {
+                height: 250px;
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filter-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .product-title {
+                font-size: 16px;
+            }
+
+            .color-option {
+                width: 35px;
+                height: 35px;
+            }
+
+            .product-image-container {
+                height: 200px;
+                padding: 20px;
+            }
+        }
+.dropdown-wrapper {
+    position: relative;
+}
+
+.dropdown-button {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.dropdown-button:hover {
+    background-color: #e0e0e0;
+}
+
+.arrow {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    min-width: 160px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 8px 0;
+    border-radius: 8px;
+    display: none;
+    z-index: 100;
+}
+
+.dropdown-menu .dropdown-item {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+
+    </style>
+<div class="container custom-padding">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="d-none d-sm-block">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/furniture/">Furniture</a></li>
+            <li class="breadcrumb-item active" aria-current="page">sofa</li>
+        </ol>
+  </nav>
+
+  <!-- Header Controls -->
+  <div class="header-controls">
+    <div class="filter-controls">
+      <!-- Price Dropdown -->
+      <div class="dropdown-wrapper">
+        <button class="dropdown-button" onclick="toggleDropdown('dropdown-price')">
+          Price <span class="arrow">&#9662;</span>
+        </button>
+        <div class="dropdown-menu" id="dropdown-price">
+          <div class="dropdown-item" onclick="filterByPrice('under-1000')">Under 1000</div>
+          <div class="dropdown-item" onclick="filterByPrice('1000-3000')">1000 - 3000</div>
+          <div class="dropdown-item" onclick="filterByPrice('above-3000')">Above 3000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sort Dropdown -->
+    <div class="sort-control dropdown-wrapper">
+      <button class="dropdown-button" onclick="toggleDropdown('dropdown-sort')">
+        Sort by: Featured <span class="arrow">&#9662;</span>
+      </button>
+      <div class="dropdown-menu" id="dropdown-sort">
+        <div class="dropdown-item" onclick="sortBy('featured')">Featured</div>
+        <div class="dropdown-item" onclick="sortBy('price-low')">Price: Low to High</div>
+        <div class="dropdown-item" onclick="sortBy('price-high')">Price: High to Low</div>
+        <div class="dropdown-item" onclick="sortBy('name')">Name</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="product-container">
+    <div class="row" id="productGrid">
+      {% for product in furnitures.furnitures | sort(attribute=sortKey) %}
+      <div class="col-12 col-sm-6 col-md-4 mb-4">
+        <div class="product-card" data-price="{{ product.price }}" data-title="{{ product.title }}" data-featured="{{ product.featured }}">
+          <div class="product-image-container">
+            <img src="{{ product.colorOptions[0] }}" alt="{{ product.title }}" class="product-image" id="main-image-{{ product.id }}">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">{{ product.title }}</h3>
+            <p class="product-price">Dhs. {{ product.price.toFixed(2) }}</p>
+            <div class="color-options">
+              {% for color in product.colorOptions %}
+              <img 
+                src="{{ color }}" 
+                class="color-option{% if loop.index == 1 %} active{% endif %}" 
+                onclick="changeMainImage({{ product.id }}, '{{ color }}', this)"
+                alt="Color option {{ loop.index }}">
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+function changeMainImage(productId, newImageSrc, clickedElement) {
+  const mainImage = document.getElementById(`main-image-${productId}`);
+  if (mainImage) mainImage.src = newImageSrc;
+
+  const colorOptions = clickedElement.parentElement.querySelectorAll('.color-option');
+  colorOptions.forEach(opt => opt.classList.remove('active'));
+  clickedElement.classList.add('active');
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  window.toggleDropdown = function (id) {
+    const clickedDropdown = document.getElementById(id);
+    if (!clickedDropdown) return;
+
+    const isVisible = clickedDropdown.classList.contains('show');
+
+    document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+    if (!isVisible) clickedDropdown.classList.add('show');
+  };
+
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.dropdown-wrapper')) {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+    }
+  });
+
+  window.sortBy = function (key) {
+    const grid = document.getElementById("productGrid");
+    const items = Array.from(grid.children);
+
+    const sortFunctions = {
+      'price-low': (a, b) => parseFloat(a.querySelector(".product-card").dataset.price) - parseFloat(b.querySelector(".product-card").dataset.price),
+      'price-high': (a, b) => parseFloat(b.querySelector(".product-card").dataset.price) - parseFloat(a.querySelector(".product-card").dataset.price),
+      'name': (a, b) => a.querySelector(".product-card").dataset.title.localeCompare(b.querySelector(".product-card").dataset.title),
+      'featured': (a, b) => parseInt(a.querySelector(".product-card").dataset.featured) - parseInt(b.querySelector(".product-card").dataset.featured)
+    };
+
+    const sortFn = sortFunctions[key];
+    if (sortFn) {
+      items.sort(sortFn);
+      grid.innerHTML = '';
+      items.forEach(item => grid.appendChild(item));
+    }
+  };
+
+  window.filterByPrice = function (range) {
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+      const price = parseFloat(card.dataset.price);
+      let show = false;
+      if (range === 'under-1000') show = price < 1000;
+      else if (range === '1000-3000') show = price >= 1000 && price <= 3000;
+      else if (range === 'above-3000') show = price > 3000;
+      card.closest('.col-12').style.display = show ? 'block' : 'none';
+    });
+  };
+
+  
+});
+</script>
