@@ -1,0 +1,111 @@
+[
+  {
+    "category": "sofa",
+    "products": [
+      {
+        "id": 1,
+        "title": "Modern Sectional Sofa",
+        "price": 1299.99,
+        "featured": 1,
+        "slug": "boston-accent-chair",
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Luxury Leather Sofa",
+        "price": 2199.99,
+        "featured": 2,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Minimalist Loveseat",
+        "price": 899.99,
+        "featured": 3,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "table",
+    "products": [
+      {
+        "id": 2,
+        "title": "Oak Dining Table",
+        "price": 899.99,
+        "featured": 2,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Glass Coffee Table",
+        "price": 549.99,
+        "featured": 1,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Industrial Desk",
+        "price": 1299.99,
+        "featured": 3,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "chair",
+    "products": [
+      {
+        "id": 3,
+        "title": "Office Chair",
+        "price": 299.99,
+        "featured": 3,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Ergonomic Desk Chair",
+        "price": 599.99,
+        "featured": 1,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Vintage Armchair",
+        "price": 799.99,
+        "featured": 2,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Boston Accent Chair",
+        "price": 2390.00,
+        "featured": 1,
+        "colorOptions": [
+          "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        ]
+      }
+    ]
+  }
+]
