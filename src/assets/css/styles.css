@@ -381,8 +381,8 @@ body {
 /* --- Hero Section --- */
 .hero-container {
 	width: 100%;
-	height: 800px;
-	min-height: 800px;
+	height: 600px;
+	min-height: 600px;
 	position: relative;
 	overflow: hidden;
 }
@@ -537,7 +537,7 @@ body {
 
 @media (max-width: 992px) {
 	.hero-container {
-		min-height: 900px;
+		min-height: 600px;
 	}
 
 	.content-wrapper {
@@ -604,6 +604,12 @@ body {
 		margin-right: 0 !important;
 		width: 220px;
 		text-align: center;
+	}
+
+	.text-content {
+		display: grid;
+		align-items: center;
+		justify-content: center;	
 	}
 }
 

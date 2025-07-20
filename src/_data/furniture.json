@@ -1,6 +1,6 @@
 [
   {
-    "category": "sofa",
+    "category": "Sofa",
     "products": [
       {
         "id": 1,
@@ -33,7 +33,7 @@
     ]
   },
   {
-    "category": "table",
+    "category": "Table",
     "products": [
       {
         "id": 2,
@@ -65,7 +65,7 @@
     ]
   },
   {
-    "category": "chair",
+    "category": "Chair",
     "products": [
       {
         "id": 3,

@@ -1,0 +1,372 @@
+---
+layout: layout.njk
+title: Contact Us
+---
+
+<style>
+  .touch-section {
+    padding: 40px 0;
+  }
+
+  .touch-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .touch-header {
+    text-align: center;
+    padding: 50px 40px 30px;
+  }
+
+  .touch-header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
+
+  .touch-header p {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .form-outter {
+    padding-left: 40px;
+  }
+
+  @media (max-width: 992px) {
+    .form-outter {
+      padding-right: 40px;
+    }
+  }
+
+  .form-section {
+    padding: 30px 40px 40px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .info-section {
+    padding: 30px 40px 0px 40px;
+    background: white;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .form-control {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    background: white;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+    outline: none;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.8px;
+  }
+
+  .btn-send {
+    background: #dc3545;
+    border: none;
+    padding: 12px 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .btn-send:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+  }
+
+  .touch-info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    transition: none;
+  }
+
+  .touch-info-item:hover {
+    background: transparent;
+    transform: none;
+  }
+
+  .touch-icon {
+    width: 40px;
+    height: 40px;
+    background: #dc3545;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+
+  .touch-icon i {
+    color: white;
+    font-size: 1rem;
+  }
+
+  .touch-details h6 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.8px;
+  }
+
+  .touch-details p {
+    color: #666;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+  }
+
+  .business-hours {
+    background: #f8f9fa;
+    padding: 20px 25px;
+    border-radius: 8px;
+    margin-top: 30px;
+  }
+
+  .business-hours h5 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1rem;
+  }
+
+  .hours-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .hours-item:last-child {
+    border-bottom: none;
+  }
+
+  .day {
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.8px;
+  }
+
+  .time {
+    color: #666;
+    font-weight: 400;
+    font-size: 0.9rem;
+  }
+
+  .map-container {
+    height: 300px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: grayscale(20%) contrast(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .touch-header h1 {
+      font-size: 2rem;
+    }
+
+    .form-section, .info-section {
+      padding: 20px;
+    }
+
+    .touch-info-item {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .touch-icon {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<div class="hero-container">
+    <div class="hero-image">
+        <div class="hero-image" style="position: relative; width: 100%; overflow: hidden;">
+            <img src="https://plus.unsplash.com/premium_photo-1670360414483-64e6d9ba9038?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Interior Packages Cover"
+                style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+        </div>
+    </div>
+    <div class="hero-content">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2 class="welcome-text">CONTACT US</h2>
+                <h3 class="tagline">We’d Love to Hear from You</h3>
+                <p class="description">
+                    Whether you're curious about our services, have a question, or just want to say hello — we're here to help. Reach out and let's start a conversation.
+                </p>
+                <div class="divider"></div>
+                <div class="btn-container d-flex">
+                    <a href="#packages" class="btn-primary-custom">Send a Message</a>
+                    <a href="#contact" class="btn-outline-custom">View Location</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="touch-section">
+  <div class="container">
+    <div class="touch-container">
+      <div class="touch-header">
+        <h1>CONTACT US</h1>
+        <p>If you have any questions, please feel free to get in touch with us via phone, text, email, the form below, or even on social media!</p>
+      </div>
+
+      <div class="row g-0 h-100">
+        <div class="form-outter col-lg-6 d-flex">
+          <div class="form-section h-100 d-flex flex-column">
+            <h3 class="section-title">Get In Touch</h3>
+            <form class="flex-grow-1 d-flex flex-column">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter your name*">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number*">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email*">
+              </div>
+              <div class="mb-4 flex-grow-1">
+                <label for="message" class="form-label">Your Message</label>
+                <textarea class="form-control h-100" id="message" rows="2" placeholder="Enter your message..." style="min-height: 0px; border-radius: 6px;"></textarea>
+              </div>
+              <button type="submit" class="btn btn-send btn-primary w-100 mt-4">SEND MESSAGE</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="info-section h-100 d-flex flex-column">
+            <h3 class="section-title">Contact Information</h3>
+
+            <div class="touch-info-item">
+              <div class="touch-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="touch-details">
+                <h6>Phone</h6>
+                <p>773-365-1240</p>
+              </div>
+            </div>
+
+            <div class="touch-info-item">
+              <div class="touch-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="touch-details">
+                <h6>Email</h6>
+                <p>office@steponetrans.com</p>
+              </div>
+            </div>
+
+            <div class="touch-info-item">
+              <div class="touch-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="touch-details">
+                <h6>Address</h6>
+                <p>1425 N McLean Blvd, Elgin, IL</p>
+              </div>
+            </div>
+
+            <div class="business-hours mt-auto">
+              <h5>Business Hours</h5>
+              <div class="hours-item">
+                <span class="day">Monday - Friday</span>
+                <span class="time">9:00 am - 8:00 pm</span>
+              </div>
+              <div class="hours-item">
+                <span class="day">Saturday</span>
+                <span class="time">9:00 am - 6:00 pm</span>
+              </div>
+              <div class="hours-item">
+                <span class="day">Sunday</span>
+                <span class="time">9:00 am - 5:00 pm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="info-section">
+            <div class="map-container">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2964.8918850234845!2d-88.30134068425631!3d42.03656837920891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880f05b8c8b0b0b0%3A0x0!2s1425%20N%20McLean%20Blvd%2C%20Elgin%2C%20IL%2060123!5e0!3m2!1sen!2sus!4v1642000000000!5m2!1sen!2sus"
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

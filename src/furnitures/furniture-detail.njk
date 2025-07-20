@@ -720,6 +720,23 @@ pagination:
     border-color: var(--primary-color);
 }
 
+.whatsapp-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-btn:hover {
+            background: #1db954;
+        }
 </style>
 
 <div class="container custom-padding">
@@ -727,7 +744,8 @@ pagination:
     <nav aria-label="breadcrumb" class="d-none d-sm-block">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/furniture/">Furniture</a></li>
+            <li class="breadcrumb-item"> <a href="/furniture/" style="pointer-events: none; text-decoration: none; cursor: default;">Furniture</a></li>
+            <li class="breadcrumb-item"><a href="/furniture/{{product.category}}/">{{product.category}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
         </ol>
     </nav>
@@ -790,7 +808,7 @@ pagination:
     </div>
 </div>
 
-                <!-- Quantity -->
+                <!-- Quantity
                 <div class="quantity-section">
                     <div class="quantity-row">
                         <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2 gap-sm-3 w-100">
@@ -811,17 +829,21 @@ pagination:
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </div> -->
+                
+                
                 <!-- Action Buttons -->
                 <div class="action-buttons">
-                    <button class="btn btn-add-cart">
+                    <!-- <button class="btn btn-add-cart">
                         <i class="fas fa-shopping-cart me-2 d-none d-sm-inline"></i>
                         Add to cart
                     </button>
                     <button class="btn btn-buy-now">
                         <i class="fas fa-bolt me-2 d-none d-sm-inline"></i>
                         Buy it now
+                    </button> -->
+                    <button class="whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> Continue on WhatsApp
                     </button>
                 </div>
 
@@ -856,6 +878,22 @@ pagination:
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Quantity controls
+        // WhatsApp button functionality
+    document.querySelector('.whatsapp-btn')?.addEventListener('click', function () {
+        const packageName = document.querySelector('.product-title')?.textContent?.trim() || '';
+        const color = document.getElementById('selectedColor')?.textContent?.trim() || '';
+        const quantity = document.querySelector('.quantity-input')?.value?.trim() || '1';
+
+        const message = `Hi! I'm interested in the ${packageName}.
+Color: ${color}
+Quantity: ${quantity}
+
+Could you please provide more details?`;
+
+        const whatsappUrl = `https://wa.me/971XXXXXXXXX?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    });
+
     document.querySelectorAll('.quantity-decrease').forEach(btn => {
         btn.onclick = () => {
             const input = btn.nextElementSibling;
@@ -989,4 +1027,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
 </script>
