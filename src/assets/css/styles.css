@@ -303,7 +303,7 @@ body {
   padding: 8px 8px;
   margin: 8px 0 0 0;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  gap:0px;
+  gap: 10px;
 }
 
 .navbar-links .nav-dropdown:hover .nav-dropdown-menu {
@@ -335,7 +335,6 @@ body {
 
 .navbar-links .nav-dropdown-menu a.active {
   color: #ff6b6b;
-  background-color: #f8f8f8;
 }
 
 /* Mobile Dropdown Styling */
