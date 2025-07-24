@@ -33,6 +33,10 @@ module.exports = function(eleventyConfig) {
   return [];
 });
 
+eleventyConfig.addCollection("projects", function (collectionApi) {
+  const data = require("./src/_data/projects.json");
+  return data.projects || [];
+});
 
   eleventyConfig.addFilter("capitalize", function(str) {
     if (!str) return "";

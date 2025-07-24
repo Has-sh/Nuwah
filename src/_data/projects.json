@@ -1,0 +1,129 @@
+{
+"projects":[
+   {
+    "slug": "modern-living-space",
+    "title": "Modern Living Space",
+    "category": "Residential Design Project",
+    "hero_image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=600&fit=crop",
+    "icon": "fas fa-home",
+    "gallery": [
+      {
+        "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=500&fit=crop",
+        "thumbnail": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&h=200&fit=crop",
+        "alt": "Main living room view"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=500&fit=crop",
+        "thumbnail": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&fit=crop",
+        "alt": "Kitchen area"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=500&fit=crop",
+        "thumbnail": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=200&h=200&fit=crop",
+        "alt": "Bedroom space"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=500&fit=crop",
+        "thumbnail": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=200&h=200&fit=crop",
+        "alt": "Bathroom design"
+      }
+    ],
+    "details": [
+      {
+        "label": "Client",
+        "value": "Private Residence"
+      },
+      {
+        "label": "Location",
+        "value": "Downtown Loft"
+      },
+      {
+        "label": "Size",
+        "value": "2,500 sq ft"
+      },
+      {
+        "label": "Duration",
+        "value": "4 months"
+      },
+      {
+        "label": "Year",
+        "value": "2024"
+      },
+      {
+        "label": "Style",
+        "value": "Modern Contemporary"
+      }
+    ],
+    "description": {
+      "lead": "This modern living space transformation focused on creating an open, airy environment that maximizes natural light while maintaining sophisticated elegance.",
+      "paragraphs": [
+        "Our design team worked closely with the homeowners to understand their lifestyle needs, resulting in a space that perfectly balances form and function. The project involved complete space planning, custom furniture selection, and careful attention to lighting design.",
+        "The color palette draws inspiration from natural elements, creating a calming atmosphere that promotes relaxation while remaining visually striking for entertaining guests."
+      ]
+    },
+    "features": [
+      "Open floor plan design",
+      "Custom built-in storage solutions",
+      "Designer furniture curation",
+      "Ambient lighting system",
+      "Premium material selection",
+      "Smart home integration",
+      "Sustainable design elements"
+    ],
+    "before_after": {
+      "description": "Witness the dramatic transformation of this space from outdated to outstanding.",
+      "before_image": "https://plus.unsplash.com/premium_photo-1670360414483-64e6d9ba9038?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "after_image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=450&fit=crop"
+    },
+    "timeline": [
+      {
+        "period": "Week 1-2",
+        "title": "Initial Consultation & Planning",
+        "description": "Conducted detailed space assessment, client interviews, and developed initial design concepts based on lifestyle requirements."
+      },
+      {
+        "period": "Week 3-6",
+        "title": "Design Development",
+        "description": "Created detailed floor plans, 3D renderings, and material boards. Refined the design based on client feedback and finalized specifications."
+      },
+      {
+        "period": "Week 7-14",
+        "title": "Procurement & Construction",
+        "description": "Ordered custom furniture and materials. Coordinated with contractors for structural modifications and installations."
+      },
+      {
+        "period": "Week 15-16",
+        "title": "Final Styling & Completion",
+        "description": "Installed furniture, accessories, and artwork. Conducted final walk-through and client handover with care instructions."
+      }
+    ],
+    "related_projects": [
+      {
+        "slug": "scandinavian-kitchen",
+        "title": "Scandinavian Kitchen",
+        "category": "Kitchen Design",
+        "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop"
+      },
+      {
+        "slug": "luxury-bedroom-suite",
+        "title": "Luxury Bedroom Suite",
+        "category": "Bedroom Design",
+        "image": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop"
+      },
+      {
+        "slug": "spa-inspired-bathroom",
+        "title": "Spa-Inspired Bathroom",
+        "category": "Bathroom Design",
+        "image": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=300&fit=crop"
+      }
+    ],
+    "cta": {
+      "title": "Inspired by This Design?",
+      "description": "Let's create something amazing for your space. Contact us for a consultation.",
+      "button_text": "Start Your Project",
+      "link": "/contact"
+    },
+    "cta_background": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&h=400&fit=crop"
+  }
+]
+}

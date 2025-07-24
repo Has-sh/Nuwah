@@ -1,0 +1,631 @@
+---
+layout: layout.njk
+pagination:
+  data: collections.projects
+  size: 1
+  alias: project
+permalink: "/projects/{{ project.slug }}/"
+---
+
+<style>
+    :root {
+        --primary-color: #333;
+        --secondary-color: #666;
+        --light-gray: #f8f9fa;
+        --border-color: #eee;
+    }
+
+    .project-header {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
+            url('{{ project.hero_image }}') center/cover;
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        color: white;
+        position: relative;
+    }
+
+    .project-title {
+        font-size: 3.5rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+    }
+
+    .project-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    /* Back Button */
+    .back-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .back-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .section-subtitle {
+        color: var(--secondary-color);
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+
+    /* Project Gallery */
+    .gallery-main {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .gallery-main img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .gallery-main:hover img {
+        transform: scale(1.05);
+    }
+
+    .gallery-thumbnails {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .thumbnail {
+        aspect-ratio: 1;
+        overflow: hidden;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .thumbnail.active {
+        border-color: var(--primary-color);
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .thumbnail:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Project Info Cards */
+    .info-card {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        height: 100%;
+        transition: transform 0.3s ease;
+         position: relative;
+         z-index: 2;     
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .info-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+
+    .info-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+    }
+
+    .info-text {
+        color: var(--secondary-color);
+        line-height: 1.6;
+    }
+
+    /* Features List */
+    .features-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .features-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        padding-left: 30px;
+    }
+
+    .features-list li:last-child {
+        border-bottom: none;
+    }
+
+    .features-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--primary-color);
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .comparison-slider {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        aspect-ratio: 16/9;
+    }
+
+    .before-image, .after-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .after-image {
+        clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+    }
+
+    .slider-handleSlider {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 4px;
+        height: 100%;
+        background: white;
+        cursor: ew-resize;
+        z-index: 2;
+        transform: translateX(-50%);
+    }
+
+    .slider-handleSlider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        background: white;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Process Timeline */
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--border-color);
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+        margin-right: calc(50% + 30px);
+        text-align: right;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: calc(50% + 30px);
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: 50%;
+        top: 20px;
+        width: 20px;
+        height: 20px;
+        background: var(--primary-color);
+        border: 4px solid white;
+        border-radius: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 0 4px var(--border-color);
+    }
+
+    .timeline-content {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .timeline-date {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .timeline-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Related Projects */
+    .related-project {
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.3s ease;
+        display: block;
+    }
+
+    .related-project:hover {
+        transform: translateY(-5px);
+        color: inherit;
+    }
+
+    .related-image {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .related-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .related-project:hover .related-image img {
+        transform: scale(1.1);
+    }
+
+    .related-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .related-category {
+        color: var(--secondary-color);
+        font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .project-title {
+            font-size: 2.5rem;
+        }
+
+        .timeline::before {
+            left: 20px;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 0;
+            margin-left: 50px;
+            text-align: left;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 50px;
+        }
+
+        .timeline-marker {
+            left: 20px;
+        }
+
+        .back-btn {
+            position: relative;
+            top: auto;
+            right: auto;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Animations */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease;
+    }
+
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<!-- Project Header -->
+<div class="project-header">
+    <div class="container text-center">
+        <h1 class="project-title" data-aos="fade-up">{{ project.title }}</h1>
+        <p class="project-subtitle" data-aos="fade-up" data-aos-delay="200">{{ project.category }}</p>
+    </div>
+</div>
+
+<!-- Project Overview -->
+<div class="container-fluid custom-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            <div class="col-lg-8 mb-5">
+                <div class="gallery-main" data-aos="fade-up">
+                    <img src="{{ project.gallery[0].image }}" 
+                         alt="{{ project.gallery[0].alt }}" id="mainImage">
+                </div>
+                <div class="gallery-thumbnails" data-aos="fade-up" data-aos-delay="200">
+                    {% for image in project.gallery %}
+                    <div class="thumbnail {% if loop.first %}active{% endif %}" 
+                         onclick="changeMainImage(this, '{{ image.image }}')">
+                        <img src="{{ image.thumbnail or image.image }}" alt="{{ image.alt }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Project Info -->
+            <div class="col-lg-4">
+                <div class="info-card" data-aos="fade-up">
+                    <div class="info-icon">
+                        <i class="{{ project.icon }}"></i>
+                    </div>
+                    <h3 class="info-title">Project Details</h3>
+                    <div class="info-text">
+                        {% for detail in project.details %}
+                        <p><strong>{{ detail.label }}:</strong> {{ detail.value }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Description -->
+<div class="container-fluid custom-padding" style="background: #f8f9fa;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2 class="section-title">About This Project</h2>
+                <p class="lead">{{ project.description.lead }}</p>
+                {% for paragraph in project.description.paragraphs %}
+                <p>{{ paragraph }}</p>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="info-card">
+                    <h4 class="info-title">Key Features</h4>
+                    <ul class="features-list">
+                        {% for feature in project.features %}
+                        <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Before & After -->
+{% if project.before_after %}
+<div class="container-fluid custom-padding before-after">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-subtitle">Transformation</p>
+            <h2 class="section-title">Before & After</h2>
+            <p>{{ project.before_after.description }}</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12" data-aos="zoom-in">
+                <div class="comparison-slider" id="comparisonSlider">
+                    <img src="{{ project.before_after.before_image }}" 
+                         alt="Before" class="before-image">
+                    <img src="{{ project.before_after.after_image }}" 
+                         alt="After" class="after-image" id="sliderAfterImage">
+                    <div class="slider-handleSlider" id="sliderHandle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Project Timeline -->
+{% if project.timeline %}
+<div class="container-fluid custom-padding" style="background: #f8f9fa;">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-subtitle">Process</p>
+            <h2 class="section-title">Project Timeline</h2>
+        </div>
+        
+        <div class="timeline">
+            {% for phase in project.timeline %}
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">{{ phase.period }}</div>
+                    <h4 class="timeline-title">{{ phase.title }}</h4>
+                    <p>{{ phase.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Related Projects -->
+{% if project.related_projects %}
+<div class="container-fluid custom-padding">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-subtitle">More Projects</p>
+            <h2 class="section-title">Related Work</h2>
+        </div>
+        
+        <div class="row">
+            {% for related in project.related_projects %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <a href="/projects/{{ related.slug }}" class="related-project">
+                    <div class="related-image">
+                        <img src="{{ related.image }}" alt="{{ related.title }}">
+                    </div>
+                    <h4 class="related-title">{{ related.title }}</h4>
+                    <p class="related-category">{{ related.category }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Scripts -->
+<script>
+    // Gallery functionality
+    function changeMainImage(thumbnail, imageSrc) {
+        // Remove active class from all thumbnails
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.classList.remove('active');
+        });
+        
+        // Add active class to clicked thumbnail
+        thumbnail.classList.add('active');
+        
+        // Change main image with fade effect
+        const mainImg = document.getElementById('mainImage');
+        mainImg.style.opacity = '0';
+        
+        setTimeout(() => {
+            mainImg.src = imageSrc;
+            mainImg.style.opacity = '1';
+        }, 150);
+    }
+
+    // Before/After slider functionality
+    let isSliding = false;
+    const slider = document.getElementById('comparisonSlider');
+    const handleSlider = document.getElementById('sliderHandle');
+    const sliderAfterImage = document.getElementById('sliderAfterImage');
+
+    function initSlider() {
+        if (!slider) return; // Skip if no before/after section
+        
+        handleSlider.addEventListener('mousedown', startSliding);
+        document.addEventListener('mousemove', slide);
+        document.addEventListener('mouseup', stopSliding);
+        
+        // Touch events for mobile
+        handleSlider.addEventListener('touchstart', startSliding);
+        document.addEventListener('touchmove', slide);
+        document.addEventListener('touchend', stopSliding);
+    }
+
+    function startSliding(e) {
+        isSliding = true;
+        e.preventDefault();
+    }
+
+    function slide(e) {
+        if (!isSliding) return;
+        
+        const rect = slider.getBoundingClientRect();
+        const x = (e.clientX || e.touches[0].clientX) - rect.left;
+        const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+        
+        handleSlider.style.left = percentage + '%';
+        sliderAfterImage.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
+    }
+
+    function stopSliding() {
+        isSliding = false;
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize AOS
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        }
+        
+        // Initialize slider
+        initSlider();
+        
+        // Add hover effects to info cards
+        document.querySelectorAll('.info-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+            });
+        });
+    });
+
+    // Parallax effect for header
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const header = document.querySelector('.project-header');
+        if (header) {
+            header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+    });
+</script>
