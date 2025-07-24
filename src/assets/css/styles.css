@@ -536,7 +536,7 @@ body {
 
 @media (max-width: 992px) {
 	.hero-container {
-		min-height: 600px;
+		min-height: 800px;
 	}
 
 	.content-wrapper {
@@ -572,7 +572,7 @@ body {
 
 @media (max-width: 768px) {
 	.hero-container {
-		min-height: 850px;
+		min-height: 800px;
 	}
 
 	.hero-content {
