@@ -1,11 +1,11 @@
 {
   "products": [
     {
-      "id": "boston-accent-chair",
+      "id": "modern-sectional-sofa",
       "category": "Sofa",
-      "slug": "boston-accent-chair",
-      "name": "Boston Accent Chair",
-      "price": "2,390.00",
+      "slug": "modern-sectional-sofa",
+      "name": "Modern Sectional Sofa",
+      "price": "1,299.99",
       "currency": "Dhs.",
       "color": "White Boucle",
       "colorCode": "#F5F5F5",
@@ -31,7 +31,7 @@
           ]
         }
       ],
-      "description": "The Boston Accent Chair combines timeless elegance with exceptional comfort. Wrapped in soft white boucle fabric, its gracefully curved lines, broad arms, and plush cushions create an inviting and stylish seating experience.",
+      "description": "The Modern Sectional Sofa combines timeless elegance with exceptional comfort. Wrapped in soft white boucle fabric, its gracefully curved lines, broad arms, and plush cushions create an inviting and stylish seating experience.",
       "features": "Designed for lasting comfort, it features dense foam padding that maintains its shape over time, ensuring both durability and coziness.",
       "deliveryDays": 12,
       "monthlyPayment": "233.03",
