@@ -550,4 +550,11 @@ Could you please provide more details?`;
             const whatsappUrl = `https://wa.me/971XXXXXXXXX?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         });
+
+    document.querySelector('.zoom-icon')?.addEventListener('click', function () {
+        const image = document.getElementById('mainImage');
+        if (image && image.src) {
+            window.open(image.src, '_blank');
+        }
+    });
     </script>
