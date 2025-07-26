@@ -95,14 +95,12 @@ pagination:
     object-fit: cover;
     border-radius: 8px;
     background: var(--light-gray);
-    margin-bottom: 15px;
 }
 
 @media (min-width: 576px) {
     .main-image {
         height: 350px;
         border-radius: 10px;
-        margin-bottom: 20px;
     }
 }
 
@@ -188,43 +186,7 @@ pagination:
     border-color: var(--primary-color);
 }
 
-.zoom-icon {
-    position: absolute;
-    bottom: 20px;
-    right: 15px;
-    background: white;
-    border: none;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    font-size: 14px;
-}
 
-@media (min-width: 576px) {
-    .zoom-icon {
-        bottom: 25px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-}
-
-@media (min-width: 768px) {
-    .zoom-icon {
-        bottom: 30px;
-    }
-}
-
-.zoom-icon:hover {
-    transform: scale(1.1);
-}
 
 /* Product Info */
 .product-info {
@@ -772,7 +734,7 @@ pagination:
                         <i class="fas fa-search-plus"></i>
                     </button>
                 </div>
-                <div class="image-gallery">
+                <div class="image-gallery mt-3">
                     {% for galleryImage in product.colorOptions[0].gallery %}
                     <img src="{{ galleryImage }}" 
                          alt="{{ product.name }} - Image {{ loop.index }}" 
@@ -876,23 +838,23 @@ pagination:
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Quantity controls
-        // WhatsApp button functionality
-    document.querySelector('.whatsapp-btn')?.addEventListener('click', function () {
-        const packageName = document.querySelector('.product-title')?.textContent?.trim() || '';
-        const color = document.getElementById('selectedColor')?.textContent?.trim() || '';
-        const quantity = document.querySelector('.quantity-input')?.value?.trim() || '1';
+    document.addEventListener('DOMContentLoaded', function () {
+        // Quantity controls
+            // WhatsApp button functionality
+        document.querySelector('.whatsapp-btn')?.addEventListener('click', function () {
+            const packageName = document.querySelector('.product-title')?.textContent?.trim() || '';
+            const color = document.getElementById('selectedColor')?.textContent?.trim() || '';
+            const quantity = document.querySelector('.quantity-input')?.value?.trim() || '1';
 
-        const message = `Hi! I'm interested in the ${packageName}.
-Color: ${color}
-Quantity: ${quantity}
+            const message = `Hi! I'm interested in the ${packageName}.
+            Color: ${color}
+            Quantity: ${quantity}
 
-Could you please provide more details?`;
+            Could you please provide more details?`;
 
-        const whatsappUrl = `https://wa.me/971XXXXXXXXX?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-    });
+                const whatsappUrl = `https://wa.me/971XXXXXXXXX?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            });
 
     document.querySelectorAll('.quantity-decrease').forEach(btn => {
         btn.onclick = () => {
@@ -922,64 +884,65 @@ Could you please provide more details?`;
         };
     });
 
- document.querySelectorAll('.color-option-img').forEach(opt => {
-    const handleSelection = () => {
-        // Remove active from all
-        opt.parentNode.querySelectorAll('.color-option-img').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
+    document.querySelectorAll('.color-option-img').forEach(opt => {
+        const handleSelection = () => {
+            // Remove active from all
+            opt.parentNode.querySelectorAll('.color-option-img').forEach(o => o.classList.remove('active'));
+            opt.classList.add('active');
 
-        // Update selected color text
-        const selectedColorSpan = document.getElementById('selectedColor');
-        if (selectedColorSpan) {
-            selectedColorSpan.textContent = opt.getAttribute('data-color');
+            // Update selected color text
+            const selectedColorSpan = document.getElementById('selectedColor');
+            if (selectedColorSpan) {
+                selectedColorSpan.textContent = opt.getAttribute('data-color');
+            }
+
+            // Parse gallery
+            const galleryData = JSON.parse(opt.getAttribute('data-gallery') || '[]');
+            const mainImage = document.getElementById('mainImage');
+            const galleryContainer = document.querySelector('.image-gallery');
+
+            if (galleryData.length > 0) {
+                // Update main image
+                mainImage.src = galleryData[0];
+
+                // Clear old gallery
+                galleryContainer.innerHTML = '';
+
+                // Build new gallery
+                galleryData.forEach((url, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = url;
+                    thumb.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
+                    thumb.alt = `${opt.getAttribute('data-color')} - Image ${index + 1}`;
+                    thumb.loading = 'lazy';
+
+                    thumb.onclick = () => {
+                        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
+                        mainImage.src = url;
+                    };
+
+                    galleryContainer.appendChild(thumb);
+                });
+            }
+        };
+
+        opt.onclick = handleSelection;
+        opt.onkeypress = e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleSelection();
+            }
+        };
+    });
+
+
+
+    document.querySelector('.zoom-icon')?.addEventListener('click', function () {
+        const image = document.getElementById('mainImage');
+        if (image && image.src) {
+            window.open(image.src, '_blank');
         }
-
-        // Parse gallery
-        const galleryData = JSON.parse(opt.getAttribute('data-gallery') || '[]');
-        const mainImage = document.getElementById('mainImage');
-        const galleryContainer = document.querySelector('.image-gallery');
-
-        if (galleryData.length > 0) {
-            // Update main image
-            mainImage.src = galleryData[0];
-
-            // Clear old gallery
-            galleryContainer.innerHTML = '';
-
-            // Build new gallery
-            galleryData.forEach((url, index) => {
-                const thumb = document.createElement('img');
-                thumb.src = url;
-                thumb.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
-                thumb.alt = `${opt.getAttribute('data-color')} - Image ${index + 1}`;
-                thumb.loading = 'lazy';
-
-                thumb.onclick = () => {
-                    document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-                    thumb.classList.add('active');
-                    mainImage.src = url;
-                };
-
-                galleryContainer.appendChild(thumb);
-            });
-        }
-    };
-
-    opt.onclick = handleSelection;
-    opt.onkeypress = e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleSelection();
-        }
-    };
-});
-
-
-
-    // Zoom functionality (placeholder)
-    document.querySelector('.zoom-icon')?.addEventListener('click', function() {
-        // Add zoom functionality here
-        console.log('Zoom clicked');
     });
 
     // Add to cart functionality (placeholder)
