@@ -707,7 +707,7 @@ pagination:
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"> <a href="/furniture/" style="pointer-events: none; text-decoration: none; cursor: default;">Furniture</a></li>
-            <li class="breadcrumb-item"><a href="/furniture/{{product.category}}/">{{product.category}}</a></li>
+            <li class="breadcrumb-item"><a href="/furniture/{{product.category}}/">{{product.category | capitalize }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
         </ol>
     </nav>
