@@ -2,7 +2,7 @@
   "packages": [
     {
       "slug": "marble-package",
-      "name": "Some Package",
+      "name": "Marble Package",
       "currentPrice": "16,900.00",
       "originalPrice": "18,900.00",
       "salePercentage": "10% OFF",
