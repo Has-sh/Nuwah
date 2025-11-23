@@ -534,6 +534,12 @@ body {
 	transform: translateY(-5px);
 }
 
+@media (max-width: 1138px) {
+	.content-wrapper {
+		padding-top: 50px;
+	}
+}
+
 @media (max-width: 992px) {
 	.hero-container {
 		min-height: 800px;
