@@ -351,7 +351,11 @@ layout: layout.njk
             <div class="col-lg-6">
                 <div class="product-gallery">
                     <div class="main-image">
-                        <img id="mainImage" src="{{ package.images[0] }}" alt="{{ package.name }}">
+                        {% for color in package.colors %}
+                            {% if color.name == package.defaultColor %}
+                                <img id="mainImage" src="{{ color.images[0] }}" alt="{{ package.name }}">
+                            {% endif %}
+                        {% endfor %}
                         <div class="gallery-overlay">From Studio to Villas</div>
                         <div class="delivery-badge">Delivery {{ package.deliveryTime }}</div>
                         <div class="tabby-badge">tabby</div>
@@ -360,11 +364,15 @@ layout: layout.njk
                         </button>
                     </div>
                     
-                    <div class="thumbnail-gallery">
-                        {% for image in package.images %}
-                        <div class="thumbnail{% if loop.first %} active{% endif %}" onclick="changeImage(this, '{{ image }}')">
-                            <img src="{{ image }}" alt="View {{ loop.index }}">
-                        </div>
+                    <div class="thumbnail-gallery" id="thumbnailGallery">
+                        {% for color in package.colors %}
+                            {% if color.name == package.defaultColor %}
+                                {% for image in color.images %}
+                                <div class="thumbnail{% if loop.first %} active{% endif %}" onclick="changeImage(this, '{{ image }}')">
+                                    <img src="{{ image }}" alt="View {{ loop.index }}">
+                                </div>
+                                {% endfor %}
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -385,9 +393,13 @@ layout: layout.njk
                     </div>
 
                     <div class="price-section">
-                        <span class="current-price">Dhs. {{ package.currentPrice }}</span>
-                        <span class="original-price">Dhs. {{ package.originalPrice }}</span>
-                        <span class="sale-badge-package">{{ package.salePercentage }}</span>
+                        {% for room in package.roomTypes %}
+                            {% if room.name == package.defaultRoomType %}
+                                <span class="current-price" id="currentPrice">Dhs. <span id="priceValue">{{ room.currentPrice }}</span></span>
+                                <span class="original-price" id="originalPrice">Dhs. <span id="originalPriceValue">{{ room.originalPrice }}</span></span>
+                                <span class="sale-badge-package" id="saleBadge">{{ room.salePercentage }}</span>
+                            {% endif %}
+                        {% endfor %}
                     </div>
 
                     <div class="installment-info">
@@ -396,22 +408,32 @@ layout: layout.njk
                     </div>
 
                     <div class="color-options">
-                        <div class="color-title">Color: {{ package.defaultColor }}</div>
+                        <div class="color-title">Color: <span id="selectedColorName">{{ package.defaultColor }}</span></div>
                         <div class="color-swatches">
                             {% for color in package.colors %}
                             <div class="color-swatch{% if color.name == package.defaultColor %} active{% endif %}" 
                                  style="background: {{ color.hex }}; {% if color.hex == '#ffffff' %}border-color: #ddd;{% endif %}" 
-                                 onclick="selectColor(this, '{{ color.name }}')"></div>
+                                 data-color-name="{{ color.name }}"
+                                 data-color-price="{{ color.currentPrice }}"
+                                 data-color-original-price="{{ color.originalPrice }}"
+                                 data-color-sale="{{ color.salePercentage }}"
+                                 data-color-images='{{ color.images | dump | escape }}'
+                                 onclick="selectColor(this, '{{ color.name }}', {{ color.images | dump | escape }})"></div>
                             {% endfor %}
                         </div>
                     </div>
 
                     <div class="room-options">
-                        <div class="color-title">Apartment Type/Number of Items: {{ package.roomTypes[0].name }}</div>
+                        <div class="color-title">Apartment Type/Number of Items: <span id="selectedRoomTypeName">{{ package.defaultRoomType }}</span></div>
                         <div class="room-buttons">
                             {% for room in package.roomTypes %}
                             <button class="room-btn{% if room.active %} active{% endif %}" 
-                                    onclick="selectRoom(this, '{{ room.name }}')">{{ room.name }}</button>
+                                    data-room-name="{{ room.name }}"
+                                    data-room-price="{{ room.currentPrice }}"
+                                    data-room-original-price="{{ room.originalPrice }}"
+                                    data-room-sale="{{ room.salePercentage }}"
+                                    data-room-images='{{ room.images | dump | escape }}'
+                                    onclick="selectRoom(this, '{{ room.name }}', '{{ room.currentPrice }}', '{{ room.originalPrice }}', '{{ room.salePercentage }}', {{ room.images | dump | escape }})">{{ room.name }}</button>
                             {% endfor %}
                         </div>
                     </div>
@@ -481,24 +503,92 @@ layout: layout.njk
             thumbnail.classList.add('active');
         }
 
-        function selectColor(swatch, colorName) {
+        function selectColor(swatch, colorName, colorImages) {
             document.querySelectorAll('.color-swatch').forEach(s => {
                 s.classList.remove('active');
             });
             swatch.classList.add('active');
             
             // Update color name
-            document.querySelector('.color-title').textContent = `Color: ${colorName}`;
+            document.getElementById('selectedColorName').textContent = colorName;
+            
+            // Update pricing from color data attributes
+            const colorPrice = swatch.getAttribute('data-color-price');
+            const colorOriginalPrice = swatch.getAttribute('data-color-original-price');
+            const colorSale = swatch.getAttribute('data-color-sale');
+            
+            if (colorPrice) {
+                document.getElementById('priceValue').textContent = colorPrice;
+            }
+            if (colorOriginalPrice) {
+                document.getElementById('originalPriceValue').textContent = colorOriginalPrice;
+            }
+            if (colorSale) {
+                document.getElementById('saleBadge').textContent = colorSale;
+            }
+            
+            // Update images
+            if (colorImages && colorImages.length > 0) {
+                const mainImage = document.getElementById('mainImage');
+                const thumbnailGallery = document.getElementById('thumbnailGallery');
+                
+                // Update main image
+                mainImage.src = colorImages[0];
+                
+                // Update thumbnails
+                thumbnailGallery.innerHTML = '';
+                colorImages.forEach((image, index) => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = `thumbnail${index === 0 ? ' active' : ''}`;
+                    thumbnail.onclick = function() { changeImage(this, image); };
+                    thumbnail.innerHTML = `<img src="${image}" alt="View ${index + 1}">`;
+                    thumbnailGallery.appendChild(thumbnail);
+                });
+            }
         }
 
-        function selectRoom(button, roomType) {
+        function selectRoom(button, roomType, roomPrice, roomOriginalPrice, roomSale, roomImages) {
             document.querySelectorAll('.room-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             button.classList.add('active');
             
             // Update room type display
-            document.querySelector('.room-options .color-title').textContent = `Apartment Type/Number of Items: ${roomType}`;
+            document.getElementById('selectedRoomTypeName').textContent = roomType;
+            
+            // Update pricing - use parameters or fallback to data attributes
+            const price = roomPrice || button.getAttribute('data-room-price');
+            const originalPrice = roomOriginalPrice || button.getAttribute('data-room-original-price');
+            const sale = roomSale || button.getAttribute('data-room-sale');
+            
+            if (price) {
+                document.getElementById('priceValue').textContent = price;
+            }
+            if (originalPrice) {
+                document.getElementById('originalPriceValue').textContent = originalPrice;
+            }
+            if (sale) {
+                document.getElementById('saleBadge').textContent = sale;
+            }
+            
+            // Update images if roomType has images
+            if (roomImages && roomImages.length > 0) {
+                const mainImage = document.getElementById('mainImage');
+                const thumbnailGallery = document.getElementById('thumbnailGallery');
+                
+                // Update main image
+                mainImage.src = roomImages[0];
+                
+                // Update thumbnails
+                thumbnailGallery.innerHTML = '';
+                roomImages.forEach((image, index) => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = `thumbnail${index === 0 ? ' active' : ''}`;
+                    thumbnail.onclick = function() { changeImage(this, image); };
+                    thumbnail.innerHTML = `<img src="${image}" alt="View ${index + 1}">`;
+                    thumbnailGallery.appendChild(thumbnail);
+                });
+            }
         }
 
         function changeQuantity(change) {
@@ -536,14 +626,14 @@ layout: layout.njk
         // WhatsApp button functionality
         document.querySelector('.whatsapp-btn').addEventListener('click', function() {
             const packageName = document.querySelector('.package-title').textContent;
-            const color = document.querySelector('.color-title').textContent;
-            const roomType = document.querySelector('.room-options .color-title').textContent;
-            const quantity = document.getElementById('quantity').value;
+            const colorName = document.getElementById('selectedColorName').textContent;
+            const roomTypeName = document.getElementById('selectedRoomTypeName').textContent;
+            const currentPrice = document.getElementById('priceValue').textContent;
             
             const message = `Hi! I'm interested in the ${packageName}. 
-${color}
-${roomType}
-Quantity: ${quantity}
+Color: ${colorName}
+Apartment Type/Number of Items: ${roomTypeName}
+Price: Dhs. ${currentPrice}
 
 Could you please provide more details?`;
             

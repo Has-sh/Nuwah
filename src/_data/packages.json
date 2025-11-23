@@ -10,17 +10,104 @@
       "rating": 5,
       "reviewCount": 1,
       "defaultColor": "White",
+      "defaultRoomType": "1 Bedroom/15 Items",
       "colors": [
-        { "name": "White", "hex": "#ffffff" },
-        { "name": "Dark", "hex": "#2c3e50" },
-        { "name": "Gray", "hex": "#95a5a6" }
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "currentPrice": "16,900.00",
+          "originalPrice": "18,900.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Dark",
+          "hex": "#2c3e50",
+          "currentPrice": "17,500.00",
+          "originalPrice": "19,500.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Gray",
+          "hex": "#95a5a6",
+          "currentPrice": "17,200.00",
+          "originalPrice": "19,200.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
       ],
       "roomTypes": [
-        { "name": "1 Bedroom/15 Items", "active": true },
-        { "name": "Studio/10 Items", "active": false },
-        { "name": "2 Bedroom/27 Items", "active": false },
-        { "name": "3 Bedroom/35 Items", "active": false },
-        { "name": "Villa/40 Items", "active": false }
+        {
+          "name": "1 Bedroom/15 Items",
+          "active": true,
+          "currentPrice": "16,900.00",
+          "originalPrice": "18,900.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Studio/10 Items",
+          "active": false,
+          "currentPrice": "11,900.00",
+          "originalPrice": "13,200.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "2 Bedroom/27 Items",
+          "active": false,
+          "currentPrice": "24,500.00",
+          "originalPrice": "27,200.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "3 Bedroom/35 Items",
+          "active": false,
+          "currentPrice": "32,900.00",
+          "originalPrice": "36,500.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Villa/40 Items",
+          "active": false,
+          "currentPrice": "42,900.00",
+          "originalPrice": "47,600.00",
+          "salePercentage": "10% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
       ],
       "images": [
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
@@ -46,17 +133,98 @@
       "rating": 5,
       "reviewCount": 3,
       "defaultColor": "White",
+      "defaultRoomType": "1 Bedroom/15 Items",
       "colors": [
-        { "name": "White", "hex": "#ffffff" },
-        { "name": "Beige", "hex": "#f5f5dc" },
-        { "name": "Gray", "hex": "#808080" }
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "currentPrice": "27,500.00",
+          "originalPrice": "34,380.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Beige",
+          "hex": "#f5f5dc",
+          "currentPrice": "28,200.00",
+          "originalPrice": "35,250.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Gray",
+          "hex": "#808080",
+          "currentPrice": "27,800.00",
+          "originalPrice": "34,750.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
       ],
       "roomTypes": [
-        { "name": "1 Bedroom/15 Items", "active": true },
-        { "name": "Studio/10 Items", "active": false },
-        { "name": "2 Bedroom/27 Items", "active": false },
-        { "name": "3 Bedroom/35 Items", "active": false },
-        { "name": "Villa/40 Items", "active": false }
+        {
+          "name": "1 Bedroom/15 Items",
+          "active": true,
+          "currentPrice": "27,500.00",
+          "originalPrice": "34,380.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Studio/10 Items",
+          "active": false,
+          "currentPrice": "19,500.00",
+          "originalPrice": "24,380.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "2 Bedroom/27 Items",
+          "active": false,
+          "currentPrice": "38,500.00",
+          "originalPrice": "48,100.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "3 Bedroom/35 Items",
+          "active": false,
+          "currentPrice": "52,500.00",
+          "originalPrice": "65,600.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Villa/40 Items",
+          "active": false,
+          "currentPrice": "68,500.00",
+          "originalPrice": "85,600.00",
+          "salePercentage": "20% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
       ],
       "images": [
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
@@ -80,15 +248,76 @@
       "rating": 4,
       "reviewCount": 2,
       "defaultColor": "Sand",
+      "defaultRoomType": "1 Bedroom/15 Items",
       "colors": [
-        { "name": "Sand", "hex": "#c2b280" },
-        { "name": "Cream", "hex": "#fffdd0" },
-        { "name": "Taupe", "hex": "#483c32" }
+        {
+          "name": "Sand",
+          "hex": "#c2b280",
+          "currentPrice": "12,900.00",
+          "originalPrice": "17,200.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Cream",
+          "hex": "#fffdd0",
+          "currentPrice": "13,200.00",
+          "originalPrice": "17,600.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Taupe",
+          "hex": "#483c32",
+          "currentPrice": "13,500.00",
+          "originalPrice": "18,000.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
       ],
       "roomTypes": [
-        { "name": "1 Bedroom/15 Items", "active": true },
-        { "name": "Studio/10 Items", "active": false },
-        { "name": "2 Bedroom/27 Items", "active": false }
+        {
+          "name": "1 Bedroom/15 Items",
+          "active": true,
+          "currentPrice": "12,900.00",
+          "originalPrice": "17,200.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Studio/10 Items",
+          "active": false,
+          "currentPrice": "9,200.00",
+          "originalPrice": "12,300.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "2 Bedroom/27 Items",
+          "active": false,
+          "currentPrice": "18,900.00",
+          "originalPrice": "25,200.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
       ],
       "images": [
         "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
@@ -99,6 +328,77 @@
         "Warm, earthy color palette",
         "Natural textures and materials",
         "Comfortable, inviting atmosphere",
+        "Perfect for creating cozy, welcoming spaces"
+      ]
+    },
+    {
+      "slug": "wood-package",
+      "name": "Wood Package",
+      "currentPrice": "18,900.00",
+      "originalPrice": "24,500.00",
+      "salePercentage": "25% OFF",
+      "deliveryTime": "12-14 days",
+      "rating": 5,
+      "reviewCount": 3,
+      "defaultColor": "Wood",
+      "defaultRoomType": "1 Bedroom/15 Items",
+      "colors": [
+        {
+          "name": "Wood",
+          "hex": "#808080",
+          "currentPrice": "18,900.00",
+          "originalPrice": "24,500.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ],
+      "roomTypes": [
+        {
+          "name": "1 Bedroom/15 Items",
+          "active": true,
+          "currentPrice": "18,900.00",
+          "originalPrice": "24,500.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "Studio/10 Items",
+          "active": false,
+          "currentPrice": "13,200.00",
+          "originalPrice": "17,600.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "name": "2 Bedroom/27 Items",
+          "active": false,
+          "currentPrice": "25,200.00",
+          "originalPrice": "33,600.00",
+          "salePercentage": "25% OFF",
+          "images": [
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      ],
+      "description": "The Wood Package brings natural warmth and texture to your space, inspired by rich wood tones and natural materials.",
+      "features": [
+        "Natural, warm color palette",
+        "Rich wood textures and finishes",
+        "Timeless design with timeless appeal",
         "Perfect for creating cozy, welcoming spaces"
       ]
     }

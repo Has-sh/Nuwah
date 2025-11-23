@@ -965,15 +965,13 @@ body {
 
 
 .sale-badge {
-	position: absolute;
-	top: 10px;
-	left: -2px;
 	background-color: red;
 	color: white;
 	padding: 2px 8px;
 	font-size: 12px;
 	border-radius: 4px;
-	z-index: 1;
+	display: inline-block;
+	vertical-align: middle;
 	transition: transform 0.3s ease; /* Optional: smooth transition */
 }
 

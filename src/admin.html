@@ -1,0 +1,1751 @@
+---
+layout: null
+title: Admin Panel
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Nuwah</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f5f5;
+    }
+
+    header {
+        display: none;
+    }
+
+    .admin-container {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 80px 20px 20px 20px;
+    }
+
+    .admin-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .admin-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .admin-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+
+    .admin-tab {
+        padding: 12px 24px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .admin-tab:hover {
+        background: #f0f0f0;
+    }
+
+    .admin-tab.active {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+
+    .admin-content {
+        display: none;
+    }
+
+    .admin-content.active {
+        display: block;
+    }
+
+    .admin-section {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .admin-section h2 {
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #555;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #5568d3;
+    }
+
+    .btn-success {
+        background: #10b981;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #059669;
+    }
+
+    .btn-danger {
+        background: #ef4444;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #dc2626;
+    }
+
+    .btn-secondary {
+        background: #6b7280;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #4b5563;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .item-card {
+        background: #f9fafb;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border: 2px solid #e0e0e0;
+    }
+
+    .item-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .item-card h3 {
+        color: #333;
+        margin: 0;
+    }
+
+    .nested-section {
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 15px;
+        border-left: 4px solid #667eea;
+    }
+
+    .nested-section h4 {
+        color: #667eea;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+    }
+
+    .array-item {
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        border-left: 4px solid #667eea;
+        position: relative;
+    }
+
+    .array-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .array-item-title {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #10b981;
+    }
+
+    .alert-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #ef4444;
+    }
+
+    .collapsible {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .collapsible::before {
+        content: '▼ ';
+        display: inline-block;
+        transition: transform 0.3s;
+    }
+
+    .collapsible.collapsed::before {
+        transform: rotate(-90deg);
+    }
+
+    .collapsible-content {
+        max-height: 1000px;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .collapsible-content.collapsed {
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    .image-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .image-item {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 2px solid #e0e0e0;
+    }
+
+    .image-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .image-item .remove-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(239, 68, 68, 0.9);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .add-image-btn {
+        width: 100px;
+        height: 100px;
+        border: 2px dashed #667eea;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #667eea;
+        font-size: 24px;
+        transition: all 0.3s;
+    }
+
+    .add-image-btn:hover {
+        background: #f0f4ff;
+    }
+
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>🚀 Nuwah Admin Panel</h1>
+        <p>Manage your website content: Packages, Products, Furniture, and Projects</p>
+    </div>
+
+    <div id="alertContainer"></div>
+
+    <div class="admin-tabs">
+        <div class="admin-tab active" data-tab="packages">Packages</div>
+        <div class="admin-tab" data-tab="products">Products</div>
+        <div class="admin-tab" data-tab="furniture">Furniture</div>
+        <div class="admin-tab" data-tab="projects">Projects</div>
+    </div>
+
+    <!-- Packages Tab -->
+    <div class="admin-content active" id="packages-tab">
+        <div class="admin-section">
+            <h2>Packages Management</h2>
+            <div id="packages-list"></div>
+            <button class="btn btn-secondary" onclick="addPackage()">+ Add New Package</button>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="loadPackagesData()">Load Current Data</button>
+            <button class="btn btn-success" onclick="savePackagesData()">Save to JSON</button>
+        </div>
+    </div>
+
+    <!-- Products Tab -->
+    <div class="admin-content" id="products-tab">
+        <div class="admin-section">
+            <h2>Products Management</h2>
+            <div id="products-list"></div>
+            <button class="btn btn-secondary" onclick="addProduct()">+ Add New Product</button>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="loadProductsData()">Load Current Data</button>
+            <button class="btn btn-success" onclick="saveProductsData()">Save to JSON</button>
+        </div>
+    </div>
+
+    <!-- Furniture Tab -->
+    <div class="admin-content" id="furniture-tab">
+        <div class="admin-section">
+            <h2>Furniture Management</h2>
+            <div id="furniture-list"></div>
+            <button class="btn btn-secondary" onclick="addFurnitureCategory()">+ Add New Category</button>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="loadFurnitureData()">Load Current Data</button>
+            <button class="btn btn-success" onclick="saveFurnitureData()">Save to JSON</button>
+        </div>
+    </div>
+
+    <!-- Projects Tab -->
+    <div class="admin-content" id="projects-tab">
+        <div class="admin-section">
+            <h2>Projects Management</h2>
+            <div id="projects-list"></div>
+            <button class="btn btn-secondary" onclick="addProject()">+ Add New Project</button>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="loadProjectsData()">Load Current Data</button>
+            <button class="btn btn-success" onclick="saveProjectsData()">Save to JSON</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let packagesData = { packages: [] };
+    let productsData = { products: [] };
+    let furnitureData = [];
+    let projectsData = { projects: [] };
+
+    function getApiBaseUrl() {
+        return '';
+    }
+
+    // Tab switching
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
+        });
+    });
+
+    // Utility: Create form field
+    function createFormField(label, value, onChange, type = 'text', placeholder = '') {
+        const group = document.createElement('div');
+        group.className = 'form-group';
+        group.innerHTML = `
+            <label>${label}</label>
+            ${type === 'textarea' 
+                ? `<textarea placeholder="${placeholder}" onchange="${onChange}">${value || ''}</textarea>`
+                : `<input type="${type}" value="${value || ''}" placeholder="${placeholder}" onchange="${onChange}">`
+            }
+        `;
+        return group;
+    }
+
+    // Utility: Create array field (for images, features, etc.)
+    function createArrayField(label, items, onAdd, onRemove, renderItem) {
+        const group = document.createElement('div');
+        group.className = 'form-group';
+        group.innerHTML = `
+            <label>${label}</label>
+            <div class="array-items-container"></div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="${onAdd}">+ Add Item</button>
+        `;
+        const container = group.querySelector('.array-items-container');
+        items.forEach((item, index) => {
+            const itemEl = renderItem(item, index, onRemove);
+            container.appendChild(itemEl);
+        });
+        return group;
+    }
+
+    // Utility: Create image array field
+    function createImageArrayField(label, images, addCallback, removeCallback) {
+        const group = document.createElement('div');
+        group.className = 'form-group';
+        const labelEl = document.createElement('label');
+        labelEl.textContent = label;
+        group.appendChild(labelEl);
+        
+        const imageList = document.createElement('div');
+        imageList.className = 'image-list';
+        
+        images.forEach((img, index) => {
+            const imageItem = document.createElement('div');
+            imageItem.className = 'image-item';
+            const imgEl = document.createElement('img');
+            imgEl.src = img;
+            imgEl.alt = `Image ${index + 1}`;
+            imgEl.onerror = () => { imgEl.src = 'https://via.placeholder.com/100'; };
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = () => removeCallback(index);
+            imageItem.appendChild(imgEl);
+            imageItem.appendChild(removeBtn);
+            imageList.appendChild(imageItem);
+        });
+        
+        const addBtn = document.createElement('div');
+        addBtn.className = 'add-image-btn';
+        addBtn.innerHTML = '+';
+        addBtn.onclick = () => {
+            const url = prompt('Enter image URL:');
+            if (url) addCallback(url);
+        };
+        imageList.appendChild(addBtn);
+        
+        group.appendChild(imageList);
+        return group;
+    }
+
+    // Utility: Toggle collapsible
+    function toggleCollapsible(element) {
+        element.classList.toggle('collapsed');
+        const content = element.nextElementSibling;
+        if (content) {
+            content.classList.toggle('collapsed');
+        }
+    }
+
+    // PACKAGES MANAGEMENT
+    async function loadPackagesData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            let response = await fetch(`${apiBase}/api/packages`);
+            if (!response.ok) {
+                response = await fetch(`${apiBase}/_data/packages.json`);
+                if (!response.ok) throw new Error('Failed to load');
+            }
+            packagesData = await response.json();
+            renderPackagesList();
+            showAlert('Packages data loaded successfully!', 'success');
+        } catch (error) {
+            console.error('Error loading packages data:', error);
+            showAlert('Error loading packages data. Please ensure server is running (npm start).', 'error');
+        }
+    }
+
+    function renderPackagesList() {
+        const container = document.getElementById('packages-list');
+        container.innerHTML = '';
+        
+        if (!packagesData.packages || packagesData.packages.length === 0) {
+            container.innerHTML = '<p>No packages found. Add your first package!</p>';
+            return;
+        }
+
+        packagesData.packages.forEach((pkg, pkgIndex) => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            
+            let html = `
+                <div class="item-card-header">
+                    <h3>${pkg.name || 'Unnamed Package'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="deletePackage(${pkgIndex})">Delete</button>
+                </div>
+                ${createFormField('Name', pkg.name, `updatePackageField(${pkgIndex}, 'name', this.value)`).outerHTML}
+                ${createFormField('Slug', pkg.slug, `updatePackageField(${pkgIndex}, 'slug', this.value)`).outerHTML}
+                <div class="form-row">
+                    ${createFormField('Current Price', pkg.currentPrice, `updatePackageField(${pkgIndex}, 'currentPrice', this.value)`).outerHTML}
+                    ${createFormField('Original Price', pkg.originalPrice, `updatePackageField(${pkgIndex}, 'originalPrice', this.value)`).outerHTML}
+                </div>
+                <div class="form-row">
+                    ${createFormField('Sale Percentage', pkg.salePercentage, `updatePackageField(${pkgIndex}, 'salePercentage', this.value)`).outerHTML}
+                    ${createFormField('Delivery Time', pkg.deliveryTime, `updatePackageField(${pkgIndex}, 'deliveryTime', this.value)`).outerHTML}
+                </div>
+                <div class="form-row">
+                    ${createFormField('Rating', pkg.rating, `updatePackageField(${pkgIndex}, 'rating', this.value)`, 'number').outerHTML}
+                    ${createFormField('Review Count', pkg.reviewCount, `updatePackageField(${pkgIndex}, 'reviewCount', this.value)`, 'number').outerHTML}
+                </div>
+                <div class="form-row">
+                    ${createFormField('Default Color', pkg.defaultColor, `updatePackageField(${pkgIndex}, 'defaultColor', this.value)`).outerHTML}
+                    ${createFormField('Default Room Type', pkg.defaultRoomType, `updatePackageField(${pkgIndex}, 'defaultRoomType', this.value)`).outerHTML}
+                </div>
+                ${createFormField('Description', pkg.description, `updatePackageField(${pkgIndex}, 'description', this.value)`, 'textarea').outerHTML}
+            `;
+
+            // Colors section
+            html += `
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Colors (${pkg.colors?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="colors-${pkgIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addPackageColor(${pkgIndex})">+ Add Color</button>
+                    </div>
+                </div>
+            `;
+
+            // Room Types section
+            html += `
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Room Types (${pkg.roomTypes?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="roomtypes-${pkgIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addPackageRoomType(${pkgIndex})">+ Add Room Type</button>
+                    </div>
+                </div>
+            `;
+
+            // Features section
+            html += `
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Features (${pkg.features?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="features-${pkgIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addPackageFeature(${pkgIndex})">+ Add Feature</button>
+                    </div>
+                </div>
+            `;
+
+            card.innerHTML = html;
+            container.appendChild(card);
+            
+            // Images section (rendered separately to properly bind events)
+            const imagesSection = document.createElement('div');
+            imagesSection.className = 'nested-section';
+            imagesSection.innerHTML = `
+                <h4 class="collapsible" onclick="toggleCollapsible(this)">Package Images (${pkg.images?.length || 0})</h4>
+                <div class="collapsible-content" id="package-images-${pkgIndex}"></div>
+            `;
+            card.appendChild(imagesSection);
+            const imagesContainer = document.getElementById(`package-images-${pkgIndex}`);
+            const imagesField = createImageArrayField('Images', pkg.images || [], 
+                (url) => addPackageImage(pkgIndex, url),
+                (index) => removePackageImage(pkgIndex, index)
+            );
+            imagesContainer.appendChild(imagesField);
+
+            // Render colors
+            renderPackageColors(pkgIndex, pkg.colors || []);
+            // Render room types
+            renderPackageRoomTypes(pkgIndex, pkg.roomTypes || []);
+            // Render features
+            renderPackageFeatures(pkgIndex, pkg.features || []);
+        });
+    }
+
+    function renderPackageColors(pkgIndex, colors) {
+        const container = document.getElementById(`colors-${pkgIndex}`);
+        container.innerHTML = '';
+        colors.forEach((color, colorIndex) => {
+            const colorCard = document.createElement('div');
+            colorCard.className = 'array-item';
+            colorCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">Color: ${color.name || 'Unnamed'}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removePackageColor(${pkgIndex}, ${colorIndex})">Remove</button>
+                </div>
+                ${createFormField('Name', color.name, `updatePackageColor(${pkgIndex}, ${colorIndex}, 'name', this.value)`).outerHTML}
+                ${createFormField('Hex Code', color.hex, `updatePackageColor(${pkgIndex}, ${colorIndex}, 'hex', this.value)`).outerHTML}
+                <div class="form-row">
+                    ${createFormField('Current Price', color.currentPrice, `updatePackageColor(${pkgIndex}, ${colorIndex}, 'currentPrice', this.value)`).outerHTML}
+                    ${createFormField('Original Price', color.originalPrice, `updatePackageColor(${pkgIndex}, ${colorIndex}, 'originalPrice', this.value)`).outerHTML}
+                </div>
+                ${createFormField('Sale Percentage', color.salePercentage, `updatePackageColor(${pkgIndex}, ${colorIndex}, 'salePercentage', this.value)`).outerHTML}
+                <div id="color-images-${pkgIndex}-${colorIndex}"></div>
+            `;
+            container.appendChild(colorCard);
+            
+            // Render color images separately
+            const colorImagesContainer = document.getElementById(`color-images-${pkgIndex}-${colorIndex}`);
+            const colorImagesField = createImageArrayField('Color Images', color.images || [], 
+                (url) => addPackageColorImage(pkgIndex, colorIndex, url),
+                (index) => removePackageColorImage(pkgIndex, colorIndex, index)
+            );
+            colorImagesContainer.appendChild(colorImagesField);
+        });
+    }
+
+    function renderPackageRoomTypes(pkgIndex, roomTypes) {
+        const container = document.getElementById(`roomtypes-${pkgIndex}`);
+        container.innerHTML = '';
+        roomTypes.forEach((roomType, rtIndex) => {
+            const rtCard = document.createElement('div');
+            rtCard.className = 'array-item';
+            rtCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">${roomType.name || 'Unnamed Room Type'}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removePackageRoomType(${pkgIndex}, ${rtIndex})">Remove</button>
+                </div>
+                ${createFormField('Name', roomType.name, `updatePackageRoomType(${pkgIndex}, ${rtIndex}, 'name', this.value)`).outerHTML}
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" ${roomType.active ? 'checked' : ''} 
+                               onchange="updatePackageRoomType(${pkgIndex}, ${rtIndex}, 'active', this.checked)">
+                        Active
+                    </label>
+                </div>
+                <div class="form-row">
+                    ${createFormField('Current Price', roomType.currentPrice, `updatePackageRoomType(${pkgIndex}, ${rtIndex}, 'currentPrice', this.value)`).outerHTML}
+                    ${createFormField('Original Price', roomType.originalPrice, `updatePackageRoomType(${pkgIndex}, ${rtIndex}, 'originalPrice', this.value)`).outerHTML}
+                </div>
+                ${createFormField('Sale Percentage', roomType.salePercentage, `updatePackageRoomType(${pkgIndex}, ${rtIndex}, 'salePercentage', this.value)`).outerHTML}
+                <div id="roomtype-images-${pkgIndex}-${rtIndex}"></div>
+            `;
+            container.appendChild(rtCard);
+            
+            // Render room type images separately
+            const rtImagesContainer = document.getElementById(`roomtype-images-${pkgIndex}-${rtIndex}`);
+            const rtImagesField = createImageArrayField('Room Type Images', roomType.images || [], 
+                (url) => addPackageRoomTypeImage(pkgIndex, rtIndex, url),
+                (index) => removePackageRoomTypeImage(pkgIndex, rtIndex, index)
+            );
+            rtImagesContainer.appendChild(rtImagesField);
+        });
+    }
+
+    function renderPackageFeatures(pkgIndex, features) {
+        const container = document.getElementById(`features-${pkgIndex}`);
+        container.innerHTML = '';
+        features.forEach((feature, featIndex) => {
+            const featCard = document.createElement('div');
+            featCard.className = 'array-item';
+            featCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">Feature ${featIndex + 1}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removePackageFeature(${pkgIndex}, ${featIndex})">Remove</button>
+                </div>
+                ${createFormField('Feature Text', feature, `updatePackageFeature(${pkgIndex}, ${featIndex}, this.value)`, 'textarea').outerHTML}
+            `;
+            container.appendChild(featCard);
+        });
+    }
+
+    function updatePackageField(pkgIndex, field, value) {
+        if (!packagesData.packages[pkgIndex]) return;
+        if (field === 'rating' || field === 'reviewCount') {
+            packagesData.packages[pkgIndex][field] = parseInt(value) || 0;
+        } else {
+            packagesData.packages[pkgIndex][field] = value;
+        }
+    }
+
+    function addPackageColor(pkgIndex) {
+        if (!packagesData.packages[pkgIndex].colors) packagesData.packages[pkgIndex].colors = [];
+        packagesData.packages[pkgIndex].colors.push({
+            name: 'New Color',
+            hex: '#ffffff',
+            currentPrice: '0.00',
+            originalPrice: '0.00',
+            salePercentage: '0% OFF',
+            images: []
+        });
+        renderPackageColors(pkgIndex, packagesData.packages[pkgIndex].colors);
+    }
+
+    function removePackageColor(pkgIndex, colorIndex) {
+        packagesData.packages[pkgIndex].colors.splice(colorIndex, 1);
+        renderPackageColors(pkgIndex, packagesData.packages[pkgIndex].colors);
+    }
+
+    function updatePackageColor(pkgIndex, colorIndex, field, value) {
+        packagesData.packages[pkgIndex].colors[colorIndex][field] = value;
+    }
+
+    function addPackageColorImage(pkgIndex, colorIndex, url) {
+        if (!url) return;
+        if (!packagesData.packages[pkgIndex].colors[colorIndex].images) {
+            packagesData.packages[pkgIndex].colors[colorIndex].images = [];
+        }
+        packagesData.packages[pkgIndex].colors[colorIndex].images.push(url);
+        // Re-render just the image field for this color
+        const container = document.getElementById(`color-images-${pkgIndex}-${colorIndex}`);
+        container.innerHTML = '';
+        const imagesField = createImageArrayField('Color Images', packagesData.packages[pkgIndex].colors[colorIndex].images || [], 
+            (url) => addPackageColorImage(pkgIndex, colorIndex, url),
+            (index) => removePackageColorImage(pkgIndex, colorIndex, index)
+        );
+        container.appendChild(imagesField);
+    }
+
+    function removePackageColorImage(pkgIndex, colorIndex, imageIndex) {
+        packagesData.packages[pkgIndex].colors[colorIndex].images.splice(imageIndex, 1);
+        // Re-render just the image field for this color
+        const container = document.getElementById(`color-images-${pkgIndex}-${colorIndex}`);
+        container.innerHTML = '';
+        const imagesField = createImageArrayField('Color Images', packagesData.packages[pkgIndex].colors[colorIndex].images || [], 
+            (url) => addPackageColorImage(pkgIndex, colorIndex, url),
+            (index) => removePackageColorImage(pkgIndex, colorIndex, index)
+        );
+        container.appendChild(imagesField);
+    }
+
+    function addPackageRoomType(pkgIndex) {
+        if (!packagesData.packages[pkgIndex].roomTypes) packagesData.packages[pkgIndex].roomTypes = [];
+        packagesData.packages[pkgIndex].roomTypes.push({
+            name: 'New Room Type',
+            active: false,
+            currentPrice: '0.00',
+            originalPrice: '0.00',
+            salePercentage: '0% OFF',
+            images: []
+        });
+        renderPackageRoomTypes(pkgIndex, packagesData.packages[pkgIndex].roomTypes);
+    }
+
+    function removePackageRoomType(pkgIndex, rtIndex) {
+        packagesData.packages[pkgIndex].roomTypes.splice(rtIndex, 1);
+        renderPackageRoomTypes(pkgIndex, packagesData.packages[pkgIndex].roomTypes);
+    }
+
+    function updatePackageRoomType(pkgIndex, rtIndex, field, value) {
+        packagesData.packages[pkgIndex].roomTypes[rtIndex][field] = value;
+    }
+
+    function addPackageRoomTypeImage(pkgIndex, rtIndex, url) {
+        if (!url) return;
+        if (!packagesData.packages[pkgIndex].roomTypes[rtIndex].images) {
+            packagesData.packages[pkgIndex].roomTypes[rtIndex].images = [];
+        }
+        packagesData.packages[pkgIndex].roomTypes[rtIndex].images.push(url);
+        // Re-render just the image field for this room type
+        const container = document.getElementById(`roomtype-images-${pkgIndex}-${rtIndex}`);
+        container.innerHTML = '';
+        const imagesField = createImageArrayField('Room Type Images', packagesData.packages[pkgIndex].roomTypes[rtIndex].images || [], 
+            (url) => addPackageRoomTypeImage(pkgIndex, rtIndex, url),
+            (index) => removePackageRoomTypeImage(pkgIndex, rtIndex, index)
+        );
+        container.appendChild(imagesField);
+    }
+
+    function removePackageRoomTypeImage(pkgIndex, rtIndex, imageIndex) {
+        packagesData.packages[pkgIndex].roomTypes[rtIndex].images.splice(imageIndex, 1);
+        // Re-render just the image field for this room type
+        const container = document.getElementById(`roomtype-images-${pkgIndex}-${rtIndex}`);
+        container.innerHTML = '';
+        const imagesField = createImageArrayField('Room Type Images', packagesData.packages[pkgIndex].roomTypes[rtIndex].images || [], 
+            (url) => addPackageRoomTypeImage(pkgIndex, rtIndex, url),
+            (index) => removePackageRoomTypeImage(pkgIndex, rtIndex, index)
+        );
+        container.appendChild(imagesField);
+    }
+
+    function addPackageFeature(pkgIndex) {
+        if (!packagesData.packages[pkgIndex].features) packagesData.packages[pkgIndex].features = [];
+        packagesData.packages[pkgIndex].features.push('New feature');
+        renderPackageFeatures(pkgIndex, packagesData.packages[pkgIndex].features);
+    }
+
+    function removePackageFeature(pkgIndex, featIndex) {
+        packagesData.packages[pkgIndex].features.splice(featIndex, 1);
+        renderPackageFeatures(pkgIndex, packagesData.packages[pkgIndex].features);
+    }
+
+    function updatePackageFeature(pkgIndex, featIndex, value) {
+        packagesData.packages[pkgIndex].features[featIndex] = value;
+    }
+
+    function addPackageImage(pkgIndex, url) {
+        if (!url) return;
+        if (!packagesData.packages[pkgIndex].images) packagesData.packages[pkgIndex].images = [];
+        packagesData.packages[pkgIndex].images.push(url);
+        // Re-render just the image field
+        const container = document.getElementById(`package-images-${pkgIndex}`);
+        container.innerHTML = '';
+        const imagesField = createImageArrayField('Images', packagesData.packages[pkgIndex].images || [], 
+            (url) => addPackageImage(pkgIndex, url),
+            (index) => removePackageImage(pkgIndex, index)
+        );
+        container.appendChild(imagesField);
+    }
+
+    function removePackageImage(pkgIndex, imageIndex) {
+        packagesData.packages[pkgIndex].images.splice(imageIndex, 1);
+        // Re-render just the image field
+        const container = document.getElementById(`package-images-${pkgIndex}`);
+        container.innerHTML = '';
+        const imagesField = createImageArrayField('Images', packagesData.packages[pkgIndex].images || [], 
+            (url) => addPackageImage(pkgIndex, url),
+            (index) => removePackageImage(pkgIndex, index)
+        );
+        container.appendChild(imagesField);
+    }
+
+    function addPackage() {
+        if (!packagesData.packages) packagesData.packages = [];
+        packagesData.packages.push({
+            slug: 'new-package-' + Date.now(),
+            name: 'New Package',
+            currentPrice: '0.00',
+            originalPrice: '0.00',
+            salePercentage: '0% OFF',
+            deliveryTime: '7-10 days',
+            rating: 5,
+            reviewCount: 0,
+            defaultColor: 'White',
+            defaultRoomType: '1 Bedroom/15 Items',
+            colors: [],
+            roomTypes: [],
+            images: [],
+            description: '',
+            features: []
+        });
+        renderPackagesList();
+    }
+
+    function deletePackage(index) {
+        if (confirm('Are you sure you want to delete this package?')) {
+            packagesData.packages.splice(index, 1);
+            renderPackagesList();
+        }
+    }
+
+    async function savePackagesData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            const response = await fetch(`${apiBase}/api/packages`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(packagesData, null, 2)
+            });
+            if (response.ok) {
+                showAlert('Packages data saved successfully!', 'success');
+            } else {
+                throw new Error('Save failed');
+            }
+        } catch (error) {
+            showAlert('Error saving packages data: ' + error.message, 'error');
+        }
+    }
+
+    // PRODUCTS MANAGEMENT
+    async function loadProductsData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            let response = await fetch(`${apiBase}/api/products`);
+            if (!response.ok) {
+                response = await fetch(`${apiBase}/_data/products.json`);
+                if (!response.ok) throw new Error('Failed to load');
+            }
+            productsData = await response.json();
+            renderProductsList();
+            showAlert('Products data loaded successfully!', 'success');
+        } catch (error) {
+            console.error('Error loading products data:', error);
+            showAlert('Error loading products data. Please ensure server is running (npm start).', 'error');
+        }
+    }
+
+    function renderProductsList() {
+        const container = document.getElementById('products-list');
+        container.innerHTML = '';
+        
+        if (!productsData.products || productsData.products.length === 0) {
+            container.innerHTML = '<p>No products found. Add your first product!</p>';
+            return;
+        }
+
+        productsData.products.forEach((product, prodIndex) => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            
+            card.innerHTML = `
+                <div class="item-card-header">
+                    <h3>${product.name || 'Unnamed Product'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(${prodIndex})">Delete</button>
+                </div>
+                ${createFormField('ID', product.id, `updateProductField(${prodIndex}, 'id', this.value)`).outerHTML}
+                ${createFormField('Name', product.name, `updateProductField(${prodIndex}, 'name', this.value)`).outerHTML}
+                ${createFormField('Slug', product.slug, `updateProductField(${prodIndex}, 'slug', this.value)`).outerHTML}
+                ${createFormField('Category', product.category, `updateProductField(${prodIndex}, 'category', this.value)`).outerHTML}
+                <div class="form-row">
+                    ${createFormField('Price', product.price, `updateProductField(${prodIndex}, 'price', this.value)`).outerHTML}
+                    ${createFormField('Currency', product.currency, `updateProductField(${prodIndex}, 'currency', this.value)`).outerHTML}
+                </div>
+                <div class="form-row">
+                    ${createFormField('Color', product.color, `updateProductField(${prodIndex}, 'color', this.value)`).outerHTML}
+                    ${createFormField('Color Code', product.colorCode, `updateProductField(${prodIndex}, 'colorCode', this.value)`).outerHTML}
+                </div>
+                ${createFormField('Description', product.description, `updateProductField(${prodIndex}, 'description', this.value)`, 'textarea').outerHTML}
+                ${createFormField('Features', product.features, `updateProductField(${prodIndex}, 'features', this.value)`, 'textarea').outerHTML}
+                <div class="form-row">
+                    ${createFormField('Delivery Days', product.deliveryDays, `updateProductField(${prodIndex}, 'deliveryDays', this.value)`, 'number').outerHTML}
+                    ${createFormField('Monthly Payment', product.monthlyPayment, `updateProductField(${prodIndex}, 'monthlyPayment', this.value)`).outerHTML}
+                </div>
+                ${createFormField('Installment Payment', product.installmentPayment, `updateProductField(${prodIndex}, 'installmentPayment', this.value)`).outerHTML}
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Color Options (${product.colorOptions?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="coloroptions-${prodIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addProductColorOption(${prodIndex})">+ Add Color Option</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+            renderProductColorOptions(prodIndex, product.colorOptions || []);
+        });
+    }
+
+    function renderProductColorOptions(prodIndex, colorOptions) {
+        const container = document.getElementById(`coloroptions-${prodIndex}`);
+        container.innerHTML = '';
+        colorOptions.forEach((colorOpt, coIndex) => {
+            const coCard = document.createElement('div');
+            coCard.className = 'array-item';
+            coCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">${colorOpt.name || 'Unnamed Color'}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeProductColorOption(${prodIndex}, ${coIndex})">Remove</button>
+                </div>
+                ${createFormField('Name', colorOpt.name, `updateProductColorOption(${prodIndex}, ${coIndex}, 'name', this.value)`).outerHTML}
+                ${createFormField('Code', colorOpt.code, `updateProductColorOption(${prodIndex}, ${coIndex}, 'code', this.value)`).outerHTML}
+                <div class="form-row">
+                    ${createFormField('Price', colorOpt.price, `updateProductColorOption(${prodIndex}, ${coIndex}, 'price', this.value)`).outerHTML}
+                    ${createFormField('Original Price', colorOpt.originalPrice, `updateProductColorOption(${prodIndex}, ${coIndex}, 'originalPrice', this.value)`).outerHTML}
+                </div>
+                ${createFormField('Sale Percentage', colorOpt.salePercentage, `updateProductColorOption(${prodIndex}, ${coIndex}, 'salePercentage', this.value)`).outerHTML}
+                ${createFormField('Image', colorOpt.image, `updateProductColorOption(${prodIndex}, ${coIndex}, 'image', this.value)`).outerHTML}
+                <div id="product-gallery-${prodIndex}-${coIndex}"></div>
+            `;
+            container.appendChild(coCard);
+            
+            // Render gallery separately
+            const galleryContainer = document.getElementById(`product-gallery-${prodIndex}-${coIndex}`);
+            const galleryField = createImageArrayField('Gallery', colorOpt.gallery || [], 
+                (url) => addProductColorOptionGallery(prodIndex, coIndex, url),
+                (index) => removeProductColorOptionGallery(prodIndex, coIndex, index)
+            );
+            galleryContainer.appendChild(galleryField);
+        });
+    }
+
+    function updateProductField(prodIndex, field, value) {
+        if (field === 'deliveryDays') {
+            productsData.products[prodIndex][field] = parseInt(value) || 0;
+        } else {
+            productsData.products[prodIndex][field] = value;
+        }
+    }
+
+    function addProductColorOption(prodIndex) {
+        if (!productsData.products[prodIndex].colorOptions) productsData.products[prodIndex].colorOptions = [];
+        productsData.products[prodIndex].colorOptions.push({
+            name: 'New Color',
+            code: '#ffffff',
+            price: '0.00',
+            originalPrice: '0.00',
+            salePercentage: '0% OFF',
+            image: '',
+            gallery: []
+        });
+        renderProductColorOptions(prodIndex, productsData.products[prodIndex].colorOptions);
+    }
+
+    function removeProductColorOption(prodIndex, coIndex) {
+        productsData.products[prodIndex].colorOptions.splice(coIndex, 1);
+        renderProductColorOptions(prodIndex, productsData.products[prodIndex].colorOptions);
+    }
+
+    function updateProductColorOption(prodIndex, coIndex, field, value) {
+        productsData.products[prodIndex].colorOptions[coIndex][field] = value;
+    }
+
+    function addProductColorOptionGallery(prodIndex, coIndex, url) {
+        if (!url) return;
+        if (!productsData.products[prodIndex].colorOptions[coIndex].gallery) {
+            productsData.products[prodIndex].colorOptions[coIndex].gallery = [];
+        }
+        productsData.products[prodIndex].colorOptions[coIndex].gallery.push(url);
+        // Re-render just the gallery field
+        const container = document.getElementById(`product-gallery-${prodIndex}-${coIndex}`);
+        container.innerHTML = '';
+        const galleryField = createImageArrayField('Gallery', productsData.products[prodIndex].colorOptions[coIndex].gallery || [], 
+            (url) => addProductColorOptionGallery(prodIndex, coIndex, url),
+            (index) => removeProductColorOptionGallery(prodIndex, coIndex, index)
+        );
+        container.appendChild(galleryField);
+    }
+
+    function removeProductColorOptionGallery(prodIndex, coIndex, galleryIndex) {
+        productsData.products[prodIndex].colorOptions[coIndex].gallery.splice(galleryIndex, 1);
+        // Re-render just the gallery field
+        const container = document.getElementById(`product-gallery-${prodIndex}-${coIndex}`);
+        container.innerHTML = '';
+        const galleryField = createImageArrayField('Gallery', productsData.products[prodIndex].colorOptions[coIndex].gallery || [], 
+            (url) => addProductColorOptionGallery(prodIndex, coIndex, url),
+            (index) => removeProductColorOptionGallery(prodIndex, coIndex, index)
+        );
+        container.appendChild(galleryField);
+    }
+
+    function addProduct() {
+        if (!productsData.products) productsData.products = [];
+        productsData.products.push({
+            id: 'new-product-' + Date.now(),
+            category: 'sofa',
+            slug: 'new-product-' + Date.now(),
+            name: 'New Product',
+            price: '0.00',
+            currency: 'Dhs.',
+            color: 'White',
+            colorCode: '#ffffff',
+            colorOptions: [],
+            description: '',
+            features: '',
+            deliveryDays: 0,
+            monthlyPayment: '0.00',
+            installmentPayment: '0.00'
+        });
+        renderProductsList();
+    }
+
+    function deleteProduct(index) {
+        if (confirm('Are you sure you want to delete this product?')) {
+            productsData.products.splice(index, 1);
+            renderProductsList();
+        }
+    }
+
+    async function saveProductsData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            const response = await fetch(`${apiBase}/api/products`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(productsData, null, 2)
+            });
+            if (response.ok) {
+                showAlert('Products data saved successfully!', 'success');
+            } else {
+                throw new Error('Save failed');
+            }
+        } catch (error) {
+            showAlert('Error saving products data: ' + error.message, 'error');
+        }
+    }
+
+    // FURNITURE MANAGEMENT
+    async function loadFurnitureData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            let response = await fetch(`${apiBase}/api/furniture`);
+            if (!response.ok) {
+                response = await fetch(`${apiBase}/_data/furniture.json`);
+                if (!response.ok) throw new Error('Failed to load');
+            }
+            furnitureData = await response.json();
+            renderFurnitureList();
+            showAlert('Furniture data loaded successfully!', 'success');
+        } catch (error) {
+            console.error('Error loading furniture data:', error);
+            showAlert('Error loading furniture data. Please ensure server is running (npm start).', 'error');
+        }
+    }
+
+    function renderFurnitureList() {
+        const container = document.getElementById('furniture-list');
+        container.innerHTML = '';
+        
+        if (!furnitureData || furnitureData.length === 0) {
+            container.innerHTML = '<p>No furniture categories found. Add your first category!</p>';
+            return;
+        }
+
+        furnitureData.forEach((category, catIndex) => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            
+            card.innerHTML = `
+                <div class="item-card-header">
+                    <h3>${category.category || 'Unnamed Category'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="deleteFurnitureCategory(${catIndex})">Delete</button>
+                </div>
+                ${createFormField('Category Name', category.category, `updateFurnitureCategory(${catIndex}, 'category', this.value)`).outerHTML}
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Products (${category.products?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="furniture-products-${catIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addFurnitureProduct(${catIndex})">+ Add Product</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+            renderFurnitureProducts(catIndex, category.products || []);
+        });
+    }
+
+    function renderFurnitureProducts(catIndex, products) {
+        const container = document.getElementById(`furniture-products-${catIndex}`);
+        container.innerHTML = '';
+        products.forEach((product, prodIndex) => {
+            const prodCard = document.createElement('div');
+            prodCard.className = 'array-item';
+            prodCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">${product.title || 'Unnamed Product'}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeFurnitureProduct(${catIndex}, ${prodIndex})">Remove</button>
+                </div>
+                ${createFormField('ID', product.id, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'id', this.value)`, 'number').outerHTML}
+                ${createFormField('Title', product.title, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'title', this.value)`).outerHTML}
+                ${createFormField('Slug', product.slug, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'slug', this.value)`).outerHTML}
+                <div class="form-row">
+                    ${createFormField('Price', product.price, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'price', this.value)`, 'number').outerHTML}
+                    ${createFormField('Featured', product.featured, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'featured', this.value)`, 'number').outerHTML}
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" ${product.onSale ? 'checked' : ''} 
+                               onchange="updateFurnitureProduct(${catIndex}, ${prodIndex}, 'onSale', this.checked)">
+                        On Sale
+                    </label>
+                </div>
+                <div id="furniture-colors-${catIndex}-${prodIndex}"></div>
+            `;
+            container.appendChild(prodCard);
+            
+            // Render furniture product colors separately
+            const colorsContainer = document.getElementById(`furniture-colors-${catIndex}-${prodIndex}`);
+            const colorsField = createImageArrayField('Color Options', product.colorOptions || [], 
+                (url) => addFurnitureProductColor(catIndex, prodIndex, url),
+                (index) => removeFurnitureProductColor(catIndex, prodIndex, index)
+            );
+            colorsContainer.appendChild(colorsField);
+        });
+    }
+
+    function updateFurnitureCategory(catIndex, field, value) {
+        furnitureData[catIndex][field] = value;
+    }
+
+    function addFurnitureProduct(catIndex) {
+        if (!furnitureData[catIndex].products) furnitureData[catIndex].products = [];
+        furnitureData[catIndex].products.push({
+            id: Date.now(),
+            title: 'New Product',
+            price: 0,
+            featured: 0,
+            slug: 'new-product-' + Date.now(),
+            onSale: false,
+            colorOptions: []
+        });
+        renderFurnitureProducts(catIndex, furnitureData[catIndex].products);
+    }
+
+    function removeFurnitureProduct(catIndex, prodIndex) {
+        furnitureData[catIndex].products.splice(prodIndex, 1);
+        renderFurnitureProducts(catIndex, furnitureData[catIndex].products);
+    }
+
+    function updateFurnitureProduct(catIndex, prodIndex, field, value) {
+        if (field === 'id' || field === 'price' || field === 'featured') {
+            furnitureData[catIndex].products[prodIndex][field] = parseFloat(value) || 0;
+        } else if (field === 'onSale') {
+            furnitureData[catIndex].products[prodIndex][field] = Boolean(value);
+        } else {
+            furnitureData[catIndex].products[prodIndex][field] = value;
+        }
+    }
+
+    function addFurnitureProductColor(catIndex, prodIndex, url) {
+        if (!url) return;
+        if (!furnitureData[catIndex].products[prodIndex].colorOptions) {
+            furnitureData[catIndex].products[prodIndex].colorOptions = [];
+        }
+        furnitureData[catIndex].products[prodIndex].colorOptions.push(url);
+        // Re-render just the colors field
+        const container = document.getElementById(`furniture-colors-${catIndex}-${prodIndex}`);
+        container.innerHTML = '';
+        const colorsField = createImageArrayField('Color Options', furnitureData[catIndex].products[prodIndex].colorOptions || [], 
+            (url) => addFurnitureProductColor(catIndex, prodIndex, url),
+            (index) => removeFurnitureProductColor(catIndex, prodIndex, index)
+        );
+        container.appendChild(colorsField);
+    }
+
+    function removeFurnitureProductColor(catIndex, prodIndex, colorIndex) {
+        furnitureData[catIndex].products[prodIndex].colorOptions.splice(colorIndex, 1);
+        // Re-render just the colors field
+        const container = document.getElementById(`furniture-colors-${catIndex}-${prodIndex}`);
+        container.innerHTML = '';
+        const colorsField = createImageArrayField('Color Options', furnitureData[catIndex].products[prodIndex].colorOptions || [], 
+            (url) => addFurnitureProductColor(catIndex, prodIndex, url),
+            (index) => removeFurnitureProductColor(catIndex, prodIndex, index)
+        );
+        container.appendChild(colorsField);
+    }
+
+    function addFurnitureCategory() {
+        if (!furnitureData) furnitureData = [];
+        furnitureData.push({
+            category: 'New Category',
+            products: []
+        });
+        renderFurnitureList();
+    }
+
+    function deleteFurnitureCategory(index) {
+        if (confirm('Are you sure you want to delete this category and all its products?')) {
+            furnitureData.splice(index, 1);
+            renderFurnitureList();
+        }
+    }
+
+    async function saveFurnitureData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            const response = await fetch(`${apiBase}/api/furniture`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(furnitureData, null, 2)
+            });
+            if (response.ok) {
+                showAlert('Furniture data saved successfully!', 'success');
+            } else {
+                throw new Error('Save failed');
+            }
+        } catch (error) {
+            showAlert('Error saving furniture data: ' + error.message, 'error');
+        }
+    }
+
+    // PROJECTS MANAGEMENT
+    async function loadProjectsData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            let response = await fetch(`${apiBase}/api/projects`);
+            if (!response.ok) {
+                response = await fetch(`${apiBase}/_data/projects.json`);
+                if (!response.ok) throw new Error('Failed to load');
+            }
+            projectsData = await response.json();
+            renderProjectsList();
+            showAlert('Projects data loaded successfully!', 'success');
+        } catch (error) {
+            console.error('Error loading projects data:', error);
+            showAlert('Error loading projects data. Please ensure server is running (npm start).', 'error');
+        }
+    }
+
+    function renderProjectsList() {
+        const container = document.getElementById('projects-list');
+        container.innerHTML = '';
+        
+        if (!projectsData.projects || projectsData.projects.length === 0) {
+            container.innerHTML = '<p>No projects found. Add your first project!</p>';
+            return;
+        }
+
+        projectsData.projects.forEach((project, projIndex) => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            
+            card.innerHTML = `
+                <div class="item-card-header">
+                    <h3>${project.title || 'Unnamed Project'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProject(${projIndex})">Delete</button>
+                </div>
+                ${createFormField('Slug', project.slug, `updateProjectField(${projIndex}, 'slug', this.value)`).outerHTML}
+                ${createFormField('Title', project.title, `updateProjectField(${projIndex}, 'title', this.value)`).outerHTML}
+                ${createFormField('Category', project.category, `updateProjectField(${projIndex}, 'category', this.value)`).outerHTML}
+                ${createFormField('Icon (Font Awesome)', project.icon, `updateProjectField(${projIndex}, 'icon', this.value)`).outerHTML}
+                ${createFormField('Hero Image', project.hero_image, `updateProjectField(${projIndex}, 'hero_image', this.value)`).outerHTML}
+                ${createFormField('Description Lead', project.description?.lead || '', `updateProjectDescription(${projIndex}, 'lead', this.value)`, 'textarea').outerHTML}
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Description Paragraphs (${project.description?.paragraphs?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="project-paragraphs-${projIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addProjectParagraph(${projIndex})">+ Add Paragraph</button>
+                    </div>
+                </div>
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Gallery (${project.gallery?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="project-gallery-${projIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addProjectGalleryItem(${projIndex})">+ Add Gallery Item</button>
+                    </div>
+                </div>
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Details (${project.details?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="project-details-${projIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addProjectDetail(${projIndex})">+ Add Detail</button>
+                    </div>
+                </div>
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Features (${project.features?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="project-features-${projIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addProjectFeature(${projIndex})">+ Add Feature</button>
+                    </div>
+                </div>
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Timeline (${project.timeline?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="project-timeline-${projIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addProjectTimelineItem(${projIndex})">+ Add Timeline Item</button>
+                    </div>
+                </div>
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Related Projects (${project.related_projects?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="project-related-${projIndex}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addProjectRelated(${projIndex})">+ Add Related Project</button>
+                    </div>
+                </div>
+                ${createFormField('Before Image', project.before_after?.before_image || '', `updateProjectBeforeAfter(${projIndex}, 'before_image', this.value)`).outerHTML}
+                ${createFormField('After Image', project.before_after?.after_image || '', `updateProjectBeforeAfter(${projIndex}, 'after_image', this.value)`).outerHTML}
+                ${createFormField('Before/After Description', project.before_after?.description || '', `updateProjectBeforeAfter(${projIndex}, 'description', this.value)`, 'textarea').outerHTML}
+                ${createFormField('CTA Title', project.cta?.title || '', `updateProjectCTA(${projIndex}, 'title', this.value)`).outerHTML}
+                ${createFormField('CTA Description', project.cta?.description || '', `updateProjectCTA(${projIndex}, 'description', this.value)`, 'textarea').outerHTML}
+                ${createFormField('CTA Button Text', project.cta?.button_text || '', `updateProjectCTA(${projIndex}, 'button_text', this.value)`).outerHTML}
+                ${createFormField('CTA Link', project.cta?.link || '', `updateProjectCTA(${projIndex}, 'link', this.value)`).outerHTML}
+                ${createFormField('CTA Background', project.cta_background || '', `updateProjectField(${projIndex}, 'cta_background', this.value)`).outerHTML}
+            `;
+            container.appendChild(card);
+            
+            renderProjectParagraphs(projIndex, project.description?.paragraphs || []);
+            renderProjectGallery(projIndex, project.gallery || []);
+            renderProjectDetails(projIndex, project.details || []);
+            renderProjectFeatures(projIndex, project.features || []);
+            renderProjectTimeline(projIndex, project.timeline || []);
+            renderProjectRelated(projIndex, project.related_projects || []);
+        });
+    }
+
+    function renderProjectParagraphs(projIndex, paragraphs) {
+        const container = document.getElementById(`project-paragraphs-${projIndex}`);
+        container.innerHTML = '';
+        paragraphs.forEach((para, paraIndex) => {
+            const paraCard = document.createElement('div');
+            paraCard.className = 'array-item';
+            paraCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">Paragraph ${paraIndex + 1}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeProjectParagraph(${projIndex}, ${paraIndex})">Remove</button>
+                </div>
+                ${createFormField('Text', para, `updateProjectParagraph(${projIndex}, ${paraIndex}, this.value)`, 'textarea').outerHTML}
+            `;
+            container.appendChild(paraCard);
+        });
+    }
+
+    function renderProjectGallery(projIndex, gallery) {
+        const container = document.getElementById(`project-gallery-${projIndex}`);
+        container.innerHTML = '';
+        gallery.forEach((item, itemIndex) => {
+            const itemCard = document.createElement('div');
+            itemCard.className = 'array-item';
+            itemCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">Gallery Item ${itemIndex + 1}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeProjectGalleryItem(${projIndex}, ${itemIndex})">Remove</button>
+                </div>
+                ${createFormField('Image', item.image || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'image', this.value)`).outerHTML}
+                ${createFormField('Thumbnail', item.thumbnail || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'thumbnail', this.value)`).outerHTML}
+                ${createFormField('Alt Text', item.alt || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'alt', this.value)`).outerHTML}
+            `;
+            container.appendChild(itemCard);
+        });
+    }
+
+    function renderProjectDetails(projIndex, details) {
+        const container = document.getElementById(`project-details-${projIndex}`);
+        container.innerHTML = '';
+        details.forEach((detail, detailIndex) => {
+            const detailCard = document.createElement('div');
+            detailCard.className = 'array-item';
+            detailCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">${detail.label || 'Detail'}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeProjectDetail(${projIndex}, ${detailIndex})">Remove</button>
+                </div>
+                ${createFormField('Label', detail.label || '', `updateProjectDetail(${projIndex}, ${detailIndex}, 'label', this.value)`).outerHTML}
+                ${createFormField('Value', detail.value || '', `updateProjectDetail(${projIndex}, ${detailIndex}, 'value', this.value)`).outerHTML}
+            `;
+            container.appendChild(detailCard);
+        });
+    }
+
+    function renderProjectFeatures(projIndex, features) {
+        const container = document.getElementById(`project-features-${projIndex}`);
+        container.innerHTML = '';
+        features.forEach((feature, featIndex) => {
+            const featCard = document.createElement('div');
+            featCard.className = 'array-item';
+            featCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">Feature ${featIndex + 1}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeProjectFeature(${projIndex}, ${featIndex})">Remove</button>
+                </div>
+                ${createFormField('Feature Text', feature, `updateProjectFeature(${projIndex}, ${featIndex}, this.value)`).outerHTML}
+            `;
+            container.appendChild(featCard);
+        });
+    }
+
+    function renderProjectTimeline(projIndex, timeline) {
+        const container = document.getElementById(`project-timeline-${projIndex}`);
+        container.innerHTML = '';
+        timeline.forEach((item, itemIndex) => {
+            const itemCard = document.createElement('div');
+            itemCard.className = 'array-item';
+            itemCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">${item.period || 'Timeline Item'}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeProjectTimelineItem(${projIndex}, ${itemIndex})">Remove</button>
+                </div>
+                ${createFormField('Period', item.period || '', `updateProjectTimelineItem(${projIndex}, ${itemIndex}, 'period', this.value)`).outerHTML}
+                ${createFormField('Title', item.title || '', `updateProjectTimelineItem(${projIndex}, ${itemIndex}, 'title', this.value)`).outerHTML}
+                ${createFormField('Description', item.description || '', `updateProjectTimelineItem(${projIndex}, ${itemIndex}, 'description', this.value)`, 'textarea').outerHTML}
+            `;
+            container.appendChild(itemCard);
+        });
+    }
+
+    function renderProjectRelated(projIndex, related) {
+        const container = document.getElementById(`project-related-${projIndex}`);
+        container.innerHTML = '';
+        related.forEach((rel, relIndex) => {
+            const relCard = document.createElement('div');
+            relCard.className = 'array-item';
+            relCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">${rel.title || 'Related Project'}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeProjectRelated(${projIndex}, ${relIndex})">Remove</button>
+                </div>
+                ${createFormField('Slug', rel.slug || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'slug', this.value)`).outerHTML}
+                ${createFormField('Title', rel.title || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'title', this.value)`).outerHTML}
+                ${createFormField('Category', rel.category || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'category', this.value)`).outerHTML}
+                ${createFormField('Image', rel.image || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'image', this.value)`).outerHTML}
+            `;
+            container.appendChild(relCard);
+        });
+    }
+
+    function updateProjectField(projIndex, field, value) {
+        projectsData.projects[projIndex][field] = value;
+    }
+
+    function updateProjectDescription(projIndex, field, value) {
+        if (!projectsData.projects[projIndex].description) {
+            projectsData.projects[projIndex].description = {};
+        }
+        projectsData.projects[projIndex].description[field] = value;
+    }
+
+    function addProjectParagraph(projIndex) {
+        if (!projectsData.projects[projIndex].description) {
+            projectsData.projects[projIndex].description = {};
+        }
+        if (!projectsData.projects[projIndex].description.paragraphs) {
+            projectsData.projects[projIndex].description.paragraphs = [];
+        }
+        projectsData.projects[projIndex].description.paragraphs.push('New paragraph');
+        renderProjectParagraphs(projIndex, projectsData.projects[projIndex].description.paragraphs);
+    }
+
+    function removeProjectParagraph(projIndex, paraIndex) {
+        projectsData.projects[projIndex].description.paragraphs.splice(paraIndex, 1);
+        renderProjectParagraphs(projIndex, projectsData.projects[projIndex].description.paragraphs);
+    }
+
+    function updateProjectParagraph(projIndex, paraIndex, value) {
+        projectsData.projects[projIndex].description.paragraphs[paraIndex] = value;
+    }
+
+    function addProjectGalleryItem(projIndex) {
+        if (!projectsData.projects[projIndex].gallery) {
+            projectsData.projects[projIndex].gallery = [];
+        }
+        projectsData.projects[projIndex].gallery.push({
+            image: '',
+            thumbnail: '',
+            alt: ''
+        });
+        renderProjectGallery(projIndex, projectsData.projects[projIndex].gallery);
+    }
+
+    function removeProjectGalleryItem(projIndex, itemIndex) {
+        projectsData.projects[projIndex].gallery.splice(itemIndex, 1);
+        renderProjectGallery(projIndex, projectsData.projects[projIndex].gallery);
+    }
+
+    function updateProjectGalleryItem(projIndex, itemIndex, field, value) {
+        projectsData.projects[projIndex].gallery[itemIndex][field] = value;
+    }
+
+    function addProjectDetail(projIndex) {
+        if (!projectsData.projects[projIndex].details) {
+            projectsData.projects[projIndex].details = [];
+        }
+        projectsData.projects[projIndex].details.push({
+            label: '',
+            value: ''
+        });
+        renderProjectDetails(projIndex, projectsData.projects[projIndex].details);
+    }
+
+    function removeProjectDetail(projIndex, detailIndex) {
+        projectsData.projects[projIndex].details.splice(detailIndex, 1);
+        renderProjectDetails(projIndex, projectsData.projects[projIndex].details);
+    }
+
+    function updateProjectDetail(projIndex, detailIndex, field, value) {
+        projectsData.projects[projIndex].details[detailIndex][field] = value;
+    }
+
+    function addProjectFeature(projIndex) {
+        if (!projectsData.projects[projIndex].features) {
+            projectsData.projects[projIndex].features = [];
+        }
+        projectsData.projects[projIndex].features.push('New feature');
+        renderProjectFeatures(projIndex, projectsData.projects[projIndex].features);
+    }
+
+    function removeProjectFeature(projIndex, featIndex) {
+        projectsData.projects[projIndex].features.splice(featIndex, 1);
+        renderProjectFeatures(projIndex, projectsData.projects[projIndex].features);
+    }
+
+    function updateProjectFeature(projIndex, featIndex, value) {
+        projectsData.projects[projIndex].features[featIndex] = value;
+    }
+
+    function addProjectTimelineItem(projIndex) {
+        if (!projectsData.projects[projIndex].timeline) {
+            projectsData.projects[projIndex].timeline = [];
+        }
+        projectsData.projects[projIndex].timeline.push({
+            period: '',
+            title: '',
+            description: ''
+        });
+        renderProjectTimeline(projIndex, projectsData.projects[projIndex].timeline);
+    }
+
+    function removeProjectTimelineItem(projIndex, itemIndex) {
+        projectsData.projects[projIndex].timeline.splice(itemIndex, 1);
+        renderProjectTimeline(projIndex, projectsData.projects[projIndex].timeline);
+    }
+
+    function updateProjectTimelineItem(projIndex, itemIndex, field, value) {
+        projectsData.projects[projIndex].timeline[itemIndex][field] = value;
+    }
+
+    function addProjectRelated(projIndex) {
+        if (!projectsData.projects[projIndex].related_projects) {
+            projectsData.projects[projIndex].related_projects = [];
+        }
+        projectsData.projects[projIndex].related_projects.push({
+            slug: '',
+            title: '',
+            category: '',
+            image: ''
+        });
+        renderProjectRelated(projIndex, projectsData.projects[projIndex].related_projects);
+    }
+
+    function removeProjectRelated(projIndex, relIndex) {
+        projectsData.projects[projIndex].related_projects.splice(relIndex, 1);
+        renderProjectRelated(projIndex, projectsData.projects[projIndex].related_projects);
+    }
+
+    function updateProjectRelated(projIndex, relIndex, field, value) {
+        projectsData.projects[projIndex].related_projects[relIndex][field] = value;
+    }
+
+    function updateProjectBeforeAfter(projIndex, field, value) {
+        if (!projectsData.projects[projIndex].before_after) {
+            projectsData.projects[projIndex].before_after = {};
+        }
+        projectsData.projects[projIndex].before_after[field] = value;
+    }
+
+    function updateProjectCTA(projIndex, field, value) {
+        if (!projectsData.projects[projIndex].cta) {
+            projectsData.projects[projIndex].cta = {};
+        }
+        projectsData.projects[projIndex].cta[field] = value;
+    }
+
+    function addProject() {
+        if (!projectsData.projects) projectsData.projects = [];
+        projectsData.projects.push({
+            slug: 'new-project-' + Date.now(),
+            title: 'New Project',
+            category: '',
+            hero_image: '',
+            icon: 'fas fa-home',
+            gallery: [],
+            details: [],
+            description: {
+                lead: '',
+                paragraphs: []
+            },
+            features: [],
+            before_after: {
+                description: '',
+                before_image: '',
+                after_image: ''
+            },
+            timeline: [],
+            related_projects: [],
+            cta: {
+                title: '',
+                description: '',
+                button_text: '',
+                link: ''
+            },
+            cta_background: ''
+        });
+        renderProjectsList();
+    }
+
+    function deleteProject(index) {
+        if (confirm('Are you sure you want to delete this project?')) {
+            projectsData.projects.splice(index, 1);
+            renderProjectsList();
+        }
+    }
+
+    async function saveProjectsData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            const response = await fetch(`${apiBase}/api/projects`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(projectsData, null, 2)
+            });
+            if (response.ok) {
+                showAlert('Projects data saved successfully!', 'success');
+            } else {
+                throw new Error('Save failed');
+            }
+        } catch (error) {
+            showAlert('Error saving projects data: ' + error.message, 'error');
+        }
+    }
+
+    // Utility functions
+    function showAlert(message, type) {
+        const container = document.getElementById('alertContainer');
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type}`;
+        alert.textContent = message;
+        container.innerHTML = '';
+        container.appendChild(alert);
+        setTimeout(() => alert.remove(), 5000);
+    }
+
+    // Load data on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        showAlert('Admin panel ready. Click "Load Current Data" to start editing.', 'success');
+    });
+</script>
+
+</body>
+</html>

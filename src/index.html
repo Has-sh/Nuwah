@@ -9,7 +9,7 @@ title: Home
 			<source src="/assets/vid/cover_video.mp4" type="video/mp4" />
 			Your browser does not support the video tag.
 		</video> -->
-		<img src="/assets/img/hero-cover.webp" alt="Hero Cover" fetchpriority="high" decoding="async" width="100%"
+		<img src="{{ homepage.hero.heroImage }}" alt="Hero Cover" fetchpriority="high" decoding="async" width="100%"
 			height="auto" style="object-fit: cover; width: 100%; height: 100%;">
 
 	</div>
@@ -17,24 +17,23 @@ title: Home
 		<div class="content-wrapper">
 			<div class="text-content">
 				<!-- <h1 class="brand-name">Nuwah</h1> -->
-				<h2 class="welcome-text">WELCOME TO Nuwah</h2>
-				<h3 class="tagline">Creating Emotion Through Space</h3>
+				<h2 class="welcome-text">{{ homepage.hero.welcomeText }}</h2>
+				<h3 class="tagline">{{ homepage.hero.tagline }}</h3>
 				<p class="description">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
-					mattis, pulvinar dapibus leo.
+					{{ homepage.hero.description }}
 				</p>
 				<div class="divider"></div>
 				<div class="btn-container d-flex">
-					<a href="#" class="btn btn-primary-custom">Get Started</a>
-					<a href="#" class="btn btn-outline-custom">View Project</a>
+					<a href="{{ homepage.hero.primaryButton.link }}" class="btn btn-primary-custom">{{ homepage.hero.primaryButton.text }}</a>
+					<a href="{{ homepage.hero.secondaryButton.link }}" class="btn btn-outline-custom">{{ homepage.hero.secondaryButton.text }}</a>
 				</div>
 			</div>
 
 			<!-- Vertical Social Media Links -->
 			<div class="social-links">
-				<a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-				<a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-				<a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+				<a href="{{ homepage.hero.socialLinks.instagram }}" class="social-btn"><i class="fab fa-instagram"></i></a>
+				<a href="{{ homepage.hero.socialLinks.twitter }}" class="social-btn"><i class="fab fa-twitter"></i></a>
+				<a href="{{ homepage.hero.socialLinks.facebook }}" class="social-btn"><i class="fab fa-facebook-f"></i></a>
 			</div>
 		</div>
 	</div>
@@ -42,41 +41,30 @@ title: Home
 
 <div class="furn-nav">
 	<div class="row g-0 justify-content-center overflow-hidden">
+		{% for category in homepage.categories %}
 		<div class="col-lg-2 col-md-4 col-6">
-			<div class="furn-item" data-category="sofas">
+			<div class="furn-item" data-category="{{ category.id }}">
+				{% if category.id == "sofas" %}
 				<svg class="furn-icon" viewBox="0 0 24 24">
 					<path d="M3 10v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9" />
 					<path d="M21 7H3l2-4h14l2 4z" />
 					<path d="M12 15v.01" />
 				</svg>
-				<p class="furn-label">Sofas</p>
-			</div>
-		</div>
-		<div class="col-lg-2 col-md-4 col-6">
-			<div class="furn-item" data-category="bathroom">
+				{% elif category.id == "bathroom" %}
 				<svg class="furn-icon" viewBox="0 0 24 24">
-					<path
-						d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
+					<path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
 					<line x1="10" x2="8" y1="5" y2="7" />
 					<line x1="2" x2="22" y1="12" y2="12" />
 					<line x1="7" x2="7" y1="19" y2="21" />
 					<line x1="17" x2="17" y1="19" y2="21" />
 				</svg>
-				<p class="furn-label">Bathroom</p>
-			</div>
-		</div>
-		<div class="col-lg-2 col-md-4 col-6">
-			<div class="furn-item" data-category="living">
+				{% elif category.id == "living" %}
 				<svg class="furn-icon" viewBox="0 0 24 24">
 					<rect width="18" height="18" x="3" y="3" rx="2" />
 					<path d="M9 3v18" />
 					<path d="m16 15-3-3 3-3" />
 				</svg>
-				<p class="furn-label">Living Room</p>
-			</div>
-		</div>
-		<div class="col-lg-2 col-md-4 col-6">
-			<div class="furn-item" data-category="chandelier">
+				{% elif category.id == "chandelier" %}
 				<svg class="furn-icon" viewBox="0 0 24 24">
 					<path d="M9 17H7A5 5 0 0 1 7 7h2" />
 					<path d="M15 7h2a5 5 0 1 1 0 10h-2" />
@@ -84,22 +72,14 @@ title: Home
 					<path d="M12 3v3" />
 					<circle cx="12" cy="17" r="3" />
 				</svg>
-				<p class="furn-label">Chandelier</p>
-			</div>
-		</div>
-		<div class="col-lg-2 col-md-4 col-6">
-			<div class="furn-item" data-category="bedroom">
+				{% elif category.id == "bedroom" %}
 				<svg class="furn-icon" viewBox="0 0 24 24">
 					<path d="M2 4v16" />
 					<path d="M2 8h18.5" />
 					<path d="M2 12h18.5" />
 					<path d="M2 16h18.5" />
 				</svg>
-				<p class="furn-label">Bedroom</p>
-			</div>
-		</div>
-		<div class="col-lg-2 col-md-4 col-6">
-			<div class="furn-item" data-category="lamps">
+				{% elif category.id == "lamps" %}
 				<svg class="furn-icon" viewBox="0 0 24 24">
 					<path d="M8 2h8l4 10H4L8 2Z" />
 					<path d="M12 7v5" />
@@ -107,9 +87,11 @@ title: Home
 					<line x1="12" x2="12" y1="17" y2="22" />
 					<path d="M8 22h8" />
 				</svg>
-				<p class="furn-label">Lamps</p>
+				{% endif %}
+				<p class="furn-label">{{ category.label }}</p>
 			</div>
 		</div>
+		{% endfor %}
 	</div>
 </div>
 
@@ -117,9 +99,9 @@ title: Home
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-8 text-center header-padding">
-				<h2 class="mb-4 mt-4" id="section-title">Sofas Collection</h2>
-				<p class="text-muted" id="section-description">Discover our premium sofa collection featuring
-					contemporary designs and luxurious comfort.</p>
+				{% set defaultCategory = homepage.categorySections.sofas %}
+				<h2 class="mb-4 mt-4" id="section-title">{{ defaultCategory.title }}</h2>
+				<p class="text-muted" id="section-description">{{ defaultCategory.description }}</p>
 			</div>
 		</div>
 	</div>
@@ -172,8 +154,8 @@ title: Home
 
 <div class="container-fluid custom-padding">
 	<div class="custom-header header-padding">
-		<p class="custom-header-subtitle">Our Packages</p>
-		<h1 class="custom-header-title">Designs Worth Another Look</h1>
+		<p class="custom-header-subtitle">{{ homepage.packagesSection.subtitle }}</p>
+		<h1 class="custom-header-title">{{ homepage.packagesSection.title }}</h1>
 	</div>
 
 	<div class="row">
@@ -318,8 +300,8 @@ title: Home
 <div class="container-fluid custom-padding" style="background-color: #F7F7F7">
 	<div class="row header-padding">
 		<div class="custom-header header-padding">
-			<p class="custom-header-subtitle">Our Furnitures</p>
-			<h1 class="custom-header-title">Crafted With Quality in Mind</h1>
+			<p class="custom-header-subtitle">{{ homepage.furnitureSection.subtitle }}</p>
+			<h1 class="custom-header-title">{{ homepage.furnitureSection.title }}</h1>
 		</div>
 	</div>
 	<div class="row g-4" id="product-list">
@@ -389,8 +371,8 @@ title: Home
 
 <div class="container-fluid custom-padding">
 	<div class="custom-header header-padding">
-		<p class="custom-header-subtitle">Showcase of Our Work</p>
-		<h1 class="custom-header-title">Beautiful spaces awaits you</h1>
+		<p class="custom-header-subtitle">{{ homepage.showcaseSection.subtitle }}</p>
+		<h1 class="custom-header-title">{{ homepage.showcaseSection.title }}</h1>
 	</div>
 
 	<div class="grid-container">
@@ -472,31 +454,26 @@ title: Home
 	<div class="info-container px-5">
 		<div class="left-section">
 			<div class="top-row">
-				<div class="circle">38</div>
+				<div class="circle">{{ homepage.infoSection.years }}</div>
 				<div class="info-text">
-					<h4>ESTABLISHED FOR 18 YEARS.</h4>
-					<p>We are dedicated to providing outstanding architectural and design services that meet the
-						functional and aesthetic.</p>
-					<a href="#" class="learn-more">Learn More <span>↗</span></a>
+					<h4>{{ homepage.infoSection.title }}</h4>
+					<p>{{ homepage.infoSection.description }}</p>
+					<a href="{{ homepage.infoSection.learnMoreLink }}" class="learn-more">Learn More <span>↗</span></a>
 				</div>
 			</div>
 		</div>
 
 		<div class="right-section">
-			<div class="brand">herman & miller</div>
-			<h2>Delivering unmatched<br>quality, effective and<br>inspiring space.</h2>
+			<div class="brand">{{ homepage.infoSection.brand }}</div>
+			<h2>{{ homepage.infoSection.brandDescription | safe }}</h2>
 		</div>
 
 		<div class="stats">
+			{% for stat in homepage.infoSection.stats %}
 			<div>
-				<span><b>250+</b> very satisfied clients around the worldwide.</span>
+				<span><b>{{ stat.number }}</b> {{ stat.text }}</span>
 			</div>
-			<div>
-				<span><b>50+</b> good award winning architecture agency.</span>
-			</div>
-			<div>
-				<span><b>500+</b> building has been constructed with us.</span>
-			</div>
+			{% endfor %}
 		</div>
 	</div>
 </div>
@@ -504,8 +481,8 @@ title: Home
 <!-- Navigation -->
 <div class="container-fluid custom-padding">
 	<div class="custom-header header-padding">
-		<p class="custom-header-subtitle">Our Best Work</p>
-		<h1 class="custom-header-title">Spaces that speak for themselves</h1>
+		<p class="custom-header-subtitle">{{ homepage.projectsSection.subtitle }}</p>
+		<h1 class="custom-header-title">{{ homepage.projectsSection.title }}</h1>
 	</div>
 
 	<div class="nav-wrapper">
@@ -555,8 +532,8 @@ title: Home
 
 <div class="container-fluid custom-padding" style="background-color: #F7F7F7">
 	<div class="custom-header header-padding">
-		<p class="custom-header-subtitle">Our Customer's Review</p>
-		<h1 class="custom-header-title">Their words, our work.</h1>
+		<p class="custom-header-subtitle">{{ homepage.reviewsSection.subtitle }}</p>
+		<h1 class="custom-header-title">{{ homepage.reviewsSection.title }}</h1>
 	</div>
 	<div class="swiper-container-wrapper">
 		<!-- Navigation buttons OUTSIDE .swiper -->
@@ -575,12 +552,12 @@ title: Home
 
 <div class="contact-section custom-padding">
 	<div class="contact-left">
-		<h2>Contacts</h2>
+		<h2>{{ homepage.contactSection.title }}</h2>
 		<div class="underline"></div>
-		<p>172-11 65th Ave, Flushing, NY<br>11365, USA.</p>
-		<p class="mt-3"><strong>+1 (234) 567 89 00</strong></p>
-		<p><a href="mailto:nuwah@email.com" style="color:white">nuwah@email.com</a></p>
-		<button class="btn btn-quote">REQUEST A QUOTE</button>
+		<p>{{ homepage.contactSection.address | safe }}</p>
+		<p class="mt-3"><strong>{{ homepage.contactSection.phone }}</strong></p>
+		<p><a href="mailto:{{ homepage.contactSection.email }}" style="color:white">{{ homepage.contactSection.email }}</a></p>
+		<button class="btn btn-quote">{{ homepage.contactSection.buttonText }}</button>
 	</div>
 
 	<div class="map-area">

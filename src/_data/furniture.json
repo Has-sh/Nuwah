@@ -8,6 +8,7 @@
         "price": 1299.99,
         "featured": 1,
         "slug": "modern-sectional-sofa",
+        "onSale": true,
         "colorOptions": [
           "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
         ]
@@ -17,6 +18,8 @@
         "title": "Luxury Leather Sofa",
         "price": 2199.99,
         "featured": 2,
+        "slug": "luxury-leather-sofa",
+        "onSale": true,
         "colorOptions": [
           "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
         ]
@@ -26,6 +29,8 @@
         "title": "Minimalist Loveseat",
         "price": 899.99,
         "featured": 3,
+        "slug": "minimalist-loveseat",
+        "onSale": false,
         "colorOptions": [
           "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
         ]
@@ -40,6 +45,8 @@
         "title": "Oak Dining Table",
         "price": 899.99,
         "featured": 2,
+        "slug": "oak-dining-table",
+        "onSale": true,
         "colorOptions": [
           "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
         ]
@@ -49,6 +56,8 @@
         "title": "Glass Coffee Table",
         "price": 549.99,
         "featured": 1,
+        "slug": "glass-coffee-table",
+        "onSale": false,
         "colorOptions": [
           "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
         ]
@@ -58,6 +67,8 @@
         "title": "Industrial Desk",
         "price": 1299.99,
         "featured": 3,
+        "slug": "industrial-desk",
+        "onSale": true,
         "colorOptions": [
           "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
         ]
@@ -72,6 +83,8 @@
         "title": "Office Chair",
         "price": 299.99,
         "featured": 3,
+        "slug": "office-chair",
+        "onSale": false,
         "colorOptions": [
           "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
         ]
@@ -81,6 +94,8 @@
         "title": "Ergonomic Desk Chair",
         "price": 599.99,
         "featured": 1,
+        "slug": "ergonomic-desk-chair",
+        "onSale": true,
         "colorOptions": [
           "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
         ]
@@ -90,6 +105,8 @@
         "title": "Vintage Armchair",
         "price": 799.99,
         "featured": 2,
+        "slug": "vintage-armchair",
+        "onSale": false,
         "colorOptions": [
           "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
           "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
@@ -100,6 +117,8 @@
         "title": "Boston Accent Chair",
         "price": 2390.00,
         "featured": 1,
+        "slug": "boston-accent-chair",
+        "onSale": true,
         "colorOptions": [
           "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
           "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",

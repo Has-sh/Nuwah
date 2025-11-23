@@ -95,8 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 	// Welcome text animation
 	const welcomeText = document.querySelector('.welcome-text');
-	welcomeText.style.opacity = '0';
-	welcomeText.style.transform = 'translateY(20px)';
+	if (welcomeText) {
+		welcomeText.style.opacity = '0';
+		welcomeText.style.transform = 'translateY(20px)';
+	}
 	welcomeText.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
 
 	setTimeout(() => {
@@ -256,6 +258,15 @@ function changeBackgroundImages() {
 
 	document.querySelectorAll('.category-card').forEach(card => {
 		observer.observe(card);
+		
+		// Add click handler to initial category cards
+		card.addEventListener('click', function() {
+			const categoryId = this.dataset.id || this.dataset.category;
+			if (categoryId) {
+				// Navigate to furniture page with category filter
+				window.location.href = `/furnitures/?category=${categoryId}`;
+			}
+		});
 	});
 }
 
@@ -398,6 +409,9 @@ function updateContent(category) {
 	const sectionTitle = document.getElementById('section-title');
 	const sectionDescription = document.getElementById('section-description');
 	const categoryGrid = document.getElementById('category-grid');
+	
+	if (!sectionTitle || !sectionDescription || !categoryGrid) return;
+	
 	const headerSection = sectionTitle.closest('.header-padding');
 
 	// Start fade out animations
@@ -442,8 +456,50 @@ function updateContent(category) {
 			headerSection.classList.add('section-fade-in');
 			categoryGrid.classList.add('card-fade-in');
 
-			// Re-initialize background images for new cards
-			changeBackgroundImages();
+		// Re-initialize background images for new cards (without intervals - static images only)
+		// Only set initial images, don't start intervals for category switching
+		const cardImages = {
+			'sectional-sofas': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'leather-sofas': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'fabric-sofas': ['https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80'],
+			'vanity-units': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'shower-systems': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'bathroom-accessories': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'coffee-tables': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'tv-units': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'armchairs': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'crystal-chandeliers': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'modern-chandeliers': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'vintage-chandeliers': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'bed-frames': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'wardrobes': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'nightstands': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'table-lamps': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'floor-lamps': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80'],
+			'pendant-lights': ['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80']
+		};
+		
+		// Set static images only (no intervals)
+		document.querySelectorAll('.category-card').forEach(card => {
+			const cardId = card.dataset.id;
+			const images = cardImages[cardId];
+			const bg1 = card.querySelector('.bg1');
+			if (images && bg1) {
+				bg1.style.backgroundImage = `url('${images[0]}')`;
+				bg1.classList.add('show');
+			}
+			
+			// Add click handler to category cards
+			const cardElement = card;
+			cardElement.addEventListener('click', function() {
+				const categoryId = this.dataset.id || this.dataset.category;
+				// Navigate to furniture page with category filter or handle click
+				if (categoryId) {
+					// You can customize this navigation
+					window.location.href = `/furnitures/?category=${categoryId}`;
+				}
+			});
+		});
 		}, 50);
 
 		// Clean up animation classes after transition
@@ -456,40 +512,53 @@ function updateContent(category) {
 }
 
 // Add click event listeners to navigation items
-document.querySelectorAll('.furn-item').forEach(item => {
-	item.addEventListener('click', function () {
-		// Remove active class from all items
-		document.querySelectorAll('.furn-item').forEach(i => i.classList.remove('active'));
+function setupFurnItemListeners() {
+	document.querySelectorAll('.furn-item').forEach(item => {
+		// Remove existing listeners by cloning
+		const newItem = item.cloneNode(true);
+		item.parentNode.replaceChild(newItem, item);
+		
+		newItem.addEventListener('click', function () {
+			// Remove active class from all items
+			document.querySelectorAll('.furn-item').forEach(i => i.classList.remove('active'));
 
-		// Add active class to clicked item
-		this.classList.add('active');
+			// Add active class to clicked item
+			this.classList.add('active');
 
-		// Get category from data attribute
-		const category = this.dataset.category;
+			// Get category from data attribute
+			const category = this.dataset.category;
 
-		// Update content
-		updateContent(category);
+			// Update content
+			if (category) {
+				updateContent(category);
+			}
+		});
 	});
-});
+}
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
 	changeBackgroundImages();
-	updateContent("sofas");
-	document.querySelector('.furn-item[data-category="sofas"]').classList.add("active");
+	setupFurnItemListeners();
+	
+	const defaultFurnItem = document.querySelector('.furn-item[data-category="sofas"]');
+	if (defaultFurnItem) {
+		defaultFurnItem.classList.add("active");
+		updateContent("sofas");
+	}
 });
 
-const loadMoreBtn = document.getElementById("loadMoreBtn");
-const productList = document.getElementById("product-list");
-
+// Load More Button functionality
 let loadedOnce = false;
 
-// Initial setup
-loadMoreBtn.addEventListener("click", () => {
-	if (loadedOnce) return;
+document.addEventListener('DOMContentLoaded', function() {
+	const loadMoreBtn = document.getElementById("loadMoreBtn");
+	if (loadMoreBtn) {
+		loadMoreBtn.addEventListener("click", () => {
+		if (loadedOnce) return;
 
-	loadMoreBtn.disabled = true;
-	loadMoreBtn.innerHTML = `
+		loadMoreBtn.disabled = true;
+		loadMoreBtn.innerHTML = `
       <span class="loading-spinner">
         Loading
         <span class="dot"></span>
@@ -498,7 +567,7 @@ loadMoreBtn.addEventListener("click", () => {
       </span>
     `;
 
-	setTimeout(() => {
+		setTimeout(() => {
 		const newProducts = `
         <div class="col-lg-3 col-md-3 col-6">
           <div class="card product-card h-100">
@@ -541,71 +610,79 @@ loadMoreBtn.addEventListener("click", () => {
         </div>
       `;
 
-		productList.insertAdjacentHTML("beforeend", newProducts);
+			const productList = document.getElementById("product-list");
+			if (productList) {
+				productList.insertAdjacentHTML("beforeend", newProducts);
+			}
 
-		loadMoreBtn.outerHTML = `<div class="all-loaded text-center mt-2">✔ All items loaded</div>`;
-		loadedOnce = true;
-	}, 2000);
-});
-
-const sliderContainer = document.getElementById('sliderContainer');
-const handle = document.getElementById('sliderHandle');
-const afterImage = document.getElementById('afterImg');
-const beforeImage = document.getElementById('beforeImg');
-const labelBefore = document.querySelector('.label.before');
-const labelAfter = document.querySelector('.label.after');
-
-let isDragging = false;
-
-const updateSlider = (clientX) => {
-	const rect = sliderContainer.getBoundingClientRect();
-	let offsetX = clientX - rect.left;
-	offsetX = Math.max(0, Math.min(offsetX, rect.width));
-	const percent = (offsetX / rect.width) * 100;
-
-	handle.style.left = `${percent}%`;
-	afterImage.style.clipPath = `polygon(${percent}% 0%, 100% 0%, 100% 100%, ${percent}% 100%)`;
-
-	labelBefore.style.opacity = percent < 15 ? '0' : '1';
-	labelAfter.style.opacity = percent > 85 ? '0' : '1';
-};
-
-handle.addEventListener('mousedown', (e) => {
-	isDragging = true;
-	document.body.classList.add('dragging');
-	e.preventDefault();
-});
-
-document.addEventListener('mouseup', () => {
-	if (isDragging) {
-		isDragging = false;
-		document.body.classList.remove('dragging');
+			loadMoreBtn.outerHTML = `<div class="all-loaded text-center mt-2">✔ All items loaded</div>`;
+			loadedOnce = true;
+		}, 2000);
+		});
 	}
-});
 
-document.addEventListener('mousemove', (e) => {
-	if (isDragging) {
-		updateSlider(e.clientX);
-	}
-});
+	// Slider functionality
+	const sliderContainer = document.getElementById('sliderContainer');
+	const handle = document.getElementById('sliderHandle');
+	const afterImage = document.getElementById('afterImg');
+	const beforeImage = document.getElementById('beforeImg');
+	const labelBefore = document.querySelector('.label.before');
+	const labelAfter = document.querySelector('.label.after');
 
-handle.addEventListener('touchstart', (e) => {
-	isDragging = true;
-	document.body.classList.add('dragging');
-	e.preventDefault();
-});
+	if (sliderContainer && handle && afterImage && beforeImage) {
+		let isDragging = false;
 
-document.addEventListener('touchend', () => {
-	if (isDragging) {
-		isDragging = false;
-		document.body.classList.remove('dragging');
-	}
-});
+		const updateSlider = (clientX) => {
+			const rect = sliderContainer.getBoundingClientRect();
+			let offsetX = clientX - rect.left;
+			offsetX = Math.max(0, Math.min(offsetX, rect.width));
+			const percent = (offsetX / rect.width) * 100;
 
-document.addEventListener('touchmove', (e) => {
-	if (isDragging) {
-		updateSlider(e.touches[0].clientX);
-		e.preventDefault();
+			handle.style.left = `${percent}%`;
+			afterImage.style.clipPath = `polygon(${percent}% 0%, 100% 0%, 100% 100%, ${percent}% 100%)`;
+
+			if (labelBefore) labelBefore.style.opacity = percent < 15 ? '0' : '1';
+			if (labelAfter) labelAfter.style.opacity = percent > 85 ? '0' : '1';
+		};
+
+		handle.addEventListener('mousedown', (e) => {
+			isDragging = true;
+			document.body.classList.add('dragging');
+			e.preventDefault();
+		});
+
+		document.addEventListener('mouseup', () => {
+			if (isDragging) {
+				isDragging = false;
+				document.body.classList.remove('dragging');
+			}
+		});
+
+		document.addEventListener('mousemove', (e) => {
+			if (isDragging) {
+				updateSlider(e.clientX);
+			}
+		});
+
+		handle.addEventListener('touchstart', (e) => {
+			isDragging = true;
+			document.body.classList.add('dragging');
+			e.preventDefault();
+		});
+
+		document.addEventListener('touchend', () => {
+			if (isDragging) {
+				isDragging = false;
+				document.body.classList.remove('dragging');
+			}
+		});
+
+		document.addEventListener('touchmove', (e) => {
+			if (isDragging) {
+				updateSlider(e.touches[0].clientX);
+				e.preventDefault();
+			}
+		});
 	}
 });
 
@@ -630,8 +707,29 @@ const imageMap = {
 
 function toggleDropdown() {
 	const nav = document.getElementById('navBar');
-	const caret = document.getElementById('caret');
-	nav.classList.toggle('show');
+	if (nav) {
+		nav.classList.toggle('show');
+	}
+}
+
+// Handle button clicks for package cards
+function handleButtonClick(button) {
+	const buttonText = button.textContent.trim();
+	const card = button.closest('.custom-card');
+	const cardTitle = card ? card.querySelector('.custom-card-title')?.textContent : '';
+	
+	if (buttonText === 'Enquire Now') {
+		// Handle enquiry - you can customize this
+		const message = `I'm interested in: ${cardTitle}`;
+		const whatsappNumber = '971501234567'; // Replace with your WhatsApp number
+		const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+		window.open(whatsappUrl, '_blank');
+	} else if (buttonText === 'View More') {
+		// Handle view more - you can customize this
+		// For now, just log or navigate to a detail page
+		console.log('View more for:', cardTitle);
+		// window.location.href = `/packages/${cardTitle.toLowerCase().replace(/\s+/g, '-')}`;
+	}
 }
 
 function handleResize() {
@@ -646,29 +744,47 @@ function handleResize() {
 window.addEventListener('load', handleResize);
 window.addEventListener('resize', handleResize);
 
-document.querySelectorAll('.nav-item').forEach(btn => {
-	btn.addEventListener('click', () => {
-		document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-		btn.classList.add('active');
+// Navigation items for projects section
+document.addEventListener('DOMContentLoaded', function() {
+	const navItems = document.querySelectorAll('.nav-item');
+	const beforeImage = document.getElementById('beforeImg');
+	const afterImage = document.getElementById('afterImg');
+	const handle = document.getElementById('sliderHandle');
+	const labelBefore = document.querySelector('.label.before');
+	const labelAfter = document.querySelector('.label.after');
+	
+	if (navItems.length > 0 && beforeImage && afterImage && handle) {
+		navItems.forEach(btn => {
+			btn.addEventListener('click', () => {
+				document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+				btn.classList.add('active');
 
-		const label = btn.textContent.trim();
-		document.getElementById('activeLabel').textContent = label.toUpperCase();
+				const label = btn.textContent.trim();
+				const activeLabel = document.getElementById('activeLabel');
+				if (activeLabel) {
+					activeLabel.textContent = label.toUpperCase();
+				}
 
-		const images = imageMap[label];
-		if (images) {
-			beforeImage.src = images.before;
-			afterImage.src = images.after;
+				const images = imageMap[label];
+				if (images) {
+					beforeImage.src = images.before;
+					afterImage.src = images.after;
 
-			handle.style.left = `50%`;
-			afterImage.style.clipPath = `polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)`;
-			labelBefore.style.opacity = '1';
-			labelAfter.style.opacity = '1';
-		}
+					handle.style.left = `50%`;
+					afterImage.style.clipPath = `polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)`;
+					if (labelBefore) labelBefore.style.opacity = '1';
+					if (labelAfter) labelAfter.style.opacity = '1';
+				}
 
-		if (window.innerWidth <= 768) {
-			document.getElementById('navBar').classList.remove('show');
-		}
-	});
+				if (window.innerWidth <= 768) {
+					const navBar = document.getElementById('navBar');
+					if (navBar) {
+						navBar.classList.remove('show');
+					}
+				}
+			});
+		});
+	}
 });
 
 const fakeReviews = [

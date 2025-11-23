@@ -225,6 +225,10 @@ pagination:
     color: var(--text-muted);
     margin-bottom: 20px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 @media (min-width: 576px) {
@@ -238,6 +242,17 @@ pagination:
     .product-price {
         margin-bottom: 30px;
     }
+}
+
+.sale-badge {
+    background: var(--accent-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 /* Color Selection */
@@ -279,6 +294,31 @@ pagination:
     }
 }
 
+.color-swatches {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.color-swatch.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.3);
+}
+
+/* Legacy support for old image-based color options */
 .color-option {
     width: 28px;
     height: 28px;
@@ -648,7 +688,7 @@ pagination:
 
 /* Touch friendly improvements for mobile */
 @media (max-width: 767.98px) {
-    .btn, .quantity-btn, .color-option {
+    .btn, .quantity-btn, .color-option, .color-swatch {
         min-height: 44px;
         min-width: 44px;
     }
@@ -666,6 +706,7 @@ pagination:
         image-rendering: crisp-edges;
     }
 }
+/* Legacy support for old image-based color options */
 .color-option-img {
     width: 50px;
     height: 50px;
@@ -749,23 +790,39 @@ pagination:
         <div class="col-12 col-lg-6">
             <div class="product-info">
                 <h1 class="product-title">{{ product.name }}</h1>
-                <div class="product-price">{{ product.currency }} {{ product.price }}</div>
+                <div class="product-price">
+                    {% set defaultColor = product.colorOptions[0] %}
+                    <span class="current-price">{{ product.currency }} <span id="priceValue">{{ defaultColor.price if defaultColor.price else product.price }}</span></span>
+                    {% if defaultColor.originalPrice %}
+                    <span class="original-price" id="originalPriceContainer" style="text-decoration: line-through; color: var(--text-muted); display: inline;">{{ product.currency }} <span id="originalPriceValue">{{ defaultColor.originalPrice }}</span></span>
+                    {% else %}
+                    <span class="original-price" id="originalPriceContainer" style="display: none;">{{ product.currency }} <span id="originalPriceValue"></span></span>
+                    {% endif %}
+                    {% if defaultColor.salePercentage %}
+                    <span class="sale-badge" id="saleBadge">{{ defaultColor.salePercentage }}</span>
+                    {% else %}
+                    <span class="sale-badge" id="saleBadge" style="display: none;"></span>
+                    {% endif %}
+                </div>
 
                 <!-- Color Selection -->
         <div class="color-section">
-    <label class="color-label">Color: <span id="selectedColor">{{ product.color }}</span></label>
-    <div class="color-options">
+    <label class="color-label">Color: <span id="selectedColor">{{ product.colorOptions[0].name if product.colorOptions[0] else product.color }}</span></label>
+    <div class="color-swatches">
         {% for colorOption in product.colorOptions %}
-        <img src="{{ colorOption.image }}"
-             alt="{{ colorOption.name }}"
-             class="color-option-img{% if loop.first %} active{% endif %}"
+        <div class="color-swatch{% if loop.first %} active{% endif %}"
+             style="background: {{ colorOption.code }}; {% if colorOption.code == '#ffffff' or colorOption.code == '#FFFFFF' %}border-color: #ddd;{% endif %}"
              data-color="{{ colorOption.name }}"
              data-image="{{ colorOption.image }}"
+             data-price="{{ colorOption.price or product.price }}"
+             data-original-price="{{ colorOption.originalPrice or '' }}"
+             data-sale="{{ colorOption.salePercentage or '' }}"
              data-gallery='{{ colorOption.gallery | dump | escape }}'
-             loading="lazy"
+             onclick="selectColorSwatch(this, '{{ colorOption.name }}', '{{ colorOption.image }}', '{{ colorOption.price or product.price }}', '{{ colorOption.originalPrice or '' }}', '{{ colorOption.salePercentage or '' }}', {{ colorOption.gallery | dump | escape }})"
              role="button"
              tabindex="0"
-             aria-label="Select {{ colorOption.name }} color" />
+             aria-label="Select {{ colorOption.name }} color"
+             title="{{ colorOption.name }}"></div>
         {% endfor %}
     </div>
 </div>
@@ -838,6 +895,104 @@ pagination:
 </div>
 
 <script>
+    // Color swatch selection function (like packages)
+    function selectColorSwatch(swatch, colorName, colorImage, colorPrice, colorOriginalPrice, colorSale, gallery) {
+        // Remove active from all swatches
+        document.querySelectorAll('.color-swatch').forEach(s => {
+            s.classList.remove('active');
+        });
+        swatch.classList.add('active');
+
+        // Update selected color text
+        const selectedColorSpan = document.getElementById('selectedColor');
+        if (selectedColorSpan) {
+            selectedColorSpan.textContent = colorName;
+        }
+
+        // Update pricing
+        const priceValue = document.getElementById('priceValue');
+        const originalPriceContainer = document.getElementById('originalPriceContainer');
+        const originalPriceValue = document.getElementById('originalPriceValue');
+        const saleBadge = document.getElementById('saleBadge');
+        
+        if (priceValue && colorPrice) {
+            priceValue.textContent = colorPrice;
+        }
+        
+        if (colorOriginalPrice && colorOriginalPrice.trim() !== '') {
+            if (originalPriceContainer) {
+                originalPriceContainer.style.display = 'inline';
+            }
+            if (originalPriceValue) {
+                originalPriceValue.textContent = colorOriginalPrice;
+            }
+        } else {
+            if (originalPriceContainer) {
+                originalPriceContainer.style.display = 'none';
+            }
+        }
+        
+        if (colorSale && colorSale.trim() !== '') {
+            if (saleBadge) {
+                saleBadge.textContent = colorSale;
+                saleBadge.style.display = 'inline';
+            }
+        } else {
+            if (saleBadge) {
+                saleBadge.style.display = 'none';
+            }
+        }
+
+        // Update main image
+        const mainImage = document.getElementById('mainImage');
+        if (mainImage && colorImage) {
+            mainImage.src = colorImage;
+        }
+
+        // Update gallery
+        let galleryArray = gallery;
+        if (typeof gallery === 'string') {
+            try {
+                galleryArray = JSON.parse(gallery);
+            } catch (e) {
+                console.error('Error parsing gallery:', e);
+                galleryArray = [];
+            }
+        }
+        
+        if (galleryArray && Array.isArray(galleryArray) && galleryArray.length > 0) {
+            const imageGallery = document.querySelector('.image-gallery');
+            if (imageGallery) {
+                // Clear old gallery
+                imageGallery.innerHTML = '';
+                
+                // Build new gallery
+                galleryArray.forEach((url, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = url;
+                    thumb.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
+                    thumb.alt = `${colorName} - Image ${index + 1}`;
+                    thumb.loading = 'lazy';
+                    
+                    thumb.onclick = () => {
+                        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
+                        if (mainImage) {
+                            mainImage.src = url;
+                        }
+                    };
+                    
+                    imageGallery.appendChild(thumb);
+                });
+                
+                // Update main image if gallery has images
+                if (mainImage) {
+                    mainImage.src = galleryArray[0];
+                }
+            }
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Quantity controls
             // WhatsApp button functionality
@@ -894,6 +1049,44 @@ pagination:
             const selectedColorSpan = document.getElementById('selectedColor');
             if (selectedColorSpan) {
                 selectedColorSpan.textContent = opt.getAttribute('data-color');
+            }
+
+            // Update pricing
+            const priceValue = document.getElementById('priceValue');
+            const originalPriceContainer = document.getElementById('originalPriceContainer');
+            const originalPriceValue = document.getElementById('originalPriceValue');
+            const saleBadge = document.getElementById('saleBadge');
+            
+            const colorPrice = opt.getAttribute('data-price');
+            const colorOriginalPrice = opt.getAttribute('data-original-price');
+            const colorSale = opt.getAttribute('data-sale');
+            
+            if (priceValue && colorPrice) {
+                priceValue.textContent = colorPrice;
+            }
+            
+            if (colorOriginalPrice && colorOriginalPrice.trim() !== '') {
+                if (originalPriceContainer) {
+                    originalPriceContainer.style.display = 'inline';
+                }
+                if (originalPriceValue) {
+                    originalPriceValue.textContent = colorOriginalPrice;
+                }
+            } else {
+                if (originalPriceContainer) {
+                    originalPriceContainer.style.display = 'none';
+                }
+            }
+            
+            if (colorSale && colorSale.trim() !== '') {
+                if (saleBadge) {
+                    saleBadge.textContent = colorSale;
+                    saleBadge.style.display = 'inline';
+                }
+            } else {
+                if (saleBadge) {
+                    saleBadge.style.display = 'none';
+                }
             }
 
             // Parse gallery

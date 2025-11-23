@@ -183,6 +183,21 @@ eleventyComputed:
     overflow: hidden;
 }
 
+.product-sale-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .product-image {
     position: absolute;
     top: 0;
@@ -491,6 +506,9 @@ eleventyComputed:
              data-featured="{{ product.featured }}"
              data-category="{{ items.category }}">
           <div class="product-image-container">
+            {% if product.onSale %}
+            <span class="product-sale-badge">On Sale</span>
+            {% endif %}
             <img src="{{ product.colorOptions[0] }}" 
                  alt="{{ product.title }}" 
                  class="product-image" 

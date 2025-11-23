@@ -1,0 +1,304 @@
+{
+  "hero": {
+    "welcomeText": "WELCOME TO Nuwah",
+    "tagline": "Creating Emotion Through Space",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+    "heroImage": "/assets/img/hero-cover.webp",
+    "primaryButton": {
+      "text": "Get Started",
+      "link": "#"
+    },
+    "secondaryButton": {
+      "text": "View Project",
+      "link": "#"
+    },
+    "socialLinks": {
+      "instagram": "#",
+      "twitter": "#",
+      "facebook": "#"
+    }
+  },
+  "packagesSection": {
+    "subtitle": "Our Packages",
+    "title": "Designs Worth Another Look",
+    "packages": []
+  },
+  "furnitureSection": {
+    "subtitle": "Our Furnitures",
+    "title": "Crafted With Quality in Mind"
+  },
+  "categorySections": {
+    "sofas": {
+      "title": "Sofas Collection",
+      "description": "Discover our premium sofa collection featuring contemporary designs and luxurious comfort.",
+      "cards": [
+        {
+          "id": "sectional-sofas",
+          "title": "Sectional Sofas",
+          "subtitle": "Perfect for large living spaces with modular design",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "leather-sofas",
+          "title": "Leather Sofas",
+          "subtitle": "Premium leather craftsmanship for timeless elegance",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "fabric-sofas",
+          "title": "Fabric Sofas",
+          "subtitle": "Comfortable and stylish fabric options in various colors",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ]
+    },
+    "bathroom": {
+      "title": "Bathroom Essentials",
+      "description": "Transform your bathroom with our modern fixtures and elegant accessories.",
+      "cards": [
+        {
+          "id": "vanity-units",
+          "title": "Vanity Units",
+          "subtitle": "Stylish storage solutions for your bathroom",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "shower-systems",
+          "title": "Shower Systems",
+          "subtitle": "Luxurious shower experiences with modern technology",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "bathroom-accessories",
+          "title": "Bathroom Accessories",
+          "subtitle": "Complete your bathroom with premium accessories",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ]
+    },
+    "living": {
+      "title": "Living Room Furniture",
+      "description": "Create the perfect living space with our curated collection of modern furniture.",
+      "cards": [
+        {
+          "id": "coffee-tables",
+          "title": "Coffee Tables",
+          "subtitle": "Centerpiece furniture for your living room",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "tv-units",
+          "title": "TV Units",
+          "subtitle": "Stylish entertainment centers for modern homes",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "armchairs",
+          "title": "Armchairs",
+          "subtitle": "Comfortable seating with contemporary design",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ]
+    },
+    "chandelier": {
+      "title": "Chandelier Collection",
+      "description": "Illuminate your space with our exquisite chandelier collection.",
+      "cards": [
+        {
+          "id": "crystal-chandeliers",
+          "title": "Crystal Chandeliers",
+          "subtitle": "Elegant crystal designs for luxury spaces",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "modern-chandeliers",
+          "title": "Modern Chandeliers",
+          "subtitle": "Contemporary lighting solutions",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "vintage-chandeliers",
+          "title": "Vintage Chandeliers",
+          "subtitle": "Classic designs with timeless appeal",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ]
+    },
+    "bedroom": {
+      "title": "Bedroom Collection",
+      "description": "Create your perfect sanctuary with our bedroom furniture collection.",
+      "cards": [
+        {
+          "id": "bed-frames",
+          "title": "Bed Frames",
+          "subtitle": "Stylish and comfortable bed frames",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "wardrobes",
+          "title": "Wardrobes",
+          "subtitle": "Spacious storage solutions",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "nightstands",
+          "title": "Nightstands",
+          "subtitle": "Functional bedside furniture",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ]
+    },
+    "lamps": {
+      "title": "Lamps Collection",
+      "description": "Light up your space with our diverse lamp collection.",
+      "cards": [
+        {
+          "id": "table-lamps",
+          "title": "Table Lamps",
+          "subtitle": "Perfect for desks and bedside tables",
+          "images": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "floor-lamps",
+          "title": "Floor Lamps",
+          "subtitle": "Statement lighting for any room",
+          "images": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+          ]
+        },
+        {
+          "id": "pendant-lights",
+          "title": "Pendant Lights",
+          "subtitle": "Modern hanging light fixtures",
+          "images": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"
+          ]
+        }
+      ]
+    }
+  },
+  "categories": [
+    {
+      "id": "sofas",
+      "label": "Sofas",
+      "icon": "sofa"
+    },
+    {
+      "id": "bathroom",
+      "label": "Bathroom",
+      "icon": "bathroom"
+    },
+    {
+      "id": "living",
+      "label": "Living Room",
+      "icon": "living"
+    },
+    {
+      "id": "chandelier",
+      "label": "Chandelier",
+      "icon": "chandelier"
+    },
+    {
+      "id": "bedroom",
+      "label": "Bedroom",
+      "icon": "bedroom"
+    },
+    {
+      "id": "lamps",
+      "label": "Lamps",
+      "icon": "lamps"
+    }
+  ],
+  "showcaseSection": {
+    "subtitle": "Showcase of Our Work",
+    "title": "Beautiful spaces awaits you",
+    "images": []
+  },
+  "infoSection": {
+    "years": "38",
+    "title": "ESTABLISHED FOR 18 YEARS.",
+    "description": "We are dedicated to providing outstanding architectural and design services that meet the functional and aesthetic.",
+    "learnMoreLink": "#",
+    "brand": "herman & miller",
+    "brandDescription": "Delivering unmatched<br>quality, effective and<br>inspiring space.",
+    "stats": [
+      {
+        "number": "250+",
+        "text": "very satisfied clients around the worldwide."
+      },
+      {
+        "number": "50+",
+        "text": "good award winning architecture agency."
+      },
+      {
+        "number": "500+",
+        "text": "building has been constructed with us."
+      }
+    ]
+  },
+  "projectsSection": {
+    "subtitle": "Our Best Work",
+    "title": "Spaces that speak for themselves"
+  },
+  "reviewsSection": {
+    "subtitle": "Our Customer's Review",
+    "title": "Their words, our work."
+  },
+  "contactSection": {
+    "title": "Contacts",
+    "address": "172-11 65th Ave, Flushing, NY<br>11365, USA.",
+    "phone": "+1 (234) 567 89 00",
+    "email": "nuwah@email.com",
+    "buttonText": "REQUEST A QUOTE"
+  }
+}
