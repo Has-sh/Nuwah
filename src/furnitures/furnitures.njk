@@ -229,6 +229,22 @@ eleventyComputed:
     color: #666;
     margin-bottom: 20px;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.product-price .current-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #dc3545;
+}
+
+.product-price .original-price {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
 }
 
 .color-options {
@@ -517,7 +533,14 @@ eleventyComputed:
           </div>
           <div class="product-info">
             <h3 class="product-title">{{ product.title }}</h3>
-            <p class="product-price">Dhs. {{ product.price | round(2) }}</p>
+            <div class="product-price">
+              {% set minPrice = product | minFurniturePrice %}
+              {% set minOriginalPrice = product | minFurnitureOriginalPrice %}
+              <span class="current-price">From Dhs. {{ minPrice }}</span>
+              {% if minOriginalPrice %}
+              <span class="original-price">Dhs. {{ minOriginalPrice }}</span>
+              {% endif %}
+            </div>
             {% if product.colorOptions | length > 1 %}
             <div class="color-options">
               {% for color in product.colorOptions %}

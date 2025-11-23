@@ -47,6 +47,71 @@ title: Admin Panel
         margin-bottom: 10px;
     }
 
+    .admin-header-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .download-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .download-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .download-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .download-dropdown-content {
+        display: none;
+        position: absolute;
+        background: white;
+        min-width: 200px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 1000;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+
+    .download-dropdown-content.show {
+        display: block;
+    }
+
+    .download-dropdown-item {
+        color: #333;
+        padding: 12px 20px;
+        text-decoration: none;
+        display: block;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .download-dropdown-item:hover {
+        background: #f0f0f0;
+    }
+
+    .download-dropdown-item i {
+        margin-right: 8px;
+        width: 20px;
+    }
+
     .admin-tabs {
         display: flex;
         gap: 10px;
@@ -356,6 +421,32 @@ title: Admin Panel
     <div class="admin-header">
         <h1>🚀 Nuwah Admin Panel</h1>
         <p>Manage your website content: Packages, Products, Furniture, and Projects</p>
+        <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 10px;">
+            <i class="fas fa-info-circle"></i> 
+            <strong>Cloudflare Pages:</strong> Click "Load Current Data" to load JSON files, then "Save to JSON" to download updated files for upload to your repository.
+        </p>
+        <div class="admin-header-actions">
+            <div class="download-dropdown">
+                <button class="download-btn" onclick="toggleDownloadDropdown()">
+                    <i class="fas fa-download"></i> Download JSON Files
+                    <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                </button>
+                <div class="download-dropdown-content" id="downloadDropdown">
+                    <a href="#" class="download-dropdown-item" onclick="downloadJSON('packages'); return false;">
+                        <i class="fas fa-file-code"></i> packages.json
+                    </a>
+                    <a href="#" class="download-dropdown-item" onclick="downloadJSON('products'); return false;">
+                        <i class="fas fa-file-code"></i> products.json
+                    </a>
+                    <a href="#" class="download-dropdown-item" onclick="downloadJSON('furniture'); return false;">
+                        <i class="fas fa-file-code"></i> furniture.json
+                    </a>
+                    <a href="#" class="download-dropdown-item" onclick="downloadJSON('projects'); return false;">
+                        <i class="fas fa-file-code"></i> projects.json
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="alertContainer"></div>
@@ -525,17 +616,47 @@ title: Admin Panel
     async function loadPackagesData() {
         try {
             const apiBase = getApiBaseUrl();
-            let response = await fetch(`${apiBase}/api/packages`);
-            if (!response.ok) {
-                response = await fetch(`${apiBase}/_data/packages.json`);
-                if (!response.ok) throw new Error('Failed to load');
+            let response;
+            
+            // Try API first (for local development)
+            try {
+                response = await fetch(`${apiBase}/api/packages`);
+                if (response.ok) {
+                    packagesData = await response.json();
+                    renderPackagesList();
+                    showAlert('Packages data loaded successfully!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to static file fallback
             }
-            packagesData = await response.json();
-            renderPackagesList();
-            showAlert('Packages data loaded successfully!', 'success');
+            
+            // Try static file paths (for Cloudflare Pages)
+            const staticPaths = [
+                `${apiBase}/_data/packages.json`,
+                `${apiBase}/src/_data/packages.json`,
+                '/_data/packages.json',
+                '/src/_data/packages.json'
+            ];
+            
+            for (const path of staticPaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        packagesData = await response.json();
+                        renderPackagesList();
+                        showAlert('Packages data loaded successfully!', 'success');
+                        return;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            throw new Error('Could not load packages data from any source');
         } catch (error) {
             console.error('Error loading packages data:', error);
-            showAlert('Error loading packages data. Please ensure server is running (npm start).', 'error');
+            showAlert('Error loading packages data. Make sure the JSON file exists in your repository.', 'error');
         }
     }
 
@@ -904,19 +1025,92 @@ title: Admin Panel
         }
     }
 
+    // Download dropdown toggle
+    function toggleDownloadDropdown() {
+        const dropdown = document.getElementById('downloadDropdown');
+        dropdown.classList.toggle('show');
+    }
+
+    // Close dropdown when clicking outside
+    window.onclick = function(event) {
+        if (!event.target.matches('.download-btn') && !event.target.closest('.download-dropdown')) {
+            const dropdown = document.getElementById('downloadDropdown');
+            if (dropdown && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    }
+
+    // Download JSON file function
+    function downloadJSON(type) {
+        let data, filename;
+        
+        switch(type) {
+            case 'packages':
+                data = packagesData;
+                filename = 'packages.json';
+                break;
+            case 'products':
+                data = productsData;
+                filename = 'products.json';
+                break;
+            case 'furniture':
+                data = furnitureData;
+                filename = 'furniture.json';
+                break;
+            case 'projects':
+                data = projectsData;
+                filename = 'projects.json';
+                break;
+            default:
+                showAlert('Invalid file type', 'error');
+                return;
+        }
+
+        // Check if data is loaded
+        if (!data || (Array.isArray(data) && data.length === 0) || 
+            (typeof data === 'object' && Object.keys(data).length === 0)) {
+            showAlert(`Please load ${type} data first before downloading.`, 'error');
+            return;
+        }
+
+        // Create blob and download
+        const jsonString = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showAlert(`${filename} downloaded successfully!`, 'success');
+        toggleDownloadDropdown(); // Close dropdown
+    }
+
     async function savePackagesData() {
         try {
+            // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
-            const response = await fetch(`${apiBase}/api/packages`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(packagesData, null, 2)
-            });
-            if (response.ok) {
-                showAlert('Packages data saved successfully!', 'success');
-            } else {
-                throw new Error('Save failed');
+            try {
+                const response = await fetch(`${apiBase}/api/packages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(packagesData, null, 2)
+                });
+                if (response.ok) {
+                    showAlert('Packages data saved successfully to server!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, fall through to download
             }
+            
+            // For Cloudflare Pages (static hosting), download the file instead
+            downloadJSON('packages');
+            showAlert('Packages data downloaded! Upload packages.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving packages data: ' + error.message, 'error');
         }
@@ -926,17 +1120,47 @@ title: Admin Panel
     async function loadProductsData() {
         try {
             const apiBase = getApiBaseUrl();
-            let response = await fetch(`${apiBase}/api/products`);
-            if (!response.ok) {
-                response = await fetch(`${apiBase}/_data/products.json`);
-                if (!response.ok) throw new Error('Failed to load');
+            let response;
+            
+            // Try API first (for local development)
+            try {
+                response = await fetch(`${apiBase}/api/products`);
+                if (response.ok) {
+                    productsData = await response.json();
+                    renderProductsList();
+                    showAlert('Products data loaded successfully!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to static file fallback
             }
-            productsData = await response.json();
-            renderProductsList();
-            showAlert('Products data loaded successfully!', 'success');
+            
+            // Try static file paths (for Cloudflare Pages)
+            const staticPaths = [
+                `${apiBase}/_data/products.json`,
+                `${apiBase}/src/_data/products.json`,
+                '/_data/products.json',
+                '/src/_data/products.json'
+            ];
+            
+            for (const path of staticPaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        productsData = await response.json();
+                        renderProductsList();
+                        showAlert('Products data loaded successfully!', 'success');
+                        return;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            throw new Error('Could not load products data from any source');
         } catch (error) {
             console.error('Error loading products data:', error);
-            showAlert('Error loading products data. Please ensure server is running (npm start).', 'error');
+            showAlert('Error loading products data. Make sure the JSON file exists in your repository.', 'error');
         }
     }
 
@@ -1112,17 +1336,25 @@ title: Admin Panel
 
     async function saveProductsData() {
         try {
+            // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
-            const response = await fetch(`${apiBase}/api/products`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(productsData, null, 2)
-            });
-            if (response.ok) {
-                showAlert('Products data saved successfully!', 'success');
-            } else {
-                throw new Error('Save failed');
+            try {
+                const response = await fetch(`${apiBase}/api/products`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(productsData, null, 2)
+                });
+                if (response.ok) {
+                    showAlert('Products data saved successfully to server!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, fall through to download
             }
+            
+            // For Cloudflare Pages (static hosting), download the file instead
+            downloadJSON('products');
+            showAlert('Products data downloaded! Upload products.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving products data: ' + error.message, 'error');
         }
@@ -1132,17 +1364,47 @@ title: Admin Panel
     async function loadFurnitureData() {
         try {
             const apiBase = getApiBaseUrl();
-            let response = await fetch(`${apiBase}/api/furniture`);
-            if (!response.ok) {
-                response = await fetch(`${apiBase}/_data/furniture.json`);
-                if (!response.ok) throw new Error('Failed to load');
+            let response;
+            
+            // Try API first (for local development)
+            try {
+                response = await fetch(`${apiBase}/api/furniture`);
+                if (response.ok) {
+                    furnitureData = await response.json();
+                    renderFurnitureList();
+                    showAlert('Furniture data loaded successfully!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to static file fallback
             }
-            furnitureData = await response.json();
-            renderFurnitureList();
-            showAlert('Furniture data loaded successfully!', 'success');
+            
+            // Try static file paths (for Cloudflare Pages)
+            const staticPaths = [
+                `${apiBase}/_data/furniture.json`,
+                `${apiBase}/src/_data/furniture.json`,
+                '/_data/furniture.json',
+                '/src/_data/furniture.json'
+            ];
+            
+            for (const path of staticPaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        furnitureData = await response.json();
+                        renderFurnitureList();
+                        showAlert('Furniture data loaded successfully!', 'success');
+                        return;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            throw new Error('Could not load furniture data from any source');
         } catch (error) {
             console.error('Error loading furniture data:', error);
-            showAlert('Error loading furniture data. Please ensure server is running (npm start).', 'error');
+            showAlert('Error loading furniture data. Make sure the JSON file exists in your repository.', 'error');
         }
     }
 
@@ -1296,17 +1558,25 @@ title: Admin Panel
 
     async function saveFurnitureData() {
         try {
+            // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
-            const response = await fetch(`${apiBase}/api/furniture`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(furnitureData, null, 2)
-            });
-            if (response.ok) {
-                showAlert('Furniture data saved successfully!', 'success');
-            } else {
-                throw new Error('Save failed');
+            try {
+                const response = await fetch(`${apiBase}/api/furniture`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(furnitureData, null, 2)
+                });
+                if (response.ok) {
+                    showAlert('Furniture data saved successfully to server!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, fall through to download
             }
+            
+            // For Cloudflare Pages (static hosting), download the file instead
+            downloadJSON('furniture');
+            showAlert('Furniture data downloaded! Upload furniture.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving furniture data: ' + error.message, 'error');
         }
@@ -1316,17 +1586,47 @@ title: Admin Panel
     async function loadProjectsData() {
         try {
             const apiBase = getApiBaseUrl();
-            let response = await fetch(`${apiBase}/api/projects`);
-            if (!response.ok) {
-                response = await fetch(`${apiBase}/_data/projects.json`);
-                if (!response.ok) throw new Error('Failed to load');
+            let response;
+            
+            // Try API first (for local development)
+            try {
+                response = await fetch(`${apiBase}/api/projects`);
+                if (response.ok) {
+                    projectsData = await response.json();
+                    renderProjectsList();
+                    showAlert('Projects data loaded successfully!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to static file fallback
             }
-            projectsData = await response.json();
-            renderProjectsList();
-            showAlert('Projects data loaded successfully!', 'success');
+            
+            // Try static file paths (for Cloudflare Pages)
+            const staticPaths = [
+                `${apiBase}/_data/projects.json`,
+                `${apiBase}/src/_data/projects.json`,
+                '/_data/projects.json',
+                '/src/_data/projects.json'
+            ];
+            
+            for (const path of staticPaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        projectsData = await response.json();
+                        renderProjectsList();
+                        showAlert('Projects data loaded successfully!', 'success');
+                        return;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            throw new Error('Could not load projects data from any source');
         } catch (error) {
             console.error('Error loading projects data:', error);
-            showAlert('Error loading projects data. Please ensure server is running (npm start).', 'error');
+            showAlert('Error loading projects data. Make sure the JSON file exists in your repository.', 'error');
         }
     }
 
@@ -1714,17 +2014,25 @@ title: Admin Panel
 
     async function saveProjectsData() {
         try {
+            // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
-            const response = await fetch(`${apiBase}/api/projects`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(projectsData, null, 2)
-            });
-            if (response.ok) {
-                showAlert('Projects data saved successfully!', 'success');
-            } else {
-                throw new Error('Save failed');
+            try {
+                const response = await fetch(`${apiBase}/api/projects`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(projectsData, null, 2)
+                });
+                if (response.ok) {
+                    showAlert('Projects data saved successfully to server!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, fall through to download
             }
+            
+            // For Cloudflare Pages (static hosting), download the file instead
+            downloadJSON('projects');
+            showAlert('Projects data downloaded! Upload projects.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving projects data: ' + error.message, 'error');
         }

@@ -975,6 +975,22 @@ body {
 	transition: transform 0.3s ease; /* Optional: smooth transition */
 }
 
+/* Homepage furniture sale badge - separate from furniture listing page */
+.homepage-furniture-sale-badge {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background-color: red;
+	color: white;
+	padding: 4px 10px;
+	font-size: 12px;
+	font-weight: 600;
+	border-radius: 4px;
+	z-index: 2;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
 .loading-spinner {
 	display: inline-flex;
 	align-items: center;

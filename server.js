@@ -134,7 +134,7 @@ async function startServer() {
     // Build Eleventy
     const buildProcess = spawn('npx', ['eleventy'], {
         stdio: 'inherit',
-        shell: true,
+        shell: false,
         cwd: __dirname
     });
 
@@ -152,8 +152,8 @@ async function startServer() {
         
         // Start watching for changes in watch mode (non-blocking)
         const watchProcess = spawn('npx', ['eleventy', '--watch'], {
-        stdio: ['ignore', 'pipe', 'pipe'],
-            shell: true,
+            stdio: ['ignore', 'pipe', 'pipe'],
+            shell: false,
             cwd: __dirname,
             detached: false
         });

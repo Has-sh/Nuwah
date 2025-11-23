@@ -35,8 +35,11 @@ title: Packages
                     <div class="package-info">
                         <div class="package-name">{{ pkg.name }}</div>
                         <div class="price-section">
-                            <span class="current-price">From Dhs. {{ pkg.currentPrice }}</span>
-                            <span class="original-price">Dhs. {{ pkg.originalPrice }}</span>
+                            <span class="current-price">From Dhs. {{ pkg | minPackagePrice }}</span>
+                            {% set minOriginal = pkg | minPackageOriginalPrice %}
+                            {% if minOriginal != "0" %}
+                            <span class="original-price" style="text-decoration: line-through; color: #999;">Dhs. {{ minOriginal }}</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
