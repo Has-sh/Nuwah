@@ -423,7 +423,8 @@ title: Admin Panel
         <p>Manage your website content: Packages, Products, Furniture, and Projects</p>
         <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 10px;">
             <i class="fas fa-info-circle"></i> 
-            <strong>Cloudflare Pages:</strong> Click "Load Current Data" to load JSON files, then "Save to JSON" to download updated files for upload to your repository.
+            <strong>Cloudflare Pages:</strong> "Save to JSON" will automatically update files in your GitHub repository. 
+            <a href="#" onclick="clearGitHubToken(); return false;" style="color: rgba(255,255,255,0.8); text-decoration: underline; margin-left: 10px;">Clear GitHub Token</a>
         </p>
         <div class="admin-header-actions">
             <div class="download-dropdown">
@@ -519,6 +520,109 @@ title: Admin Panel
 
     function getApiBaseUrl() {
         return '';
+    }
+
+    // GitHub API integration for Cloudflare Pages
+    async function getGitHubToken() {
+        let token = localStorage.getItem('github_token');
+        if (!token) {
+            token = prompt('Enter your GitHub Fine-grained Personal Access Token:\n\n' +
+                'Create one at: https://github.com/settings/tokens?type=beta\n' +
+                '1. Click "Generate new token" → "Generate new token (fine-grained)"\n' +
+                '2. Name: "Nuwah Admin Panel"\n' +
+                '3. Repository access: Select "Only select repositories" → Choose "Nuwah"\n' +
+                '4. Permissions → Repository permissions:\n' +
+                '   - Contents: Read and write\n' +
+                '5. Generate token and paste it here');
+            if (token) {
+                const save = confirm('Save token for future use? (stored in browser localStorage)');
+                if (save) {
+                    localStorage.setItem('github_token', token);
+                }
+            }
+        }
+        return token;
+    }
+
+    async function getFileSHA(filePath) {
+        const token = await getGitHubToken();
+        if (!token) return null;
+
+        try {
+            const response = await fetch(
+                `https://api.github.com/repos/Has-sh/Nuwah/contents/${filePath}`,
+                {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                }
+            );
+            if (response.ok) {
+                const data = await response.json();
+                return data.sha;
+            }
+        } catch (error) {
+            console.error('Error getting file SHA:', error);
+        }
+        return null;
+    }
+
+    async function saveToGitHub(filePath, data) {
+        const token = await getGitHubToken();
+        if (!token) {
+            showAlert('GitHub token required. Please enter your Personal Access Token.', 'error');
+            return false;
+        }
+
+        try {
+            const content = JSON.stringify(data, null, 2);
+            const encodedContent = btoa(unescape(encodeURIComponent(content)));
+            const sha = await getFileSHA(filePath);
+
+            const body = {
+                message: `Update ${filePath} via admin panel`,
+                content: encodedContent,
+                branch: 'main'
+            };
+
+            if (sha) {
+                body.sha = sha; // Update existing file
+            }
+
+            const response = await fetch(
+                `https://api.github.com/repos/Has-sh/Nuwah/contents/${filePath}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }
+            );
+
+            if (response.ok) {
+                return true;
+            } else {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to save to GitHub');
+            }
+        } catch (error) {
+            console.error('GitHub API error:', error);
+            // If token is invalid, clear it
+            if (error.message && error.message.includes('Bad credentials')) {
+                localStorage.removeItem('github_token');
+                showAlert('Invalid GitHub token. Please try again.', 'error');
+            }
+            return false;
+        }
+    }
+
+    function clearGitHubToken() {
+        localStorage.removeItem('github_token');
+        showAlert('GitHub token cleared. You will be prompted for a new token on next save.', 'success');
     }
 
     // Tab switching
@@ -1105,10 +1209,17 @@ title: Admin Panel
                     return;
                 }
             } catch (apiError) {
-                // API not available, fall through to download
+                // API not available, try GitHub API
             }
             
-            // For Cloudflare Pages (static hosting), download the file instead
+            // Try GitHub API for Cloudflare Pages
+            const saved = await saveToGitHub('src/_data/packages.json', packagesData);
+            if (saved) {
+                showAlert('Packages data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                return;
+            }
+            
+            // Fallback: download the file
             downloadJSON('packages');
             showAlert('Packages data downloaded! Upload packages.json to your repository to save changes.', 'success');
         } catch (error) {
@@ -1349,10 +1460,17 @@ title: Admin Panel
                     return;
                 }
             } catch (apiError) {
-                // API not available, fall through to download
+                // API not available, try GitHub API
             }
             
-            // For Cloudflare Pages (static hosting), download the file instead
+            // Try GitHub API for Cloudflare Pages
+            const saved = await saveToGitHub('src/_data/products.json', productsData);
+            if (saved) {
+                showAlert('Products data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                return;
+            }
+            
+            // Fallback: download the file
             downloadJSON('products');
             showAlert('Products data downloaded! Upload products.json to your repository to save changes.', 'success');
         } catch (error) {
@@ -1571,10 +1689,17 @@ title: Admin Panel
                     return;
                 }
             } catch (apiError) {
-                // API not available, fall through to download
+                // API not available, try GitHub API
             }
             
-            // For Cloudflare Pages (static hosting), download the file instead
+            // Try GitHub API for Cloudflare Pages
+            const saved = await saveToGitHub('src/_data/furniture.json', furnitureData);
+            if (saved) {
+                showAlert('Furniture data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                return;
+            }
+            
+            // Fallback: download the file
             downloadJSON('furniture');
             showAlert('Furniture data downloaded! Upload furniture.json to your repository to save changes.', 'success');
         } catch (error) {
@@ -2027,10 +2152,17 @@ title: Admin Panel
                     return;
                 }
             } catch (apiError) {
-                // API not available, fall through to download
+                // API not available, try GitHub API
             }
             
-            // For Cloudflare Pages (static hosting), download the file instead
+            // Try GitHub API for Cloudflare Pages
+            const saved = await saveToGitHub('src/_data/projects.json', projectsData);
+            if (saved) {
+                showAlert('Projects data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                return;
+            }
+            
+            // Fallback: download the file
             downloadJSON('projects');
             showAlert('Projects data downloaded! Upload projects.json to your repository to save changes.', 'success');
         } catch (error) {
