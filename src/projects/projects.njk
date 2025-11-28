@@ -5,6 +5,10 @@ pagination:
   size: 1
   alias: project
 permalink: "/projects/{{ project.slug }}/"
+eleventyComputed:
+  title: "{{ project.title }} - Interior Design Project | Nuwah"
+  description: "{{ project.description.lead | default('Explore this stunning interior design project by Nuwah in Dubai.') }}"
+  image: "{{ project.hero_image | default('/assets/img/footer-logo-Photoroom.png') }}"
 ---
 
 <style>
@@ -505,8 +509,10 @@ permalink: "/projects/{{ project.slug }}/"
 </div>
 {% endif %}
 
-<!-- Related Projects -->
-{% if project.related_projects %}
+<!-- Related Projects - Auto-filled with 3 most recent projects (excluding current) -->
+{% set recentCount = 0 %}
+{% set allProjects = collections.projects | reverse %}
+{% if allProjects.length > 1 %}
 <div class="container-fluid custom-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
@@ -515,16 +521,26 @@ permalink: "/projects/{{ project.slug }}/"
         </div>
         
         <div class="row">
-            {% for related in project.related_projects %}
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
-                <a href="/projects/{{ related.slug }}" class="related-project">
-                    <div class="related-image">
-                        <img src="{{ related.image }}" alt="{{ related.title }}">
+            {% for related in allProjects %}
+                {% if related.slug != project.slug and recentCount < 3 %}
+                    {% set recentCount = recentCount + 1 %}
+                    <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ (recentCount - 1) * 100 }}">
+                        <a href="/projects/{{ related.slug }}/" class="related-project">
+                            <div class="related-image">
+                                {% set relatedImage = related.hero_image %}
+                                {% if not relatedImage and related.gallery and related.gallery[0] and related.gallery[0].image %}
+                                    {% set relatedImage = related.gallery[0].image %}
+                                {% endif %}
+                                {% if not relatedImage %}
+                                    {% set relatedImage = 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop' %}
+                                {% endif %}
+                                <img src="{{ relatedImage }}" alt="{{ related.title }}">
+                            </div>
+                            <h4 class="related-title">{{ related.title }}</h4>
+                            <p class="related-category">{{ related.category }}</p>
+                        </a>
                     </div>
-                    <h4 class="related-title">{{ related.title }}</h4>
-                    <p class="related-category">{{ related.category }}</p>
-                </a>
-            </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

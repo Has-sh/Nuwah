@@ -539,6 +539,15 @@ title: Admin Panel
                     <a href="#" class="download-dropdown-item" onclick="downloadJSON('projects'); return false;">
                         <i class="fas fa-file-code"></i> projects.json
                     </a>
+                    <a href="#" class="download-dropdown-item" onclick="downloadJSON('homepage'); return false;">
+                        <i class="fas fa-file-code"></i> homepage.json
+                    </a>
+                    <a href="#" class="download-dropdown-item" onclick="downloadJSON('design-services'); return false;">
+                        <i class="fas fa-file-code"></i> designServices.json
+                    </a>
+                    <a href="#" class="download-dropdown-item" onclick="downloadJSON('contact'); return false;">
+                        <i class="fas fa-file-code"></i> contact.json
+                    </a>
                 </div>
             </div>
         </div>
@@ -547,14 +556,29 @@ title: Admin Panel
     <div id="alertContainer"></div>
 
     <div class="admin-tabs">
-        <div class="admin-tab active" data-tab="packages">Packages</div>
+        <div class="admin-tab active" data-tab="homepage">Homepage</div>
+        <div class="admin-tab" data-tab="packages">Packages</div>
         <div class="admin-tab" data-tab="products">Products</div>
         <div class="admin-tab" data-tab="furniture">Furniture</div>
+        <div class="admin-tab" data-tab="design-services">Design Services</div>
         <div class="admin-tab" data-tab="projects">Projects</div>
+        <div class="admin-tab" data-tab="contact">Contact</div>
+    </div>
+
+    <!-- Homepage Tab -->
+    <div class="admin-content active" id="homepage-tab">
+        <div class="admin-section">
+            <h2>Homepage Customization</h2>
+            <div id="homepage-content"></div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="loadHomepageData()">Load Current Data</button>
+            <button class="btn btn-success" onclick="saveHomepageData()">Save to JSON</button>
+        </div>
     </div>
 
     <!-- Packages Tab -->
-    <div class="admin-content active" id="packages-tab">
+    <div class="admin-content" id="packages-tab">
         <div class="admin-section">
             <h2>Packages Management</h2>
             <div id="packages-list"></div>
@@ -592,6 +616,18 @@ title: Admin Panel
         </div>
     </div>
 
+    <!-- Design Services Tab -->
+    <div class="admin-content" id="design-services-tab">
+        <div class="admin-section">
+            <h2>Design Services Page Customization</h2>
+            <div id="design-services-content"></div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="loadDesignServicesData()">Load Current Data</button>
+            <button class="btn btn-success" onclick="saveDesignServicesData()">Save to JSON</button>
+        </div>
+    </div>
+
     <!-- Projects Tab -->
     <div class="admin-content" id="projects-tab">
         <div class="admin-section">
@@ -604,9 +640,23 @@ title: Admin Panel
             <button class="btn btn-success" onclick="saveProjectsData()">Save to JSON</button>
         </div>
     </div>
+
+    <!-- Contact Tab -->
+    <div class="admin-content" id="contact-tab">
+        <div class="admin-section">
+            <h2>Contact Page Customization</h2>
+            <div id="contact-content"></div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="loadContactData()">Load Current Data</button>
+            <button class="btn btn-success" onclick="saveContactData()">Save to JSON</button>
+        </div>
+    </div>
 </div>
 
 <script>
+    let homepageData = {};
+    let designServicesData = {};
     let packagesData = { packages: [] };
     let productsData = { products: [] };
     let furnitureData = [];
@@ -808,6 +858,1313 @@ title: Admin Panel
         const content = element.nextElementSibling;
         if (content) {
             content.classList.toggle('collapsed');
+        }
+    }
+
+    // Utility: Create image upload field
+    function createImageUploadField(label, currentImage, onChange) {
+        const group = document.createElement('div');
+        group.className = 'form-group';
+        group.innerHTML = `
+            <label>${label}</label>
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                ${currentImage ? `<img src="${currentImage}" alt="Preview" style="max-width: 200px; max-height: 150px; border-radius: 6px; border: 2px solid #e0e0e0;">` : ''}
+                <div style="flex: 1;">
+                    <input type="text" value="${currentImage || ''}" placeholder="Enter image URL or path" 
+                        onchange="${onChange}" style="margin-bottom: 10px;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="this.previousElementSibling.value=''; ${onChange.replace('this.value', '\'\'')}">
+                        Clear Image
+                    </button>
+                </div>
+            </div>
+        `;
+        return group;
+    }
+
+    // HOMEPAGE MANAGEMENT
+    async function loadHomepageData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            let response;
+            
+            // Try API first (for local development)
+            try {
+                response = await fetch(`${apiBase}/api/homepage`);
+                if (response.ok) {
+                    homepageData = await response.json();
+                    renderHomepageContent();
+                    showAlert('Homepage data loaded successfully!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to static file fallback
+            }
+            
+            // Fallback to static files
+            const staticPaths = [
+                `${apiBase}/_data/homepage.json`,
+                `${apiBase}/src/_data/homepage.json`,
+                '/_data/homepage.json',
+                '/src/_data/homepage.json'
+            ];
+            
+            for (const path of staticPaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        homepageData = await response.json();
+                        renderHomepageContent();
+                        showAlert('Homepage data loaded successfully!', 'success');
+                        return;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            throw new Error('Could not load homepage data from any source');
+        } catch (error) {
+            console.error('Error loading homepage data:', error);
+            showAlert('Error loading homepage data. Make sure the JSON file exists in your repository.', 'error');
+        }
+    }
+
+    function renderHomepageContent() {
+        const container = document.getElementById('homepage-content');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        // Hero Section
+        const heroSection = createHomepageSection('Hero Section', 'hero', () => {
+            const hero = homepageData.hero || {};
+            return `
+                ${createFormField('Welcome Text', hero.welcomeText || '', 'updateHomepageField("hero", "welcomeText", this.value)').outerHTML}
+                ${createFormField('Tagline', hero.tagline || '', 'updateHomepageField("hero", "tagline", this.value)').outerHTML}
+                ${createFormField('Description', hero.description || '', 'updateHomepageField("hero", "description", this.value)', 'textarea').outerHTML}
+                ${createImageUploadField('Hero Image', hero.heroImage || '', 'updateHomepageField("hero", "heroImage", this.value)').outerHTML}
+                <div class="nested-section">
+                    <h4>Primary Button</h4>
+                    ${createFormField('Button Text', hero.primaryButton?.text || '', 'updateHomepageNested("hero", "primaryButton", "text", this.value)').outerHTML}
+                    ${createFormField('Button Link', hero.primaryButton?.link || '', 'updateHomepageNested("hero", "primaryButton", "link", this.value)').outerHTML}
+                </div>
+                <div class="nested-section">
+                    <h4>Secondary Button</h4>
+                    ${createFormField('Button Text', hero.secondaryButton?.text || '', 'updateHomepageNested("hero", "secondaryButton", "text", this.value)').outerHTML}
+                    ${createFormField('Button Link', hero.secondaryButton?.link || '', 'updateHomepageNested("hero", "secondaryButton", "link", this.value)').outerHTML}
+                </div>
+                <div class="nested-section">
+                    <h4>Social Links</h4>
+                    ${createFormField('Instagram', hero.socialLinks?.instagram || '', 'updateHomepageNested("hero", "socialLinks", "instagram", this.value)').outerHTML}
+                    ${createFormField('Twitter', hero.socialLinks?.twitter || '', 'updateHomepageNested("hero", "socialLinks", "twitter", this.value)').outerHTML}
+                    ${createFormField('Facebook', hero.socialLinks?.facebook || '', 'updateHomepageNested("hero", "socialLinks", "facebook", this.value)').outerHTML}
+                </div>
+            `;
+        });
+        container.appendChild(heroSection);
+
+        // Packages Section
+        const packagesSection = createHomepageSection('Packages Section', 'packagesSection', () => {
+            if (!homepageData.packagesSection) homepageData.packagesSection = {};
+            if (!homepageData.packagesSection.packages) homepageData.packagesSection.packages = [];
+            const section = homepageData.packagesSection;
+            const packages = section.packages || [];
+            return `
+                ${createFormField('Subtitle', section.subtitle || '', 'updateHomepageField("packagesSection", "subtitle", this.value)').outerHTML}
+                ${createFormField('Title', section.title || '', 'updateHomepageField("packagesSection", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Package Cards</label>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Customize each package card displayed on the homepage.</p>
+                    ${renderPackageCards(packages)}
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addPackageCard()" style="margin-top: 15px;">+ Add New Package Card</button>
+                </div>
+            `;
+        });
+        container.appendChild(packagesSection);
+
+        // Furniture Section
+        const furnitureSection = createHomepageSection('Furniture Section', 'furnitureSection', () => {
+            if (!homepageData.furnitureSection) homepageData.furnitureSection = {};
+            if (!homepageData.furnitureSection.furniture) homepageData.furnitureSection.furniture = [];
+            const section = homepageData.furnitureSection;
+            const furniture = section.furniture || [];
+            return `
+                ${createFormField('Subtitle', section.subtitle || '', 'updateHomepageField("furnitureSection", "subtitle", this.value)').outerHTML}
+                ${createFormField('Title', section.title || '', 'updateHomepageField("furnitureSection", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Furniture Cards</label>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Customize each furniture card displayed on the homepage.</p>
+                    ${renderFurnitureCards(furniture)}
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addFurnitureCard()" style="margin-top: 15px;">+ Add New Furniture Card</button>
+                </div>
+            `;
+        });
+        container.appendChild(furnitureSection);
+
+        // Info Section
+        const infoSection = createHomepageSection('Info Section', 'infoSection', () => {
+            const section = homepageData.infoSection || {};
+            return `
+                ${createFormField('Years', section.years || '', 'updateHomepageField("infoSection", "years", this.value)').outerHTML}
+                ${createFormField('Title', section.title || '', 'updateHomepageField("infoSection", "title", this.value)').outerHTML}
+                ${createFormField('Description', section.description || '', 'updateHomepageField("infoSection", "description", this.value)', 'textarea').outerHTML}
+                ${createFormField('Learn More Link', section.learnMoreLink || '', 'updateHomepageField("infoSection", "learnMoreLink", this.value)').outerHTML}
+                ${createFormField('Brand', section.brand || '', 'updateHomepageField("infoSection", "brand", this.value)').outerHTML}
+                ${createFormField('Brand Description (HTML allowed)', section.brandDescription || '', 'updateHomepageField("infoSection", "brandDescription", this.value)', 'textarea').outerHTML}
+                <div class="nested-section">
+                    <h4>Stats</h4>
+                    ${renderStats(section.stats || [])}
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addStat()">+ Add Stat</button>
+                </div>
+            `;
+        });
+        container.appendChild(infoSection);
+
+        // Projects Section
+        const projectsSection = createHomepageSection('Projects Section', 'projectsSection', () => {
+            if (!homepageData.projectsSection) homepageData.projectsSection = {};
+            if (!homepageData.projectsSection.projectTypes) homepageData.projectsSection.projectTypes = {};
+            const section = homepageData.projectsSection;
+            const projectTypes = section.projectTypes || {};
+            
+            let html = `
+                ${createFormField('Subtitle', section.subtitle || '', 'updateHomepageField("projectsSection", "subtitle", this.value)').outerHTML}
+                ${createFormField('Title', section.title || '', 'updateHomepageField("projectsSection", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Project Types (Before/After Images)</label>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Customize before and after images for each project type (Residential, Commercial, etc.).</p>
+            `;
+            
+            // Render each project type
+            const types = ['Residential', 'Commercial', 'Lighting Design', 'Art Deco'];
+            types.forEach((type) => {
+                const typeData = projectTypes[type] || { before: '', after: '' };
+                html += `
+                    <div class="nested-section" style="margin-top: 15px;">
+                        <h4 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0;">${type}</h4>
+                        ${createImageUploadField('Before Image', typeData.before || '', `updateProjectType("${type}", "before", this.value)`).outerHTML}
+                        ${createImageUploadField('After Image', typeData.after || '', `updateProjectType("${type}", "after", this.value)`).outerHTML}
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            return html;
+        });
+        container.appendChild(projectsSection);
+
+        // Reviews Section
+        const reviewsSection = createHomepageSection('Reviews Section', 'reviewsSection', () => {
+            const section = homepageData.reviewsSection || {};
+            return `
+                ${createFormField('Subtitle', section.subtitle || '', 'updateHomepageField("reviewsSection", "subtitle", this.value)').outerHTML}
+                ${createFormField('Title', section.title || '', 'updateHomepageField("reviewsSection", "title", this.value)').outerHTML}
+            `;
+        });
+        container.appendChild(reviewsSection);
+
+        // Contact Section
+        const contactSection = createHomepageSection('Contact Section', 'contactSection', () => {
+            const section = homepageData.contactSection || {};
+            return `
+                ${createFormField('Title', section.title || '', 'updateHomepageField("contactSection", "title", this.value)').outerHTML}
+                ${createFormField('Address (HTML allowed)', section.address || '', 'updateHomepageField("contactSection", "address", this.value)', 'textarea').outerHTML}
+                ${createFormField('Phone', section.phone || '', 'updateHomepageField("contactSection", "phone", this.value)').outerHTML}
+                ${createFormField('Email', section.email || '', 'updateHomepageField("contactSection", "email", this.value)').outerHTML}
+                ${createFormField('Button Text', section.buttonText || '', 'updateHomepageField("contactSection", "buttonText", this.value)').outerHTML}
+            `;
+        });
+        container.appendChild(contactSection);
+    }
+
+    function createHomepageSection(title, key, contentFn) {
+        const section = document.createElement('div');
+        section.className = 'item-card';
+        section.innerHTML = `
+            <div class="item-card-header">
+                <h3>${title}</h3>
+                <button class="collapsible-toggle" onclick="toggleCollapsible(this)">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="collapsible-content">
+                ${contentFn()}
+            </div>
+        `;
+        return section;
+    }
+
+    function updateHomepageField(section, field, value) {
+        if (!homepageData[section]) homepageData[section] = {};
+        homepageData[section][field] = value;
+    }
+
+    function updateHomepageNested(section, nested, field, value) {
+        if (!homepageData[section]) homepageData[section] = {};
+        if (!homepageData[section][nested]) homepageData[section][nested] = {};
+        homepageData[section][nested][field] = value;
+    }
+
+    function updateCategorySection(key, field, value) {
+        if (!homepageData.categorySections) homepageData.categorySections = {};
+        if (!homepageData.categorySections[key]) homepageData.categorySections[key] = {};
+        homepageData.categorySections[key][field] = value;
+    }
+
+    function renderCategoryCards(categoryKey, cards) {
+        let html = '<div class="array-items-container">';
+        cards.forEach((card, index) => {
+            html += `
+                <div class="array-item">
+                    <div class="form-group">
+                        <label>Card ${index + 1}</label>
+                        ${createFormField('ID', card.id || '', `updateCategoryCard("${categoryKey}", ${index}, "id", this.value)`).outerHTML}
+                        ${createFormField('Title', card.title || '', `updateCategoryCard("${categoryKey}", ${index}, "title", this.value)`).outerHTML}
+                        ${createFormField('Subtitle', card.subtitle || '', `updateCategoryCard("${categoryKey}", ${index}, "subtitle", this.value)`).outerHTML}
+                        ${createFormField('Link/URL', card.link || '', `updateCategoryCard("${categoryKey}", ${index}, "link", this.value)`, 'text', 'e.g., /furnitures/?category=sectional-sofas').outerHTML}
+                        <div class="form-group">
+                            <label>Images (used as background for the card)</label>
+                            ${renderCategoryCardImages(categoryKey, index, card.images || [])}
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeCategoryCard('${categoryKey}', ${index})">Remove Card</button>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function addCategoryCard(categoryKey) {
+        if (!homepageData.categorySections) homepageData.categorySections = {};
+        if (!homepageData.categorySections[categoryKey]) homepageData.categorySections[categoryKey] = { cards: [] };
+        if (!homepageData.categorySections[categoryKey].cards) homepageData.categorySections[categoryKey].cards = [];
+        homepageData.categorySections[categoryKey].cards.push({
+            id: '',
+            title: '',
+            subtitle: '',
+            link: '',
+            images: []
+        });
+        renderHomepageContent();
+    }
+
+    function removeCategoryCard(categoryKey, index) {
+        if (homepageData.categorySections?.[categoryKey]?.cards) {
+            homepageData.categorySections[categoryKey].cards.splice(index, 1);
+            renderHomepageContent();
+        }
+    }
+
+    function updateCategoryCard(categoryKey, index, field, value) {
+        if (homepageData.categorySections?.[categoryKey]?.cards?.[index]) {
+            homepageData.categorySections[categoryKey].cards[index][field] = value;
+        }
+    }
+
+    function addCategoryCardImage(categoryKey, cardIndex) {
+        const url = prompt('Enter image URL:');
+        if (url && homepageData.categorySections?.[categoryKey]?.cards?.[cardIndex]) {
+            if (!homepageData.categorySections[categoryKey].cards[cardIndex].images) {
+                homepageData.categorySections[categoryKey].cards[cardIndex].images = [];
+            }
+            homepageData.categorySections[categoryKey].cards[cardIndex].images.push(url);
+            renderHomepageContent();
+        }
+    }
+
+    function renderCategoryCardImages(categoryKey, cardIndex, images) {
+        let html = '<div class="image-list">';
+        images.forEach((img, imgIndex) => {
+            html += `
+                <div class="image-item">
+                    <img src="${img}" alt="Image ${imgIndex + 1}" onerror="this.src='https://via.placeholder.com/100'">
+                    <button type="button" class="remove-btn" onclick="removeCategoryCardImage('${categoryKey}', ${cardIndex}, ${imgIndex})">×</button>
+                </div>
+            `;
+        });
+        html += `
+            <div class="add-image-btn" onclick="addCategoryCardImage('${categoryKey}', ${cardIndex})">+</div>
+        </div>`;
+        return html;
+    }
+
+    function removeCategoryCardImage(categoryKey, cardIndex, imageIndex) {
+        if (homepageData.categorySections?.[categoryKey]?.cards?.[cardIndex]?.images) {
+            homepageData.categorySections[categoryKey].cards[cardIndex].images.splice(imageIndex, 1);
+            renderHomepageContent();
+        }
+    }
+
+    function addCategoryArray() {
+        if (!homepageData.categories) homepageData.categories = [];
+        homepageData.categories.push({ id: '', label: '', icon: '', link: '' });
+        renderHomepageContent();
+    }
+
+    function removeCategoryArray(index) {
+        if (homepageData.categories) {
+            homepageData.categories.splice(index, 1);
+            renderHomepageContent();
+        }
+    }
+
+    function updateCategoryArray(index, field, value) {
+        if (homepageData.categories?.[index]) {
+            homepageData.categories[index][field] = value;
+        }
+    }
+
+    function renderShowcaseImages(images) {
+        let html = '<div class="image-list">';
+        images.forEach((img, imgIndex) => {
+            html += `
+                <div class="image-item">
+                    <img src="${img}" alt="Image ${imgIndex + 1}" onerror="this.src='https://via.placeholder.com/100'">
+                    <button type="button" class="remove-btn" onclick="removeShowcaseImage(${imgIndex})">×</button>
+                </div>
+            `;
+        });
+        html += `
+            <div class="add-image-btn" onclick="addShowcaseImage()">+</div>
+        </div>`;
+        return html;
+    }
+
+    function addShowcaseImage() {
+        const url = prompt('Enter image URL:');
+        if (url) {
+            if (!homepageData.showcaseSection) homepageData.showcaseSection = {};
+            if (!homepageData.showcaseSection.images) homepageData.showcaseSection.images = [];
+            homepageData.showcaseSection.images.push(url);
+            renderHomepageContent();
+        }
+    }
+
+    function removeShowcaseImage(index) {
+        if (homepageData.showcaseSection?.images) {
+            homepageData.showcaseSection.images.splice(index, 1);
+            renderHomepageContent();
+        }
+    }
+
+    function renderPackageCards(packages) {
+        if (!packages || packages.length === 0) {
+            return '<p style="color: #888; font-style: italic; padding: 15px;">No package cards yet. Click "Add New Package Card" to create one.</p>';
+        }
+        
+        let html = '<div class="array-items-container">';
+        packages.forEach((pkg, index) => {
+            const imageField = createImageUploadField('Image', pkg.image || '', `updatePackageCard(${index}, "image", this.value)`);
+            const titleField = createFormField('Title', pkg.title || '', `updatePackageCard(${index}, "title", this.value)`);
+            const dimensionsField = createFormField('Dimensions', pkg.dimensions || '', `updatePackageCard(${index}, "dimensions", this.value)`, 'text', 'e.g., 120 × 150 × 150 سینٹی میٹر');
+            const button1TextField = createFormField('Button Text', pkg.button1?.text || '', `updatePackageCardButton(${index}, "button1", "text", this.value)`);
+            const button1LinkField = createFormField('Button Link', pkg.button1?.link || '', `updatePackageCardButton(${index}, "button1", "link", this.value)`);
+            const button2TextField = createFormField('Button Text', pkg.button2?.text || '', `updatePackageCardButton(${index}, "button2", "text", this.value)`);
+            const button2LinkField = createFormField('Button Link', pkg.button2?.link || '', `updatePackageCardButton(${index}, "button2", "link", this.value)`);
+            
+            html += `
+                <div class="array-item">
+                    <div class="form-group">
+                        <label style="font-weight: 600; margin-bottom: 10px;">Package Card ${index + 1}</label>
+                        ${imageField.outerHTML}
+                        ${titleField.outerHTML}
+                        ${dimensionsField.outerHTML}
+                        <div class="nested-section" style="margin-top: 15px;">
+                            <h5 style="margin-bottom: 10px;">Button 1 (Enquire Now)</h5>
+                            ${button1TextField.outerHTML}
+                            ${button1LinkField.outerHTML}
+                        </div>
+                        <div class="nested-section" style="margin-top: 15px;">
+                            <h5 style="margin-bottom: 10px;">Button 2 (View More)</h5>
+                            ${button2TextField.outerHTML}
+                            ${button2LinkField.outerHTML}
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removePackageCard(${index})" style="margin-top: 15px;">Remove Card</button>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function addPackageCard() {
+        if (!homepageData.packagesSection) homepageData.packagesSection = {};
+        if (!homepageData.packagesSection.packages) homepageData.packagesSection.packages = [];
+        homepageData.packagesSection.packages.push({
+            image: '',
+            title: '',
+            dimensions: '',
+            button1: { text: 'Enquire Now', link: '' },
+            button2: { text: 'View More', link: '' }
+        });
+        renderHomepageContent();
+    }
+
+    function removePackageCard(index) {
+        if (homepageData.packagesSection?.packages) {
+            homepageData.packagesSection.packages.splice(index, 1);
+            renderHomepageContent();
+        }
+    }
+
+    function updatePackageCard(index, field, value) {
+        if (homepageData.packagesSection?.packages?.[index]) {
+            homepageData.packagesSection.packages[index][field] = value;
+        }
+    }
+
+    function updatePackageCardButton(index, buttonKey, field, value) {
+        if (homepageData.packagesSection?.packages?.[index]) {
+            if (!homepageData.packagesSection.packages[index][buttonKey]) {
+                homepageData.packagesSection.packages[index][buttonKey] = {};
+            }
+            homepageData.packagesSection.packages[index][buttonKey][field] = value;
+        }
+    }
+
+    function renderFurnitureCards(furniture) {
+        if (!furniture || furniture.length === 0) {
+            return '<p style="color: #888; font-style: italic; padding: 15px;">No furniture cards yet. Click "Add New Furniture Card" to create one.</p>';
+        }
+        
+        let html = '<div class="array-items-container">';
+        furniture.forEach((item, index) => {
+            const defaultImageField = createImageUploadField('Default Image', item.defaultImage || '', `updateFurnitureCard(${index}, "defaultImage", this.value)`);
+            const hoverImageField = createImageUploadField('Hover Image', item.hoverImage || '', `updateFurnitureCard(${index}, "hoverImage", this.value)`);
+            const titleField = createFormField('Title', item.title || '', `updateFurnitureCard(${index}, "title", this.value)`);
+            const priceField = createFormField('Price', item.price || '', `updateFurnitureCard(${index}, "price", this.value)`, 'text', 'e.g., $15.00 – $20.00');
+            const onSaleField = document.createElement('div');
+            onSaleField.className = 'form-group';
+            onSaleField.innerHTML = `
+                <label>
+                    <input type="checkbox" ${item.onSale ? 'checked' : ''} onchange="updateFurnitureCard(${index}, 'onSale', this.checked)">
+                    On Sale (Show Sale Badge)
+                </label>
+            `;
+            
+            html += `
+                <div class="array-item">
+                    <div class="form-group">
+                        <label style="font-weight: 600; margin-bottom: 10px;">Furniture Card ${index + 1}</label>
+                        ${defaultImageField.outerHTML}
+                        ${hoverImageField.outerHTML}
+                        ${titleField.outerHTML}
+                        ${priceField.outerHTML}
+                        ${onSaleField.outerHTML}
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeFurnitureCard(${index})" style="margin-top: 15px;">Remove Card</button>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function addFurnitureCard() {
+        if (!homepageData.furnitureSection) homepageData.furnitureSection = {};
+        if (!homepageData.furnitureSection.furniture) homepageData.furnitureSection.furniture = [];
+        homepageData.furnitureSection.furniture.push({
+            defaultImage: '',
+            hoverImage: '',
+            title: '',
+            price: '',
+            onSale: false
+        });
+        renderHomepageContent();
+    }
+
+    function removeFurnitureCard(index) {
+        if (homepageData.furnitureSection?.furniture) {
+            homepageData.furnitureSection.furniture.splice(index, 1);
+            renderHomepageContent();
+        }
+    }
+
+    function updateFurnitureCard(index, field, value) {
+        if (homepageData.furnitureSection?.furniture?.[index]) {
+            homepageData.furnitureSection.furniture[index][field] = value;
+        }
+    }
+
+    function updateProjectType(type, field, value) {
+        if (!homepageData.projectsSection) homepageData.projectsSection = {};
+        if (!homepageData.projectsSection.projectTypes) homepageData.projectsSection.projectTypes = {};
+        if (!homepageData.projectsSection.projectTypes[type]) {
+            homepageData.projectsSection.projectTypes[type] = {};
+        }
+        homepageData.projectsSection.projectTypes[type][field] = value;
+    }
+
+    function renderStats(stats) {
+        let html = '<div class="array-items-container">';
+        stats.forEach((stat, index) => {
+            html += `
+                <div class="array-item">
+                    ${createFormField('Number', stat.number || '', `updateStat(${index}, "number", this.value)`).outerHTML}
+                    ${createFormField('Text', stat.text || '', `updateStat(${index}, "text", this.value)`).outerHTML}
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeStat(${index})">Remove</button>
+                </div>
+            `;
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function addStat() {
+        if (!homepageData.infoSection) homepageData.infoSection = {};
+        if (!homepageData.infoSection.stats) homepageData.infoSection.stats = [];
+        homepageData.infoSection.stats.push({ number: '', text: '' });
+        renderHomepageContent();
+    }
+
+    function removeStat(index) {
+        if (homepageData.infoSection?.stats) {
+            homepageData.infoSection.stats.splice(index, 1);
+            renderHomepageContent();
+        }
+    }
+
+    function updateStat(index, field, value) {
+        if (homepageData.infoSection?.stats?.[index]) {
+            homepageData.infoSection.stats[index][field] = value;
+        }
+    }
+
+    async function saveHomepageData() {
+        try {
+            // Clean data before saving
+            const cleanedData = cleanHomepageData(JSON.parse(JSON.stringify(homepageData)));
+            
+            const apiBase = getApiBaseUrl();
+            
+            // Try API first (for local development)
+            try {
+                const response = await fetch(`${apiBase}/api/homepage`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cleanedData, null, 2)
+                });
+                if (response.ok) {
+                    showAlert('Homepage data saved successfully to server!', 'success');
+                    homepageData = cleanedData;
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to GitHub API
+            }
+            
+            // Try GitHub API (for Cloudflare Pages)
+            const saved = await saveToGitHub('src/_data/homepage.json', cleanedData);
+            if (saved) {
+                showAlert('Homepage data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                homepageData = cleanedData;
+                return;
+            }
+            
+            // Fallback to download
+            downloadJSON('homepage');
+            homepageData = cleanedData;
+            showAlert('Homepage data downloaded! Upload homepage.json to your repository to save changes.', 'success');
+        } catch (error) {
+            console.error('Error saving homepage data:', error);
+            showAlert('Error saving homepage data: ' + error.message, 'error');
+        }
+    }
+
+    // DESIGN SERVICES MANAGEMENT
+    async function loadDesignServicesData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            let response;
+            
+            // Try API first (for local development)
+            try {
+                response = await fetch(`${apiBase}/api/design-services`);
+                if (response.ok) {
+                    designServicesData = await response.json();
+                    renderDesignServicesContent();
+                    showAlert('Design services data loaded successfully!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to static file fallback
+            }
+            
+            // Try static file paths (for Cloudflare Pages)
+            const staticPaths = [
+                `${apiBase}/_data/designServices.json`,
+                `${apiBase}/src/_data/designServices.json`,
+                '/_data/designServices.json',
+                '/src/_data/designServices.json',
+                `${apiBase}/_data/design-services.json`,
+                `${apiBase}/src/_data/design-services.json`,
+                '/_data/design-services.json',
+                '/src/_data/design-services.json'
+            ];
+            
+            for (const path of staticPaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        designServicesData = await response.json();
+                        renderDesignServicesContent();
+                        showAlert('Design services data loaded successfully!', 'success');
+                        return;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            throw new Error('Could not load design services data from any source');
+        } catch (error) {
+            console.error('Error loading design services data:', error);
+            showAlert('Error loading design services data. Make sure the JSON file exists in your repository.', 'error');
+        }
+    }
+
+    function renderDesignServicesContent() {
+        const container = document.getElementById('design-services-content');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        // Hero Section
+        const hero = designServicesData.hero || {};
+        const heroSection = createHomepageSection('Hero Section', 'hero', () => {
+            return `
+                ${createFormField('Title', hero.title || '', 'updateDesignServicesField("hero", "title", this.value)').outerHTML}
+                ${createFormField('Description', hero.description || '', 'updateDesignServicesField("hero", "description", this.value)', 'textarea').outerHTML}
+            `;
+        });
+        container.appendChild(heroSection);
+        
+        // Services Section
+        const servicesSection = designServicesData.servicesSection || {};
+        const servicesSectionEl = createHomepageSection('Services Section', 'servicesSection', () => {
+            const services = servicesSection.services || [];
+            return `
+                ${createFormField('Subtitle', servicesSection.subtitle || '', 'updateDesignServicesField("servicesSection", "subtitle", this.value)').outerHTML}
+                ${createFormField('Title', servicesSection.title || '', 'updateDesignServicesField("servicesSection", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Service Cards</label>
+                    <div id="services-cards-list"></div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addServiceCard()" style="margin-top: 15px;">+ Add New Service Card</button>
+                </div>
+            `;
+        });
+        container.appendChild(servicesSectionEl);
+        renderServiceCards(servicesSection.services || []);
+        
+        // Process Section
+        const processSection = designServicesData.processSection || {};
+        const processSectionEl = createHomepageSection('Process Section', 'processSection', () => {
+            const steps = processSection.steps || [];
+            return `
+                ${createFormField('Subtitle', processSection.subtitle || '', 'updateDesignServicesField("processSection", "subtitle", this.value)').outerHTML}
+                ${createFormField('Title', processSection.title || '', 'updateDesignServicesField("processSection", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Process Steps</label>
+                    <div id="process-steps-list"></div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addProcessStep()" style="margin-top: 15px;">+ Add New Step</button>
+                </div>
+            `;
+        });
+        container.appendChild(processSectionEl);
+        renderProcessSteps(processSection.steps || []);
+        
+        // Pricing Section
+        const pricingSection = designServicesData.pricingSection || {};
+        const pricingSectionEl = createHomepageSection('Pricing Section', 'pricingSection', () => {
+            const packages = pricingSection.packages || [];
+            return `
+                ${createFormField('Subtitle', pricingSection.subtitle || '', 'updateDesignServicesField("pricingSection", "subtitle", this.value)').outerHTML}
+                ${createFormField('Title', pricingSection.title || '', 'updateDesignServicesField("pricingSection", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Pricing Packages</label>
+                    <div id="pricing-packages-list"></div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addPricingPackage()" style="margin-top: 15px;">+ Add New Package</button>
+                </div>
+            `;
+        });
+        container.appendChild(pricingSectionEl);
+        renderPricingPackages(pricingSection.packages || []);
+    }
+
+    function updateDesignServicesField(section, field, value) {
+        if (!designServicesData[section]) {
+            designServicesData[section] = {};
+        }
+        designServicesData[section][field] = value;
+    }
+
+    function renderServiceCards(services) {
+        const container = document.getElementById('services-cards-list');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (services.length === 0) {
+            container.innerHTML = '<p style="color: #666; font-style: italic;">No service cards yet. Click "Add New Service Card" to create one.</p>';
+            return;
+        }
+        
+        services.forEach((service, index) => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.innerHTML = `
+                <div class="item-card-header">
+                    <h3>${service.title || 'Unnamed Service'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="removeServiceCard(${index})">Remove</button>
+                </div>
+                ${createImageUploadField('Image', service.image || '', `updateServiceCard(${index}, 'image', this.value)`).outerHTML}
+                ${createFormField('Icon (Font Awesome)', service.icon || '', `updateServiceCard(${index}, 'icon', this.value)`).outerHTML}
+                ${createFormField('Title', service.title || '', `updateServiceCard(${index}, 'title', this.value)`).outerHTML}
+                ${createFormField('Description', service.description || '', `updateServiceCard(${index}, 'description', this.value)`, 'textarea').outerHTML}
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Features (${service.features?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="service-features-${index}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addServiceFeature(${index})">+ Add Feature</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+            renderServiceFeatures(index, service.features || []);
+        });
+    }
+
+    function addServiceCard() {
+        if (!designServicesData.servicesSection) designServicesData.servicesSection = {};
+        if (!designServicesData.servicesSection.services) designServicesData.servicesSection.services = [];
+        designServicesData.servicesSection.services.push({
+            image: '',
+            icon: 'fas fa-star',
+            title: 'New Service',
+            description: '',
+            features: []
+        });
+        renderServiceCards(designServicesData.servicesSection.services);
+    }
+
+    function removeServiceCard(index) {
+        if (confirm('Are you sure you want to remove this service card?')) {
+            designServicesData.servicesSection.services.splice(index, 1);
+            renderServiceCards(designServicesData.servicesSection.services);
+        }
+    }
+
+    function updateServiceCard(index, field, value) {
+        designServicesData.servicesSection.services[index][field] = value;
+    }
+
+    function renderServiceFeatures(serviceIndex, features) {
+        const container = document.getElementById(`service-features-${serviceIndex}`);
+        if (!container) return;
+        container.innerHTML = '';
+        features.forEach((feature, featIndex) => {
+            const featCard = document.createElement('div');
+            featCard.className = 'array-item';
+            featCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">Feature ${featIndex + 1}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeServiceFeature(${serviceIndex}, ${featIndex})">Remove</button>
+                </div>
+                ${createFormField('Feature Text', feature, `updateServiceFeature(${serviceIndex}, ${featIndex}, this.value)`).outerHTML}
+            `;
+            container.appendChild(featCard);
+        });
+    }
+
+    function addServiceFeature(serviceIndex) {
+        if (!designServicesData.servicesSection.services[serviceIndex].features) {
+            designServicesData.servicesSection.services[serviceIndex].features = [];
+        }
+        designServicesData.servicesSection.services[serviceIndex].features.push('');
+        renderServiceFeatures(serviceIndex, designServicesData.servicesSection.services[serviceIndex].features);
+    }
+
+    function removeServiceFeature(serviceIndex, featIndex) {
+        designServicesData.servicesSection.services[serviceIndex].features.splice(featIndex, 1);
+        renderServiceFeatures(serviceIndex, designServicesData.servicesSection.services[serviceIndex].features);
+    }
+
+    function updateServiceFeature(serviceIndex, featIndex, value) {
+        designServicesData.servicesSection.services[serviceIndex].features[featIndex] = value;
+    }
+
+    function renderProcessSteps(steps) {
+        const container = document.getElementById('process-steps-list');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (steps.length === 0) {
+            container.innerHTML = '<p style="color: #666; font-style: italic;">No process steps yet. Click "Add New Step" to create one.</p>';
+            return;
+        }
+        
+        steps.forEach((step, index) => {
+            const stepCard = document.createElement('div');
+            stepCard.className = 'item-card';
+            stepCard.innerHTML = `
+                <div class="item-card-header">
+                    <h3>Step ${step.number || index + 1}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="removeProcessStep(${index})">Remove</button>
+                </div>
+                ${createFormField('Number', step.number || '', `updateProcessStep(${index}, 'number', this.value)`).outerHTML}
+                ${createFormField('Title', step.title || '', `updateProcessStep(${index}, 'title', this.value)`).outerHTML}
+                ${createFormField('Description', step.description || '', `updateProcessStep(${index}, 'description', this.value)`, 'textarea').outerHTML}
+            `;
+            container.appendChild(stepCard);
+        });
+    }
+
+    function addProcessStep() {
+        if (!designServicesData.processSection) designServicesData.processSection = {};
+        if (!designServicesData.processSection.steps) designServicesData.processSection.steps = [];
+        const stepNum = String(designServicesData.processSection.steps.length + 1).padStart(2, '0');
+        designServicesData.processSection.steps.push({
+            number: stepNum,
+            title: 'New Step',
+            description: ''
+        });
+        renderProcessSteps(designServicesData.processSection.steps);
+    }
+
+    function removeProcessStep(index) {
+        if (confirm('Are you sure you want to remove this process step?')) {
+            designServicesData.processSection.steps.splice(index, 1);
+            renderProcessSteps(designServicesData.processSection.steps);
+        }
+    }
+
+    function updateProcessStep(index, field, value) {
+        designServicesData.processSection.steps[index][field] = value;
+    }
+
+    function renderPricingPackages(packages) {
+        const container = document.getElementById('pricing-packages-list');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (packages.length === 0) {
+            container.innerHTML = '<p style="color: #666; font-style: italic;">No pricing packages yet. Click "Add New Package" to create one.</p>';
+            return;
+        }
+        
+        packages.forEach((pkg, index) => {
+            const pkgCard = document.createElement('div');
+            pkgCard.className = 'item-card';
+            pkgCard.innerHTML = `
+                <div class="item-card-header">
+                    <h3>${pkg.title || 'Unnamed Package'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="removePricingPackage(${index})">Remove</button>
+                </div>
+                ${createFormField('Title', pkg.title || '', `updatePricingPackage(${index}, 'title', this.value)`).outerHTML}
+                ${createFormField('Price', pkg.price || '', `updatePricingPackage(${index}, 'price', this.value)`).outerHTML}
+                ${createFormField('Period', pkg.period || '', `updatePricingPackage(${index}, 'period', this.value)`).outerHTML}
+                ${createFormField('Button Text', pkg.buttonText || '', `updatePricingPackage(${index}, 'buttonText', this.value)`).outerHTML}
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" ${pkg.featured ? 'checked' : ''} onchange="updatePricingPackage(${index}, 'featured', this.checked)">
+                        Featured Package
+                    </label>
+                </div>
+                <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Features (${pkg.features?.length || 0})</h4>
+                    <div class="collapsible-content">
+                        <div id="pricing-features-${index}"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addPricingFeature(${index})">+ Add Feature</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(pkgCard);
+            renderPricingFeatures(index, pkg.features || []);
+        });
+    }
+
+    function addPricingPackage() {
+        if (!designServicesData.pricingSection) designServicesData.pricingSection = {};
+        if (!designServicesData.pricingSection.packages) designServicesData.pricingSection.packages = [];
+        designServicesData.pricingSection.packages.push({
+            title: 'New Package',
+            price: '$0',
+            period: '',
+            features: [],
+            buttonText: 'Get Started',
+            featured: false
+        });
+        renderPricingPackages(designServicesData.pricingSection.packages);
+    }
+
+    function removePricingPackage(index) {
+        if (confirm('Are you sure you want to remove this pricing package?')) {
+            designServicesData.pricingSection.packages.splice(index, 1);
+            renderPricingPackages(designServicesData.pricingSection.packages);
+        }
+    }
+
+    function updatePricingPackage(index, field, value) {
+        designServicesData.pricingSection.packages[index][field] = value;
+    }
+
+    function renderPricingFeatures(pkgIndex, features) {
+        const container = document.getElementById(`pricing-features-${pkgIndex}`);
+        if (!container) return;
+        container.innerHTML = '';
+        features.forEach((feature, featIndex) => {
+            const featCard = document.createElement('div');
+            featCard.className = 'array-item';
+            featCard.innerHTML = `
+                <div class="array-item-header">
+                    <span class="array-item-title">Feature ${featIndex + 1}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removePricingFeature(${pkgIndex}, ${featIndex})">Remove</button>
+                </div>
+                ${createFormField('Feature Text', feature, `updatePricingFeature(${pkgIndex}, ${featIndex}, this.value)`).outerHTML}
+            `;
+            container.appendChild(featCard);
+        });
+    }
+
+    function addPricingFeature(pkgIndex) {
+        if (!designServicesData.pricingSection.packages[pkgIndex].features) {
+            designServicesData.pricingSection.packages[pkgIndex].features = [];
+        }
+        designServicesData.pricingSection.packages[pkgIndex].features.push('');
+        renderPricingFeatures(pkgIndex, designServicesData.pricingSection.packages[pkgIndex].features);
+    }
+
+    function removePricingFeature(pkgIndex, featIndex) {
+        designServicesData.pricingSection.packages[pkgIndex].features.splice(featIndex, 1);
+        renderPricingFeatures(pkgIndex, designServicesData.pricingSection.packages[pkgIndex].features);
+    }
+
+    function updatePricingFeature(pkgIndex, featIndex, value) {
+        designServicesData.pricingSection.packages[pkgIndex].features[featIndex] = value;
+    }
+
+    async function saveDesignServicesData() {
+        try {
+            // Clean data before saving
+            const cleanedData = cleanDesignServicesData(JSON.parse(JSON.stringify(designServicesData)));
+            
+            const apiBase = getApiBaseUrl();
+            
+            // Try API first (for local development)
+            try {
+                const response = await fetch(`${apiBase}/api/design-services`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cleanedData, null, 2)
+                });
+                if (response.ok) {
+                    showAlert('Design services data saved successfully to server!', 'success');
+                    designServicesData = cleanedData;
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to GitHub API
+            }
+            
+            // Try GitHub API (for Cloudflare Pages)
+            const saved = await saveToGitHub('src/_data/designServices.json', cleanedData);
+            if (saved) {
+                showAlert('Design services data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                designServicesData = cleanedData;
+                return;
+            }
+            
+            // Fallback to download
+            const dataStr = JSON.stringify(cleanedData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'designServices.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            designServicesData = cleanedData;
+            showAlert('Design services data downloaded! Upload design-services.json to your repository to save changes.', 'success');
+        } catch (error) {
+            console.error('Error saving design services data:', error);
+            showAlert('Error saving design services data: ' + error.message, 'error');
+        }
+    }
+
+    // CONTACT MANAGEMENT
+    let contactData = {};
+
+    async function loadContactData() {
+        try {
+            const apiBase = getApiBaseUrl();
+            let response;
+            
+            // Try API first (for local development)
+            try {
+                response = await fetch(`${apiBase}/api/contact`);
+                if (response.ok) {
+                    contactData = await response.json();
+                    renderContactContent();
+                    showAlert('Contact data loaded successfully!', 'success');
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to static file fallback
+            }
+            
+            // Try static file paths (for Cloudflare Pages)
+            const staticPaths = [
+                `${apiBase}/_data/contact.json`,
+                `${apiBase}/src/_data/contact.json`,
+                '/_data/contact.json',
+                '/src/_data/contact.json'
+            ];
+            
+            for (const path of staticPaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        contactData = await response.json();
+                        renderContactContent();
+                        showAlert('Contact data loaded successfully!', 'success');
+                        return;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            throw new Error('Could not load contact data from any source');
+        } catch (error) {
+            console.error('Error loading contact data:', error);
+            showAlert('Error loading contact data. Make sure the JSON file exists in your repository.', 'error');
+        }
+    }
+
+    function renderContactContent() {
+        const container = document.getElementById('contact-content');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        // Hero Section
+        const hero = contactData.hero || {};
+        const heroSection = createHomepageSection('Hero Section', 'hero', () => {
+            return `
+                ${createFormField('Title', hero.title || '', 'updateContactField("hero", "title", this.value)').outerHTML}
+                ${createFormField('Description', hero.description || '', 'updateContactField("hero", "description", this.value)', 'textarea').outerHTML}
+            `;
+        });
+        container.appendChild(heroSection);
+        
+        // Header Section
+        const header = contactData.header || {};
+        const headerSection = createHomepageSection('Header Section', 'header', () => {
+            return `
+                ${createFormField('Title', header.title || '', 'updateContactField("header", "title", this.value)').outerHTML}
+                ${createFormField('Description', header.description || '', 'updateContactField("header", "description", this.value)', 'textarea').outerHTML}
+            `;
+        });
+        container.appendChild(headerSection);
+        
+        // Form Section
+        const formSection = contactData.formSection || {};
+        const formSectionEl = createHomepageSection('Form Section', 'formSection', () => {
+            return `
+                ${createFormField('Title', formSection.title || '', 'updateContactField("formSection", "title", this.value)').outerHTML}
+            `;
+        });
+        container.appendChild(formSectionEl);
+        
+        // Info Section
+        const infoSection = contactData.infoSection || {};
+        const infoSectionEl = createHomepageSection('Contact Information Section', 'infoSection', () => {
+            const items = infoSection.items || [];
+            return `
+                ${createFormField('Section Title', infoSection.title || '', 'updateContactField("infoSection", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Contact Info Items</label>
+                    <div id="contact-info-items-list"></div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addContactInfoItem()" style="margin-top: 15px;">+ Add New Info Item</button>
+                </div>
+            `;
+        });
+        container.appendChild(infoSectionEl);
+        renderContactInfoItems(infoSection.items || []);
+        
+        // Business Hours Section
+        const businessHours = contactData.businessHours || {};
+        const hoursSectionEl = createHomepageSection('Business Hours Section', 'businessHours', () => {
+            const hours = businessHours.hours || [];
+            return `
+                ${createFormField('Section Title', businessHours.title || '', 'updateContactField("businessHours", "title", this.value)').outerHTML}
+                <div class="form-group" style="margin-top: 25px;">
+                    <label style="font-weight: 600; margin-bottom: 15px; display: block; font-size: 1.1rem;">Business Hours</label>
+                    <div id="business-hours-list"></div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addBusinessHour()" style="margin-top: 15px;">+ Add New Hour</button>
+                </div>
+            `;
+        });
+        container.appendChild(hoursSectionEl);
+        renderBusinessHours(businessHours.hours || []);
+        
+        // Map Section
+        const map = contactData.map || {};
+        const mapSectionEl = createHomepageSection('Map Section', 'map', () => {
+            return `
+                ${createFormField('Google Maps Embed URL', map.embedUrl || '', 'updateContactField("map", "embedUrl", this.value)', 'textarea').outerHTML}
+            `;
+        });
+        container.appendChild(mapSectionEl);
+    }
+
+    function updateContactField(section, field, value) {
+        if (!contactData[section]) {
+            contactData[section] = {};
+        }
+        contactData[section][field] = value;
+    }
+
+    function renderContactInfoItems(items) {
+        const container = document.getElementById('contact-info-items-list');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (items.length === 0) {
+            container.innerHTML = '<p style="color: #666; font-style: italic;">No contact info items yet. Click "Add New Info Item" to create one.</p>';
+            return;
+        }
+        
+        items.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.innerHTML = `
+                <div class="item-card-header">
+                    <h3>${item.label || 'Unnamed Item'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="removeContactInfoItem(${index})">Remove</button>
+                </div>
+                ${createFormField('Icon (Font Awesome)', item.icon || '', `updateContactInfoItem(${index}, 'icon', this.value)`).outerHTML}
+                ${createFormField('Label', item.label || '', `updateContactInfoItem(${index}, 'label', this.value)`).outerHTML}
+                ${createFormField('Value', item.value || '', `updateContactInfoItem(${index}, 'value', this.value)`).outerHTML}
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function addContactInfoItem() {
+        if (!contactData.infoSection) contactData.infoSection = {};
+        if (!contactData.infoSection.items) contactData.infoSection.items = [];
+        contactData.infoSection.items.push({
+            icon: 'fas fa-circle',
+            label: 'New Item',
+            value: ''
+        });
+        renderContactInfoItems(contactData.infoSection.items);
+    }
+
+    function removeContactInfoItem(index) {
+        if (confirm('Are you sure you want to remove this contact info item?')) {
+            contactData.infoSection.items.splice(index, 1);
+            renderContactInfoItems(contactData.infoSection.items);
+        }
+    }
+
+    function updateContactInfoItem(index, field, value) {
+        contactData.infoSection.items[index][field] = value;
+    }
+
+    function renderBusinessHours(hours) {
+        const container = document.getElementById('business-hours-list');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (hours.length === 0) {
+            container.innerHTML = '<p style="color: #666; font-style: italic;">No business hours yet. Click "Add New Hour" to create one.</p>';
+            return;
+        }
+        
+        hours.forEach((hour, index) => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.innerHTML = `
+                <div class="item-card-header">
+                    <h3>${hour.day || 'Unnamed Day'}</h3>
+                    <button class="btn btn-danger btn-sm" onclick="removeBusinessHour(${index})">Remove</button>
+                </div>
+                ${createFormField('Day', hour.day || '', `updateBusinessHour(${index}, 'day', this.value)`).outerHTML}
+                ${createFormField('Time', hour.time || '', `updateBusinessHour(${index}, 'time', this.value)`).outerHTML}
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function addBusinessHour() {
+        if (!contactData.businessHours) contactData.businessHours = {};
+        if (!contactData.businessHours.hours) contactData.businessHours.hours = [];
+        contactData.businessHours.hours.push({
+            day: 'Monday',
+            time: '9:00 am - 5:00 pm'
+        });
+        renderBusinessHours(contactData.businessHours.hours);
+    }
+
+    function removeBusinessHour(index) {
+        if (confirm('Are you sure you want to remove this business hour?')) {
+            contactData.businessHours.hours.splice(index, 1);
+            renderBusinessHours(contactData.businessHours.hours);
+        }
+    }
+
+    function updateBusinessHour(index, field, value) {
+        contactData.businessHours.hours[index][field] = value;
+    }
+
+    async function saveContactData() {
+        try {
+            // Clean data before saving
+            const cleanedData = cleanContactData(JSON.parse(JSON.stringify(contactData)));
+            
+            const apiBase = getApiBaseUrl();
+            
+            // Try API first (for local development)
+            try {
+                const response = await fetch(`${apiBase}/api/contact`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cleanedData, null, 2)
+                });
+                if (response.ok) {
+                    showAlert('Contact data saved successfully to server!', 'success');
+                    contactData = cleanedData;
+                    return;
+                }
+            } catch (apiError) {
+                // API not available, continue to GitHub API
+            }
+            
+            // Try GitHub API (for Cloudflare Pages)
+            const saved = await saveToGitHub('src/_data/contact.json', cleanedData);
+            if (saved) {
+                showAlert('Contact data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                contactData = cleanedData;
+                return;
+            }
+            
+            // Fallback to download
+            const dataStr = JSON.stringify(cleanedData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'contact.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            contactData = cleanedData;
+            showAlert('Contact data downloaded! Upload contact.json to your repository to save changes.', 'success');
+        } catch (error) {
+            console.error('Error saving contact data:', error);
+            showAlert('Error saving contact data: ' + error.message, 'error');
         }
     }
 
@@ -1261,6 +2618,18 @@ title: Admin Panel
                 data = projectsData;
                 filename = 'projects.json';
                 break;
+            case 'design-services':
+                data = designServicesData;
+                filename = 'designServices.json';
+                break;
+            case 'contact':
+                data = contactData;
+                filename = 'contact.json';
+                break;
+            case 'homepage':
+                data = homepageData;
+                filename = 'homepage.json';
+                break;
             default:
                 showAlert('Invalid file type', 'error');
                 return;
@@ -1291,16 +2660,20 @@ title: Admin Panel
 
     async function savePackagesData() {
         try {
+            // Clean data before saving
+            const cleanedData = cleanPackagesData(JSON.parse(JSON.stringify(packagesData)));
+            
             // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
             try {
                 const response = await fetch(`${apiBase}/api/packages`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(packagesData, null, 2)
+                    body: JSON.stringify(cleanedData, null, 2)
                 });
                 if (response.ok) {
                     showAlert('Packages data saved successfully to server!', 'success');
+                    packagesData = cleanedData;
                     return;
                 }
             } catch (apiError) {
@@ -1308,14 +2681,16 @@ title: Admin Panel
             }
             
             // Try GitHub API for Cloudflare Pages
-            const saved = await saveToGitHub('src/_data/packages.json', packagesData);
+            const saved = await saveToGitHub('src/_data/packages.json', cleanedData);
             if (saved) {
                 showAlert('Packages data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                packagesData = cleanedData;
                 return;
             }
             
             // Fallback: download the file
             downloadJSON('packages');
+            packagesData = cleanedData;
             showAlert('Packages data downloaded! Upload packages.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving packages data: ' + error.message, 'error');
@@ -1542,16 +2917,20 @@ title: Admin Panel
 
     async function saveProductsData() {
         try {
+            // Clean data before saving
+            const cleanedData = cleanProductsData(JSON.parse(JSON.stringify(productsData)));
+            
             // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
             try {
                 const response = await fetch(`${apiBase}/api/products`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(productsData, null, 2)
+                    body: JSON.stringify(cleanedData, null, 2)
                 });
                 if (response.ok) {
                     showAlert('Products data saved successfully to server!', 'success');
+                    productsData = cleanedData;
                     return;
                 }
             } catch (apiError) {
@@ -1559,14 +2938,16 @@ title: Admin Panel
             }
             
             // Try GitHub API for Cloudflare Pages
-            const saved = await saveToGitHub('src/_data/products.json', productsData);
+            const saved = await saveToGitHub('src/_data/products.json', cleanedData);
             if (saved) {
                 showAlert('Products data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                productsData = cleanedData;
                 return;
             }
             
             // Fallback: download the file
             downloadJSON('products');
+            productsData = cleanedData;
             showAlert('Products data downloaded! Upload products.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving products data: ' + error.message, 'error');
@@ -1771,16 +3152,20 @@ title: Admin Panel
 
     async function saveFurnitureData() {
         try {
+            // Clean data before saving
+            const cleanedData = cleanFurnitureData(JSON.parse(JSON.stringify(furnitureData)));
+            
             // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
             try {
                 const response = await fetch(`${apiBase}/api/furniture`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(furnitureData, null, 2)
+                    body: JSON.stringify(cleanedData, null, 2)
                 });
                 if (response.ok) {
                     showAlert('Furniture data saved successfully to server!', 'success');
+                    furnitureData = cleanedData;
                     return;
                 }
             } catch (apiError) {
@@ -1788,14 +3173,16 @@ title: Admin Panel
             }
             
             // Try GitHub API for Cloudflare Pages
-            const saved = await saveToGitHub('src/_data/furniture.json', furnitureData);
+            const saved = await saveToGitHub('src/_data/furniture.json', cleanedData);
             if (saved) {
                 showAlert('Furniture data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                furnitureData = cleanedData;
                 return;
             }
             
             // Fallback: download the file
             downloadJSON('furniture');
+            furnitureData = cleanedData;
             showAlert('Furniture data downloaded! Upload furniture.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving furniture data: ' + error.message, 'error');
@@ -1872,7 +3259,7 @@ title: Admin Panel
                 ${createFormField('Title', project.title, `updateProjectField(${projIndex}, 'title', this.value)`).outerHTML}
                 ${createFormField('Category', project.category, `updateProjectField(${projIndex}, 'category', this.value)`).outerHTML}
                 ${createFormField('Icon (Font Awesome)', project.icon, `updateProjectField(${projIndex}, 'icon', this.value)`).outerHTML}
-                ${createFormField('Hero Image', project.hero_image, `updateProjectField(${projIndex}, 'hero_image', this.value)`).outerHTML}
+                ${createImageUploadField('Hero Image', project.hero_image || '', `updateProjectField(${projIndex}, 'hero_image', this.value)`).outerHTML}
                 ${createFormField('Description Lead', project.description?.lead || '', `updateProjectDescription(${projIndex}, 'lead', this.value)`, 'textarea').outerHTML}
                 <div class="nested-section">
                     <h4 class="collapsible" onclick="toggleCollapsible(this)">Description Paragraphs (${project.description?.paragraphs?.length || 0})</h4>
@@ -1903,27 +3290,18 @@ title: Admin Panel
                     </div>
                 </div>
                 <div class="nested-section">
+                    <h4 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0;">Transformation Section (Before/After)</h4>
+                    ${createImageUploadField('Before Image', project.before_after?.before_image || '', `updateProjectBeforeAfter(${projIndex}, 'before_image', this.value)`).outerHTML}
+                    ${createImageUploadField('After Image', project.before_after?.after_image || '', `updateProjectBeforeAfter(${projIndex}, 'after_image', this.value)`).outerHTML}
+                    ${createFormField('Description', project.before_after?.description || '', `updateProjectBeforeAfter(${projIndex}, 'description', this.value)`, 'textarea').outerHTML}
+                </div>
+                <div class="nested-section">
                     <h4 class="collapsible" onclick="toggleCollapsible(this)">Timeline (${project.timeline?.length || 0})</h4>
                     <div class="collapsible-content">
                         <div id="project-timeline-${projIndex}"></div>
                         <button class="btn btn-secondary btn-sm" onclick="addProjectTimelineItem(${projIndex})">+ Add Timeline Item</button>
                     </div>
                 </div>
-                <div class="nested-section">
-                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Related Projects (${project.related_projects?.length || 0})</h4>
-                    <div class="collapsible-content">
-                        <div id="project-related-${projIndex}"></div>
-                        <button class="btn btn-secondary btn-sm" onclick="addProjectRelated(${projIndex})">+ Add Related Project</button>
-                    </div>
-                </div>
-                ${createFormField('Before Image', project.before_after?.before_image || '', `updateProjectBeforeAfter(${projIndex}, 'before_image', this.value)`).outerHTML}
-                ${createFormField('After Image', project.before_after?.after_image || '', `updateProjectBeforeAfter(${projIndex}, 'after_image', this.value)`).outerHTML}
-                ${createFormField('Before/After Description', project.before_after?.description || '', `updateProjectBeforeAfter(${projIndex}, 'description', this.value)`, 'textarea').outerHTML}
-                ${createFormField('CTA Title', project.cta?.title || '', `updateProjectCTA(${projIndex}, 'title', this.value)`).outerHTML}
-                ${createFormField('CTA Description', project.cta?.description || '', `updateProjectCTA(${projIndex}, 'description', this.value)`, 'textarea').outerHTML}
-                ${createFormField('CTA Button Text', project.cta?.button_text || '', `updateProjectCTA(${projIndex}, 'button_text', this.value)`).outerHTML}
-                ${createFormField('CTA Link', project.cta?.link || '', `updateProjectCTA(${projIndex}, 'link', this.value)`).outerHTML}
-                ${createFormField('CTA Background', project.cta_background || '', `updateProjectField(${projIndex}, 'cta_background', this.value)`).outerHTML}
             `;
             container.appendChild(card);
             
@@ -1932,7 +3310,6 @@ title: Admin Panel
             renderProjectDetails(projIndex, project.details || []);
             renderProjectFeatures(projIndex, project.features || []);
             renderProjectTimeline(projIndex, project.timeline || []);
-            renderProjectRelated(projIndex, project.related_projects || []);
         });
     }
 
@@ -1957,6 +3334,10 @@ title: Admin Panel
         const container = document.getElementById(`project-gallery-${projIndex}`);
         container.innerHTML = '';
         gallery.forEach((item, itemIndex) => {
+            const mainImageField = createImageUploadField('Main Image (Gallery)', item.image || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'image', this.value)`);
+            const thumbnailField = createImageUploadField('Thumbnail Image', item.thumbnail || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'thumbnail', this.value)`);
+            const altField = createFormField('Alt Text', item.alt || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'alt', this.value)`);
+            
             const itemCard = document.createElement('div');
             itemCard.className = 'array-item';
             itemCard.innerHTML = `
@@ -1964,9 +3345,9 @@ title: Admin Panel
                     <span class="array-item-title">Gallery Item ${itemIndex + 1}</span>
                     <button class="btn btn-danger btn-sm" onclick="removeProjectGalleryItem(${projIndex}, ${itemIndex})">Remove</button>
                 </div>
-                ${createFormField('Image', item.image || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'image', this.value)`).outerHTML}
-                ${createFormField('Thumbnail', item.thumbnail || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'thumbnail', this.value)`).outerHTML}
-                ${createFormField('Alt Text', item.alt || '', `updateProjectGalleryItem(${projIndex}, ${itemIndex}, 'alt', this.value)`).outerHTML}
+                ${mainImageField.outerHTML}
+                ${thumbnailField.outerHTML}
+                ${altField.outerHTML}
             `;
             container.appendChild(itemCard);
         });
@@ -2023,26 +3404,6 @@ title: Admin Panel
                 ${createFormField('Description', item.description || '', `updateProjectTimelineItem(${projIndex}, ${itemIndex}, 'description', this.value)`, 'textarea').outerHTML}
             `;
             container.appendChild(itemCard);
-        });
-    }
-
-    function renderProjectRelated(projIndex, related) {
-        const container = document.getElementById(`project-related-${projIndex}`);
-        container.innerHTML = '';
-        related.forEach((rel, relIndex) => {
-            const relCard = document.createElement('div');
-            relCard.className = 'array-item';
-            relCard.innerHTML = `
-                <div class="array-item-header">
-                    <span class="array-item-title">${rel.title || 'Related Project'}</span>
-                    <button class="btn btn-danger btn-sm" onclick="removeProjectRelated(${projIndex}, ${relIndex})">Remove</button>
-                </div>
-                ${createFormField('Slug', rel.slug || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'slug', this.value)`).outerHTML}
-                ${createFormField('Title', rel.title || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'title', this.value)`).outerHTML}
-                ${createFormField('Category', rel.category || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'category', this.value)`).outerHTML}
-                ${createFormField('Image', rel.image || '', `updateProjectRelated(${projIndex}, ${relIndex}, 'image', this.value)`).outerHTML}
-            `;
-            container.appendChild(relCard);
         });
     }
 
@@ -2156,40 +3517,12 @@ title: Admin Panel
         projectsData.projects[projIndex].timeline[itemIndex][field] = value;
     }
 
-    function addProjectRelated(projIndex) {
-        if (!projectsData.projects[projIndex].related_projects) {
-            projectsData.projects[projIndex].related_projects = [];
-        }
-        projectsData.projects[projIndex].related_projects.push({
-            slug: '',
-            title: '',
-            category: '',
-            image: ''
-        });
-        renderProjectRelated(projIndex, projectsData.projects[projIndex].related_projects);
-    }
-
-    function removeProjectRelated(projIndex, relIndex) {
-        projectsData.projects[projIndex].related_projects.splice(relIndex, 1);
-        renderProjectRelated(projIndex, projectsData.projects[projIndex].related_projects);
-    }
-
-    function updateProjectRelated(projIndex, relIndex, field, value) {
-        projectsData.projects[projIndex].related_projects[relIndex][field] = value;
-    }
 
     function updateProjectBeforeAfter(projIndex, field, value) {
         if (!projectsData.projects[projIndex].before_after) {
             projectsData.projects[projIndex].before_after = {};
         }
         projectsData.projects[projIndex].before_after[field] = value;
-    }
-
-    function updateProjectCTA(projIndex, field, value) {
-        if (!projectsData.projects[projIndex].cta) {
-            projectsData.projects[projIndex].cta = {};
-        }
-        projectsData.projects[projIndex].cta[field] = value;
     }
 
     function addProject() {
@@ -2212,15 +3545,7 @@ title: Admin Panel
                 before_image: '',
                 after_image: ''
             },
-            timeline: [],
-            related_projects: [],
-            cta: {
-                title: '',
-                description: '',
-                button_text: '',
-                link: ''
-            },
-            cta_background: ''
+            timeline: []
         });
         renderProjectsList();
     }
@@ -2234,16 +3559,21 @@ title: Admin Panel
 
     async function saveProjectsData() {
         try {
+            // Clean data before saving - remove fields not in admin panel
+            const cleanedData = cleanProjectsData(JSON.parse(JSON.stringify(projectsData)));
+            
             // Try to save via API first (for local development)
             const apiBase = getApiBaseUrl();
             try {
                 const response = await fetch(`${apiBase}/api/projects`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(projectsData, null, 2)
+                    body: JSON.stringify(cleanedData, null, 2)
                 });
                 if (response.ok) {
                     showAlert('Projects data saved successfully to server!', 'success');
+                    // Update local data with cleaned version
+                    projectsData = cleanedData;
                     return;
                 }
             } catch (apiError) {
@@ -2251,14 +3581,25 @@ title: Admin Panel
             }
             
             // Try GitHub API for Cloudflare Pages
-            const saved = await saveToGitHub('src/_data/projects.json', projectsData);
+            const saved = await saveToGitHub('src/_data/projects.json', cleanedData);
             if (saved) {
                 showAlert('Projects data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+                // Update local data with cleaned version
+                projectsData = cleanedData;
                 return;
             }
             
             // Fallback: download the file
-            downloadJSON('projects');
+            const dataStr = JSON.stringify(cleanedData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'projects.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            // Update local data with cleaned version
+            projectsData = cleanedData;
             showAlert('Projects data downloaded! Upload projects.json to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving projects data: ' + error.message, 'error');
@@ -2274,6 +3615,70 @@ title: Admin Panel
         container.innerHTML = '';
         container.appendChild(alert);
         setTimeout(() => alert.remove(), 5000);
+    }
+
+    // Clean projects data - remove fields not in admin panel
+    function cleanProjectsData(data) {
+        if (!data || !data.projects) return data;
+        
+        const allowedFields = [
+            'slug', 'title', 'category', 'hero_image', 'icon',
+            'gallery', 'details', 'description', 'features',
+            'before_after', 'timeline'
+        ];
+        
+        data.projects = data.projects.map(project => {
+            const cleaned = {};
+            allowedFields.forEach(field => {
+                if (project[field] !== undefined) {
+                    cleaned[field] = project[field];
+                }
+            });
+            return cleaned;
+        });
+        
+        return data;
+    }
+
+    // Clean packages data - remove fields not in admin panel
+    function cleanPackagesData(data) {
+        if (!data || !data.packages) return data;
+        // All fields in packages are editable, so no cleaning needed
+        return data;
+    }
+
+    // Clean products data - remove fields not in admin panel
+    function cleanProductsData(data) {
+        if (!data || !data.products) return data;
+        // All fields in products are editable, so no cleaning needed
+        return data;
+    }
+
+    // Clean furniture data - remove fields not in admin panel
+    function cleanFurnitureData(data) {
+        if (!data || !Array.isArray(data)) return data;
+        // All fields in furniture are editable, so no cleaning needed
+        return data;
+    }
+
+    // Clean design services data - remove fields not in admin panel
+    function cleanDesignServicesData(data) {
+        if (!data) return data;
+        // All fields in design services are editable, so no cleaning needed
+        return data;
+    }
+
+    function cleanContactData(data) {
+        if (!data) return data;
+        // All fields in contact are editable, so no cleaning needed
+        return data;
+    }
+
+    // Clean homepage data - remove fields not in admin panel
+    function cleanHomepageData(data) {
+        if (!data) return data;
+        // All fields in homepage are editable, so no cleaning needed
+        return data;
     }
 
     // Load data on page load

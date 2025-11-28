@@ -36,6 +36,16 @@ app.post('/api/homepage', async (req, res) => {
     }
 });
 
+app.put('/api/homepage', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'src', '_data', 'homepage.json');
+        await fs.writeFile(filePath, JSON.stringify(req.body, null, 2), 'utf8');
+        res.json({ success: true, message: 'Homepage data saved successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Get packages data
 app.get('/api/packages', async (req, res) => {
     try {
@@ -124,19 +134,77 @@ app.post('/api/projects', async (req, res) => {
     }
 });
 
+// Get design-services data
+app.get('/api/design-services', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'src', '_data', 'designServices.json');
+        const data = await fs.readFile(filePath, 'utf8');
+        res.json(JSON.parse(data));
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Save design-services data
+app.post('/api/design-services', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'src', '_data', 'designServices.json');
+        await fs.writeFile(filePath, JSON.stringify(req.body, null, 2), 'utf8');
+        res.json({ success: true, message: 'Design services data saved successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get contact data
+app.get('/api/contact', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'src', '_data', 'contact.json');
+        const data = await fs.readFile(filePath, 'utf8');
+        res.json(JSON.parse(data));
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Save contact data
+app.post('/api/contact', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'src', '_data', 'contact.json');
+        await fs.writeFile(filePath, JSON.stringify(req.body, null, 2), 'utf8');
+        res.json({ success: true, message: 'Contact data saved successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Serve _data directory for direct file access
 app.use('/_data', express.static(path.join(__dirname, 'src', '_data')));
+
+// Determine the command based on platform
+const isWindows = process.platform === 'win32';
 
 // Build Eleventy first, then start server
 async function startServer() {
     console.log('🔨 Building Eleventy site...');
     
-    // Build Eleventy
-    const buildProcess = spawn('npx', ['eleventy'], {
-        stdio: 'inherit',
-        shell: false,
-        cwd: __dirname
-    });
+    // Build Eleventy - use different approach for Windows
+    let buildProcess;
+    if (isWindows) {
+        // On Windows, use npm with shell: true
+        buildProcess = spawn('npm', ['run', 'build'], {
+            stdio: 'inherit',
+            shell: true,
+            cwd: __dirname
+        });
+    } else {
+        // On Unix-like systems, use npx directly
+        buildProcess = spawn('npx', ['eleventy'], {
+            stdio: 'inherit',
+            shell: false,
+            cwd: __dirname
+        });
+    }
 
     buildProcess.on('close', (code) => {
         if (code !== 0) {
@@ -151,12 +219,24 @@ async function startServer() {
         console.log(`\n💡 The server will automatically rebuild when you save changes to data files.`);
         
         // Start watching for changes in watch mode (non-blocking)
-        const watchProcess = spawn('npx', ['eleventy', '--watch'], {
-            stdio: ['ignore', 'pipe', 'pipe'],
-            shell: false,
-            cwd: __dirname,
-            detached: false
-        });
+        let watchProcess;
+        if (isWindows) {
+            // On Windows, use npx with shell: true
+            watchProcess = spawn('npx', ['eleventy', '--watch'], {
+                stdio: ['ignore', 'pipe', 'pipe'],
+                shell: true,
+                cwd: __dirname,
+                detached: false
+            });
+        } else {
+            // On Unix-like systems, use npx directly
+            watchProcess = spawn('npx', ['eleventy', '--watch'], {
+                stdio: ['ignore', 'pipe', 'pipe'],
+                shell: false,
+                cwd: __dirname,
+                detached: false
+            });
+        }
 
         watchProcess.stdout.on('data', (data) => {
             const output = data.toString();

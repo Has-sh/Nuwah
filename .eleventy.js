@@ -7,6 +7,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets/img");
   eleventyConfig.addPassthroughCopy({ "src/assets/img/favicon": "/" });
   eleventyConfig.addPassthroughCopy("src/assets/vid");
+  eleventyConfig.addPassthroughCopy("src/robots.txt");
   
   // Copy data files for admin panel access on Cloudflare Pages
   // Copy specific JSON files to _data directory in output
@@ -15,6 +16,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/_data/furniture.json": "_data/furniture.json" });
   eleventyConfig.addPassthroughCopy({ "src/_data/projects.json": "_data/projects.json" });
   eleventyConfig.addPassthroughCopy({ "src/_data/homepage.json": "_data/homepage.json" });
+  eleventyConfig.addPassthroughCopy({ "src/_data/designServices.json": "_data/designServices.json" });
+  eleventyConfig.addPassthroughCopy({ "src/_data/contact.json": "_data/contact.json" });
 
   // Add packages collection
   eleventyConfig.addCollection("packages", function(collectionApi) {
@@ -42,8 +45,17 @@ module.exports = function(eleventyConfig) {
 });
 
 eleventyConfig.addCollection("projects", function (collectionApi) {
-  const data = require("./src/_data/projects.json");
-  return data.projects || [];
+  const dataPath = "./src/_data/projects.json";
+  if (fs.existsSync(dataPath)) {
+    try {
+      const jsonData = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+      return jsonData.projects || [];
+    } catch (error) {
+      console.error("Error parsing projects.json:", error);
+      return [];
+    }
+  }
+  return [];
 });
 
   eleventyConfig.addFilter("capitalize", function(str) {
@@ -59,6 +71,16 @@ eleventyConfig.addCollection("projects", function (collectionApi) {
       .replace(/\s+/g, '-')        // Replace spaces with hyphens
       .replace(/-+/g, '-')         // Replace multiple hyphens with single
       .trim('-');                  // Remove leading/trailing hyphens
+  });
+
+  // Date filter for sitemap
+  eleventyConfig.addFilter("dateFormat", function(date, format) {
+    if (!date) return "";
+    const d = date === "now" ? new Date() : new Date(date);
+    if (format === "YYYY-MM-DD") {
+      return d.toISOString().split('T')[0];
+    }
+    return d.toISOString().split('T')[0];
   });
 
   // Calculate minimum current price from all colors and roomTypes

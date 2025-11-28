@@ -3,14 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Nuwah is a premium interior design studio in Dubai, UAE, transforming residential and commercial spaces with elegance, functionality, and emotion. Discover bespoke designs that redefine luxury living in the UAE.">
-  <title>{{ title or "Nuwah - Creating Emotion Through Space" }}</title>
-
+  
+  {% set siteUrl = "https://nuwah.pages.dev" %}
+  {% set currentUrl = siteUrl + page.url %}
+  {% set pageTitle = title or "Nuwah - Creating Emotion Through Space" %}
+  {% set pageDescription = description or "Nuwah is a premium interior design studio in Dubai, UAE, transforming residential and commercial spaces with elegance, functionality, and emotion. Discover bespoke designs that redefine luxury living in the UAE." %}
+  {% set pageImage = image or siteUrl + "/assets/img/footer-logo-Photoroom.png" %}
+  
+  <!-- Primary Meta Tags -->
+  <title>{{ pageTitle }}</title>
+  <meta name="title" content="{{ pageTitle }}">
+  <meta name="description" content="{{ pageDescription }}">
+  <meta name="keywords" content="interior design, Dubai, UAE, luxury interior design, residential design, commercial design, furniture, home renovation, fitout">
+  <meta name="author" content="Nuwah">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  <meta name="theme-color" content="#667eea">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ currentUrl }}">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ currentUrl }}">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="{{ pageDescription }}">
+  <meta property="og:image" content="{{ pageImage }}">
+  <meta property="og:site_name" content="Nuwah">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="{{ currentUrl }}">
+  <meta name="twitter:title" content="{{ pageTitle }}">
+  <meta name="twitter:description" content="{{ pageDescription }}">
+  <meta name="twitter:image" content="{{ pageImage }}">
+  
+  <!-- Preconnect for Performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- Favicon -->
   <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/assets/img/favicon.ico">
+  
+  <!-- DNS Prefetch -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -21,6 +64,71 @@
   <noscript>
     <link rel="stylesheet" href="/assets/css/wdt-styles.css">
   </noscript>
+  
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Nuwah",
+    "description": "Premium interior design studio in Dubai, UAE, transforming residential and commercial spaces with elegance, functionality, and emotion.",
+    "url": "{{ siteUrl }}",
+    "logo": "{{ siteUrl }}/assets/img/footer-logo-Photoroom.png",
+    "image": "{{ pageImage }}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "AE",
+      "addressLocality": "Dubai",
+      "addressRegion": "Dubai"
+    },
+    "telephone": "+971-XX-XXX-XXXX",
+    "priceRange": "$$$",
+    "areaServed": {
+      "@type": "Country",
+      "name": "United Arab Emirates"
+    },
+    "sameAs": [
+      "https://www.instagram.com/nuwah",
+      "https://www.facebook.com/nuwah",
+      "https://www.twitter.com/nuwah"
+    ]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Nuwah",
+    "url": "{{ siteUrl }}",
+    "logo": "{{ siteUrl }}/assets/img/footer-logo-Photoroom.png",
+    "description": "{{ pageDescription }}",
+    "sameAs": [
+      "https://www.instagram.com/nuwah",
+      "https://www.facebook.com/nuwah",
+      "https://www.twitter.com/nuwah"
+    ]
+  }
+  </script>
+  
+  {% if breadcrumbs %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {% for crumb in breadcrumbs %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "name": "{{ crumb.name }}",
+        "item": "{{ siteUrl }}{{ crumb.url }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
 </head>
 <body>
 <header>
@@ -105,5 +213,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
   <script src="/assets/js/script.js"></script>
+  
+  <!-- Google Analytics (Replace G-XXXXXXXXXX with your actual tracking ID) -->
+  <!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
 </body>
 </html>

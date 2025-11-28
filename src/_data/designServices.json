@@ -1,0 +1,167 @@
+{
+  "hero": {
+    "title": "Interior Design Services",
+    "description": "Creating emotion through space with our comprehensive design solutions tailored to your unique vision"
+  },
+  "servicesSection": {
+    "subtitle": "Our Services",
+    "title": "Comprehensive Design Solutions",
+    "services": [
+      {
+        "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=250&fit=crop",
+        "icon": "fas fa-home",
+        "title": "Residential Design",
+        "description": "Transform your home into a sanctuary that reflects your personality and lifestyle with our personalized residential design services.",
+        "features": [
+          "Space Planning & Layout",
+          "Custom Furniture Selection",
+          "Color Scheme Development",
+          "Lighting Design",
+          "Material & Finish Selection"
+        ]
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop",
+        "icon": "fas fa-building",
+        "title": "Commercial Design",
+        "description": "Create inspiring work environments that enhance productivity and reflect your brand identity through strategic commercial design.",
+        "features": [
+          "Office Space Planning",
+          "Brand Integration",
+          "Ergonomic Solutions",
+          "Meeting Room Design",
+          "Reception Area Styling"
+        ]
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=400&h=250&fit=crop",
+        "icon": "fas fa-utensils",
+        "title": "Kitchen Design",
+        "description": "Design the heart of your home with functional and beautiful kitchens that combine style with practical cooking solutions.",
+        "features": [
+          "Cabinet Design & Layout",
+          "Appliance Integration",
+          "Countertop Selection",
+          "Storage Solutions",
+          "Backsplash Design"
+        ]
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=250&fit=crop",
+        "icon": "fas fa-bath",
+        "title": "Bathroom Design",
+        "description": "Create luxurious spa-like bathrooms that provide relaxation and functionality with premium fixtures and thoughtful design.",
+        "features": [
+          "Fixture Selection",
+          "Tile & Stone Design",
+          "Shower & Bath Planning",
+          "Vanity Design",
+          "Lighting Solutions"
+        ]
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=250&fit=crop",
+        "icon": "fas fa-bed",
+        "title": "Bedroom Design",
+        "description": "Design peaceful retreats that promote rest and relaxation with carefully curated bedroom spaces tailored to your comfort needs.",
+        "features": [
+          "Bedroom Layout Planning",
+          "Custom Storage Solutions",
+          "Bedding & Textile Selection",
+          "Window Treatments",
+          "Ambient Lighting"
+        ]
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop",
+        "icon": "fas fa-lightbulb",
+        "title": "Lighting Design",
+        "description": "Illuminate your space with expertly designed lighting solutions that enhance ambiance and functionality throughout your home.",
+        "features": [
+          "Ambient Lighting Plans",
+          "Task Lighting Solutions",
+          "Accent Lighting Design",
+          "Smart Home Integration",
+          "Energy Efficiency"
+        ]
+      }
+    ]
+  },
+  "processSection": {
+    "subtitle": "Our Process",
+    "title": "How We Work With You",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Consultation",
+        "description": "We begin with an in-depth consultation to understand your vision, lifestyle, and project requirements."
+      },
+      {
+        "number": "02",
+        "title": "Design Concept",
+        "description": "Our team creates initial design concepts with mood boards, layouts, and material selections."
+      },
+      {
+        "number": "03",
+        "title": "Development",
+        "description": "We refine the design based on your feedback and develop detailed plans and specifications."
+      },
+      {
+        "number": "04",
+        "title": "Implementation",
+        "description": "We oversee the implementation process, ensuring every detail is executed to perfection."
+      }
+    ]
+  },
+  "pricingSection": {
+    "subtitle": "Our Packages",
+    "title": "Design Service Packages",
+    "packages": [
+      {
+        "title": "Consultation",
+        "price": "$150",
+        "period": "per hour",
+        "features": [
+          "Initial Design Consultation",
+          "Space Assessment",
+          "Design Direction",
+          "Basic Recommendations",
+          "Follow-up Call"
+        ],
+        "buttonText": "Get Started",
+        "featured": false
+      },
+      {
+        "title": "Design Package",
+        "price": "$2,500",
+        "period": "per room",
+        "features": [
+          "Complete Room Design",
+          "3D Renderings",
+          "Furniture Selection",
+          "Color Schemes",
+          "Shopping List",
+          "Implementation Support"
+        ],
+        "buttonText": "Get Started",
+        "featured": true
+      },
+      {
+        "title": "Full Service",
+        "price": "Custom",
+        "period": "quote",
+        "features": [
+          "Entire Home Design",
+          "Project Management",
+          "Construction Oversight",
+          "Furniture Procurement",
+          "Styling & Installation",
+          "Ongoing Support"
+        ],
+        "buttonText": "Contact Us",
+        "featured": false
+      }
+    ]
+  }
+}
+

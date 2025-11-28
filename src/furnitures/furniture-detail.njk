@@ -5,6 +5,10 @@ pagination:
   data: products.products
   size: 1
   alias: product
+eleventyComputed:
+  title: "{{ product.name }} - Luxury {{ product.category }} Furniture in Dubai | Nuwah"
+  description: "{{ product.description | default('Discover this premium ' + product.name + ' furniture piece from Nuwah collection in Dubai.') | truncate(160) }}"
+  image: "{{ product.colorOptions[0].image | default('/assets/img/footer-logo-Photoroom.png') }}"
 ---
 
 <style>

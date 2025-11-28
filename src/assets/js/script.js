@@ -550,8 +550,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Load More Button functionality
 let loadedOnce = false;
+let furnitureData = [];
+let initialFurnitureCount = 4; // Number of items shown initially
 
 document.addEventListener('DOMContentLoaded', function() {
+	// Load furniture data from homepage.json
+	async function loadFurnitureData() {
+		try {
+			const response = await fetch('/_data/homepage.json');
+			if (response.ok) {
+				const data = await response.json();
+				furnitureData = data.furnitureSection?.furniture || [];
+			}
+		} catch (error) {
+			console.error('Error loading furniture data:', error);
+		}
+	}
+
+	loadFurnitureData();
+
 	const loadMoreBtn = document.getElementById("loadMoreBtn");
 	if (loadMoreBtn) {
 		loadMoreBtn.addEventListener("click", () => {
@@ -568,47 +585,34 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
 
 		setTimeout(() => {
-		const newProducts = `
-        <div class="col-lg-3 col-md-3 col-6">
-          <div class="card product-card h-100">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop"   data-alt="/assets/img/furniture1.jpg"  class="card-img-top product-img" alt="Office Chair"/>
-            <div class="card-body">
-              <h6 class="card-title">Office Chair</h6>
-              <p class="card-text text-muted">$30.00</p>
-            </div>
-          </div>
-        </div>
+			// Get remaining furniture items (skip the first 4 that are already displayed)
+			const remainingItems = furnitureData.slice(initialFurnitureCount);
+			
+			if (remainingItems.length === 0) {
+				loadMoreBtn.outerHTML = `<div class="all-loaded text-center mt-2">✔ All items loaded</div>`;
+				loadedOnce = true;
+				return;
+			}
 
-        <div class="col-lg-3 col-md-3 col-6">
-          <div class="card product-card h-100">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop" class="card-img-top product-img" alt="Dining Table"/>
-            <div class="card-body">
-              <h6 class="card-title">Dining Table</h6>
-              <p class="card-text text-muted">$120.00</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-3 col-6">
-          <div class="card product-card h-100">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop" class="card-img-top product-img" alt="Rocking Chair"/>
-            <div class="card-body">
-              <h6 class="card-title">Rocking Chair</h6>
-              <p class="card-text text-muted">$85.00</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-3 col-6">
-          <div class="card product-card h-100">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop" class="card-img-top product-img" alt="Coffee Table"/>
-            <div class="card-body">
-              <h6 class="card-title">Coffee Table</h6>
-              <p class="card-text text-muted">$40.00</p>
-            </div>
-          </div>
-        </div>
-      `;
+			let newProducts = '';
+			remainingItems.forEach((item) => {
+				const saleBadge = item.onSale ? '<div class="homepage-furniture-sale-badge">SALE!</div>' : '';
+				newProducts += `
+					<div class="col-lg-3 col-md-3 col-6">
+						<div class="card product-card h-100">
+							${saleBadge}
+							<div class="product-img-container">
+								<img src="${item.defaultImage || ''}" class="product-img default-img" alt="${item.title || ''}" />
+								${item.hoverImage ? `<img src="${item.hoverImage}" class="product-img hover-img" alt="${item.title || ''} Hover" />` : ''}
+							</div>
+							<div class="card-body">
+								<h6 class="card-title">${item.title || ''}</h6>
+								<p class="card-text text-muted">${item.price || ''}</p>
+							</div>
+						</div>
+					</div>
+				`;
+			});
 
 			const productList = document.getElementById("product-list");
 			if (productList) {
@@ -687,6 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const imageMap = {
+	// Default images (fallback if JSON not loaded)
 	'Residential': {
 		before: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop',
 		after: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop',
@@ -704,6 +709,30 @@ const imageMap = {
 		after: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&h=600&fit=crop',
 	}
 };
+
+// Load project images from homepage.json
+async function loadProjectImages() {
+	try {
+		const response = await fetch('/_data/homepage.json');
+		if (response.ok) {
+			const data = await response.json();
+			if (data.projectsSection?.projectTypes) {
+				// Merge JSON data with default imageMap
+				Object.keys(data.projectsSection.projectTypes).forEach(type => {
+					if (imageMap[type]) {
+						imageMap[type] = {
+							before: data.projectsSection.projectTypes[type].before || imageMap[type].before,
+							after: data.projectsSection.projectTypes[type].after || imageMap[type].after
+						};
+					}
+				});
+			}
+		}
+	} catch (error) {
+		console.error('Error loading project images:', error);
+	}
+}
+
 
 function toggleDropdown() {
 	const nav = document.getElementById('navBar');
@@ -745,7 +774,10 @@ window.addEventListener('load', handleResize);
 window.addEventListener('resize', handleResize);
 
 // Navigation items for projects section
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+	// Load project images first
+	await loadProjectImages();
+	
 	const navItems = document.querySelectorAll('.nav-item');
 	const beforeImage = document.getElementById('beforeImg');
 	const afterImage = document.getElementById('afterImg');

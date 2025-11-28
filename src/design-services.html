@@ -1,6 +1,8 @@
 ---
 layout: layout.njk
-title: Design Services
+title: Interior Design Services in Dubai - Residential & Commercial | Nuwah
+description: Professional interior design services in Dubai. Residential design, commercial spaces, kitchen design, bathroom design, and lighting solutions. Transform your space with expert design.
+image: /assets/img/footer-logo-Photoroom.png
 ---
 
 <style>
@@ -152,9 +154,12 @@ title: Design Services
     /* Portfolio Grid */
     .portfolio-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 30px;
         margin-top: 40px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .portfolio-item {
@@ -162,6 +167,47 @@ title: Design Services
         overflow: hidden;
         border-radius: 0;
         aspect-ratio: 4/3;
+        width: 100%;
+    }
+
+    .portfolio-item.hidden {
+        display: none;
+    }
+
+    .portfolio-item.visible {
+        display: block;
+    }
+
+    .view-more-container {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .btn-view-more {
+        background-color: #333;
+        color: white;
+        padding: 15px 40px;
+        border: none;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .btn-view-more:hover {
+        background-color: #555;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .portfolio-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 
     .portfolio-img {
@@ -361,6 +407,12 @@ title: Design Services
     }
 
     /* Responsive */
+    @media (max-width: 1024px) {
+        .portfolio-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
     @media (max-width: 768px) {
 
         .custom-header-title {
@@ -384,6 +436,10 @@ title: Design Services
         .pricing-card {
             width: 100%;
             max-width: 100%;
+        }
+
+        .portfolio-grid {
+            grid-template-columns: 1fr;
         }
     }
 
@@ -430,150 +486,40 @@ title: Design Services
 <!-- Hero Section -->
 <div class="services-hero">
     <div class="container">
-        <h1 data-aos="fade-up">Interior Design Services</h1>
-        <p data-aos="fade-up" data-aos-delay="200">Creating emotion through space with our comprehensive design
-            solutions tailored to your unique vision</p>
+        <h1 data-aos="fade-up">{{ designServices.hero.title | default('Interior Design Services') }}</h1>
+        <p data-aos="fade-up" data-aos-delay="200">{{ designServices.hero.description | default('Creating emotion through space with our comprehensive design solutions tailored to your unique vision') }}</p>
     </div>
 </div>
 <!-- Main Services Section -->
 <div class="container-fluid custom-padding process-sections">
     <div class="container">
         <div class="custom-header" data-aos="fade-up">
-            <p class="custom-header-subtitle">Our Services</p>
-            <h1 class="custom-header-title">Comprehensive Design Solutions</h1>
+            <p class="custom-header-subtitle">{{ designServices.servicesSection.subtitle | default('Our Services') }}</p>
+            <h1 class="custom-header-title">{{ designServices.servicesSection.title | default('Comprehensive Design Solutions') }}</h1>
         </div>
 
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            {% if designServices and designServices.servicesSection and designServices.servicesSection.services %}
+            {% for service in designServices.servicesSection.services %}
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
                 <div class="service-card">
-                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=250&fit=crop"
-                        alt="Residential Design" class="service-img">
+                    <img src="{{ service.image }}" alt="{{ service.title }}" class="service-img">
                     <div class="service-content">
                         <div class="service-icon">
-                            <i class="fas fa-home"></i>
+                            <i class="{{ service.icon }}"></i>
                         </div>
-                        <h3 class="service-title">Residential Design</h3>
-                        <p class="service-description">Transform your home into a sanctuary that reflects your
-                            personality and lifestyle with our personalized residential design services.</p>
+                        <h3 class="service-title">{{ service.title }}</h3>
+                        <p class="service-description">{{ service.description }}</p>
                         <ul class="service-features">
-                            <li>Space Planning & Layout</li>
-                            <li>Custom Furniture Selection</li>
-                            <li>Color Scheme Development</li>
-                            <li>Lighting Design</li>
-                            <li>Material & Finish Selection</li>
+                            {% for feature in service.features %}
+                            <li>{{ feature }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-card">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop"
-                        alt="Commercial Design" class="service-img">
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <h3 class="service-title">Commercial Design</h3>
-                        <p class="service-description">Create inspiring work environments that enhance productivity and
-                            reflect your brand identity through strategic commercial design.</p>
-                        <ul class="service-features">
-                            <li>Office Space Planning</li>
-                            <li>Brand Integration</li>
-                            <li>Ergonomic Solutions</li>
-                            <li>Meeting Room Design</li>
-                            <li>Reception Area Styling</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-card">
-                    <img src="https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=400&h=250&fit=crop"
-                        alt="Kitchen Design" class="service-img">
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fas fa-utensils"></i>
-                        </div>
-                        <h3 class="service-title">Kitchen Design</h3>
-                        <p class="service-description">Design the heart of your home with functional and beautiful
-                            kitchens that combine style with practical cooking solutions.</p>
-                        <ul class="service-features">
-                            <li>Cabinet Design & Layout</li>
-                            <li>Appliance Integration</li>
-                            <li>Countertop Selection</li>
-                            <li>Storage Solutions</li>
-                            <li>Backsplash Design</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-card">
-                    <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=250&fit=crop"
-                        alt="Bathroom Design" class="service-img">
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fas fa-bath"></i>
-                        </div>
-                        <h3 class="service-title">Bathroom Design</h3>
-                        <p class="service-description">Create luxurious spa-like bathrooms that provide relaxation and
-                            functionality with premium fixtures and thoughtful design.</p>
-                        <ul class="service-features">
-                            <li>Fixture Selection</li>
-                            <li>Tile & Stone Design</li>
-                            <li>Shower & Bath Planning</li>
-                            <li>Vanity Design</li>
-                            <li>Lighting Solutions</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-card">
-                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=250&fit=crop"
-                        alt="Bedroom Design" class="service-img">
-                    <div class="service-content">
-                        <div class="service-icon">  
-                            <i class="fas fa-bed"></i>
-                        </div>
-                        <h3 class="service-title">Bedroom Design</h3>
-                        <p class="service-description">Design peaceful retreats that promote rest and relaxation with
-                            carefully curated bedroom spaces tailored to your comfort needs.</p>
-                        <ul class="service-features">
-                            <li>Bedroom Layout Planning</li>
-                            <li>Custom Storage Solutions</li>
-                            <li>Bedding & Textile Selection</li>
-                            <li>Window Treatments</li>
-                            <li>Ambient Lighting</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-card">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop"
-                        alt="Lighting Design" class="service-img">
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h3 class="service-title">Lighting Design</h3>
-                        <p class="service-description">Illuminate your space with expertly designed lighting solutions
-                            that enhance ambiance and functionality throughout your home.</p>
-                        <ul class="service-features">
-                            <li>Ambient Lighting Plans</li>
-                            <li>Task Lighting Solutions</li>
-                            <li>Accent Lighting Design</li>
-                            <li>Smart Home Integration</li>
-                            <li>Energy Efficiency</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>
@@ -582,43 +528,22 @@ title: Design Services
 <div class="container-fluid custom-padding">
     <div class="container">
         <div class="custom-header" data-aos="fade-up">
-            <p class="custom-header-subtitle">Our Process</p>
-            <h1 class="custom-header-title">How We Work With You</h1>
+            <p class="custom-header-subtitle">{{ designServices.processSection.subtitle | default('Our Process') }}</p>
+            <h1 class="custom-header-title">{{ designServices.processSection.title | default('How We Work With You') }}</h1>
         </div>
 
         <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+            {% if designServices and designServices.processSection and designServices.processSection.steps %}
+            {% for step in designServices.processSection.steps %}
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
                 <div class="process-step">
-                    <div class="process-number">01</div>
-                    <h4 class="process-title">Consultation</h4>
-                    <p class="process-description">We begin with an in-depth consultation to understand your vision,
-                        lifestyle, and project requirements.</p>
+                    <div class="process-number">{{ step.number }}</div>
+                    <h4 class="process-title">{{ step.title }}</h4>
+                    <p class="process-description">{{ step.description }}</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="process-step">
-                    <div class="process-number">02</div>
-                    <h4 class="process-title">Design Concept</h4>
-                    <p class="process-description">Our team creates initial design concepts with mood boards, layouts,
-                        and material selections.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="process-step">
-                    <div class="process-number">03</div>
-                    <h4 class="process-title">Development</h4>
-                    <p class="process-description">We refine the design based on your feedback and develop detailed
-                        plans and specifications.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
-                <div class="process-step">
-                    <div class="process-number">04</div>
-                    <h4 class="process-title">Implementation</h4>
-                    <p class="process-description">We oversee the implementation process, ensuring every detail is
-                        executed to perfection.</p>
-                </div>
-            </div>
+            {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>
@@ -631,136 +556,65 @@ title: Design Services
             <h1 class="custom-header-title">Recent Projects</h1>
         </div>
 
-        <div class="portfolio-grid">
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
-                <a href="/projects/modern-living-space" class="portfolio-link">
-                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop"
-                    alt="Modern Living Room" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Modern Living Space</h4>
-                    <p class="portfolio-category">Residential</p>
+        <div class="portfolio-grid" id="portfolioGrid">
+            {% if collections.projects and collections.projects.length > 0 %}
+                {% for project in collections.projects %}
+                <div class="portfolio-item {% if loop.index > 6 %}hidden{% endif %}" data-aos="zoom-in" data-aos-delay="{{ loop.index0 * 100 }}">
+                    <a href="/projects/{{ project.slug }}/" class="portfolio-link">
+                        {% set projectImage = project.hero_image %}
+                        {% if not projectImage and project.gallery and project.gallery[0] and project.gallery[0].image %}
+                            {% set projectImage = project.gallery[0].image %}
+                        {% endif %}
+                        {% if not projectImage %}
+                            {% set projectImage = 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop' %}
+                        {% endif %}
+                        <img src="{{ projectImage }}"
+                            alt="{{ project.title }}" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h4 class="portfolio-title">{{ project.title }}</h4>
+                            <p class="portfolio-category">{{ project.category }}</p>
+                        </div>
+                    </a>
                 </div>
-                </a>
-            </div>
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
-                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop"
-                    alt="Scandinavian Kitchen" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Scandinavian Kitchen</h4>
-                    <p class="portfolio-category">Kitchen Design</p>
-                </div>
-            </div>
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="300">
-                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop"
-                    alt="Luxury Bedroom" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Luxury Bedroom Suite</h4>
-                    <p class="portfolio-category">Bedroom Design</p>
-                </div>
-            </div>
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="400">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop"
-                    alt="Corporate Office" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Corporate Office</h4>
-                    <p class="portfolio-category">Commercial</p>
-                </div>
-            </div>
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="500">
-                <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&h=400&fit=crop"
-                    alt="Spa Bathroom" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Spa-Inspired Bathroom</h4>
-                    <p class="portfolio-category">Bathroom Design</p>
-                </div>
-            </div>
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="600">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop"
-                    alt="Lighting Design" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Ambient Lighting</h4>
-                    <p class="portfolio-category">Lighting Design</p>
-                </div>
-            </div>
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="600">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop"
-                    alt="Lighting Design" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Ambient Lighting</h4>
-                    <p class="portfolio-category">Lighting Design</p>
-                </div>
-            </div>
-            <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="600">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop"
-                    alt="Lighting Design" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <h4 class="portfolio-title">Ambient Lighting</h4>
-                    <p class="portfolio-category">Lighting Design</p>
-                </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center; color: #666; grid-column: 1 / -1;">No projects available. Add projects in the admin panel.</p>
+            {% endif %}
         </div>
+        {% if collections.projects and collections.projects.length > 6 %}
+        <div class="view-more-container">
+            <button class="btn-view-more" id="viewMoreBtn" onclick="toggleViewMore()">View More Projects</button>
+        </div>
+        {% endif %}
     </div>
 </div>
 
 
 
 <div class="container-fluid custom-padding">
-
     <div class="custom-header" data-aos="fade-up">
-        <p class="custom-header-subtitle">Our Packages</p>
-        <h1 class="custom-header-title">Design Service Packages</h1>
+        <p class="custom-header-subtitle">{{ designServices.pricingSection.subtitle | default('Our Packages') }}</p>
+        <h1 class="custom-header-title">{{ designServices.pricingSection.title | default('Design Service Packages') }}</h1>
     </div>
 
     <div class="pricing-container">
-        <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+        {% if designServices and designServices.pricingSection and designServices.pricingSection.packages %}
+        {% for pkg in designServices.pricingSection.packages %}
+        <div class="pricing-card {% if pkg.featured %}featured{% endif %}" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
             <div class="pricing-card-content">
-                <h3 class="pricing-title">Consultation</h3>
-                <div class="pricing-price">$150</div>
-                <div class="pricing-period">per hour</div>
+                <h3 class="pricing-title">{{ pkg.title }}</h3>
+                <div class="pricing-price">{{ pkg.price }}</div>
+                <div class="pricing-period">{{ pkg.period }}</div>
                 <ul class="pricing-features">
-                    <li>Initial Design Consultation</li>
-                    <li>Space Assessment</li>
-                    <li>Design Direction</li>
-                    <li>Basic Recommendations</li>
-                    <li>Follow-up Call</li>
+                    {% for feature in pkg.features %}
+                    <li>{{ feature }}</li>
+                    {% endfor %}
                 </ul>
-                <button class="btn-pricing">Get Started</button>
+                <button class="btn-pricing">{{ pkg.buttonText }}</button>
             </div>
         </div>
-
-        <div class="pricing-card featured" data-aos="fade-up" data-aos-delay="200">
-            <div class="pricing-card-content">
-                <h3 class="pricing-title">Design Package</h3>
-                <div class="pricing-price">$2,500</div>
-                <div class="pricing-period">per room</div>
-                <ul class="pricing-features">
-                    <li>Complete Room Design</li>
-                    <li>3D Renderings</li>
-                    <li>Furniture Selection</li>
-                    <li>Color Schemes</li>
-                    <li>Shopping List</li>
-                    <li>Implementation Support</li>
-                </ul>
-                <button class="btn-pricing">Get Started</button>
-            </div>
-        </div>
-
-        <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
-            <div class="pricing-card-content">
-                <h3 class="pricing-title">Full Service</h3>
-                <div class="pricing-price">Custom</div>
-                <div class="pricing-period">quote</div>
-                <ul class="pricing-features">
-                    <li>Entire Home Design</li>
-                    <li>Project Management</li>
-                    <li>Construction Oversight</li>
-                    <li>Furniture Procurement</li>
-                    <li>Styling & Installation</li>
-                    <li>Ongoing Support</li>
-                </ul>
-                <button class="btn-pricing">Contact Us</button>
-            </div>
-        </div>
+        {% endfor %}
+        {% endif %}
     </div>
 </div>
 
@@ -822,15 +676,20 @@ title: Design Services
 
     // Portfolio item hover effects
     document.querySelectorAll('.portfolio-item').forEach(item => {
-        item.addEventListener('mouseenter', function () {
-            this.querySelector('.portfolio-img').style.transform = 'scale(1.1)';
-            this.querySelector('.portfolio-overlay').style.opacity = '1';
-        });
+        const img = item.querySelector('.portfolio-img');
+        const overlay = item.querySelector('.portfolio-overlay');
+        
+        if (img && overlay) {
+            item.addEventListener('mouseenter', function () {
+                img.style.transform = 'scale(1.1)';
+                overlay.style.opacity = '1';
+            });
 
-        item.addEventListener('mouseleave', function () {
-            this.querySelector('.portfolio-img').style.transform = 'scale(1)';
-            this.querySelector('.portfolio-overlay').style.opacity = '0';
-        });
+            item.addEventListener('mouseleave', function () {
+                img.style.transform = 'scale(1)';
+                overlay.style.opacity = '0';
+            });
+        }
     });
 
     // Pricing card hover effect
@@ -882,4 +741,35 @@ title: Design Services
         clearTimeout(window.equalizeTimeout);
         window.equalizeTimeout = setTimeout(equalizePricingCardHeights, 100);
     });
+
+    // View More Projects functionality
+    let isExpanded = false;
+    function toggleViewMore() {
+        const portfolioItems = document.querySelectorAll('.portfolio-item.hidden');
+        const viewMoreBtn = document.getElementById('viewMoreBtn');
+        
+        if (!isExpanded) {
+            // Show all hidden projects
+            portfolioItems.forEach(item => {
+                item.classList.remove('hidden');
+                item.classList.add('visible');
+                // Re-trigger AOS animation
+                if (typeof AOS !== 'undefined') {
+                    AOS.refresh();
+                }
+            });
+            viewMoreBtn.textContent = 'Show Less';
+            isExpanded = true;
+        } else {
+            // Hide projects beyond the first 6
+            portfolioItems.forEach(item => {
+                item.classList.add('hidden');
+                item.classList.remove('visible');
+            });
+            viewMoreBtn.textContent = 'View More Projects';
+            isExpanded = false;
+            // Scroll back to portfolio section
+            document.getElementById('portfolioGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 </script>

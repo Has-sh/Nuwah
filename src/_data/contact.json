@@ -1,0 +1,54 @@
+{
+  "hero": {
+    "title": "CONTACT US",
+    "description": "Whether you're curious about our services, have a question, or just want to say hello we're here to help. Reach out and let's start a conversation."
+  },
+  "header": {
+    "title": "Reach Out with Confidence",
+    "description": "If you have any questions, please feel free to get in touch with us via phone, text, email, the form below, or even on social media!"
+  },
+  "formSection": {
+    "title": "Get In Touch"
+  },
+  "infoSection": {
+    "title": "Contact Information",
+    "items": [
+      {
+        "icon": "fas fa-phone",
+        "label": "Phone",
+        "value": "773-365-1240"
+      },
+      {
+        "icon": "fas fa-envelope",
+        "label": "Email",
+        "value": "office@steponetrans.com"
+      },
+      {
+        "icon": "fas fa-map-marker-alt",
+        "label": "Address",
+        "value": "1425 N McLean Blvd, Elgin, IL"
+      }
+    ]
+  },
+  "businessHours": {
+    "title": "Business Hours",
+    "hours": [
+      {
+        "day": "Monday - Friday",
+        "time": "9:00 am - 8:00 pm"
+      },
+      {
+        "day": "Saturday",
+        "time": "9:00 am - 6:00 pm"
+      },
+      {
+        "day": "Sunday",
+        "time": "9:00 am - 5:00 pm"
+      }
+    ]
+  },
+  "map": {
+    "embedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2964.8918850234845!2d-88.30134068425631!3d42.03656837920891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880f05b8c8b0b0b0%3A0x0!2s1425%20N%20McLean%20Blvd%2C%20Elgin%2C%20IL%2060123!5e0!3m2!1sen!2sus!4v1642000000000!5m2!1sen!2sus"
+  }
+}
+

@@ -7,7 +7,9 @@ pagination:
   addAllPagesToCollections: true
 permalink: "/furniture/{{ items.category | slugify }}/index.html"
 eleventyComputed:
-  title: "{{ items.category | capitalize }} Collection"
+  title: "{{ items.category | capitalize }} Furniture Collection - Luxury {{ items.category }} in Dubai | Nuwah"
+  description: "Browse our premium {{ items.category }} furniture collection in Dubai. Discover luxury {{ items.category | lower }} designs with quality craftsmanship and elegant styles."
+  image: "/assets/img/footer-logo-Photoroom.png"
 ---
 
 <style>
@@ -541,7 +543,7 @@ eleventyComputed:
               <span class="original-price">Dhs. {{ minOriginalPrice }}</span>
               {% endif %}
             </div>
-            {% if product.colorOptions | length > 1 %}
+            {% if product.colorOptions | length > 1 and product.slug != 'vintage-armchair' and product.slug != 'boston-accent-chair' %}
             <div class="color-options">
               {% for color in product.colorOptions %}
               <img 
