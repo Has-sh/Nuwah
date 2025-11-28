@@ -885,22 +885,8 @@ title: Admin Panel
     async function loadHomepageData() {
         try {
             const apiBase = getApiBaseUrl();
-            let response;
             
-            // Try API first (for local development)
-            try {
-                response = await fetch(`${apiBase}/api/homepage`);
-                if (response.ok) {
-                    homepageData = await response.json();
-                    renderHomepageContent();
-                    showAlert('Homepage data loaded successfully!', 'success');
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to static file fallback
-            }
-            
-            // Fallback to static files
+            // Load from static files (no server-side API)
             const staticPaths = [
                 `${apiBase}/_data/homepage.json`,
                 `${apiBase}/src/_data/homepage.json`,
@@ -1437,25 +1423,7 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanHomepageData(JSON.parse(JSON.stringify(homepageData)));
             
-            const apiBase = getApiBaseUrl();
-            
-            // Try API first (for local development)
-            try {
-                const response = await fetch(`${apiBase}/api/homepage`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cleanedData, null, 2)
-                });
-                if (response.ok) {
-                    showAlert('Homepage data saved successfully to server!', 'success');
-                    homepageData = cleanedData;
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to GitHub API
-            }
-            
-            // Try GitHub API (for Cloudflare Pages)
+            // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/homepage.json', cleanedData);
             if (saved) {
                 showAlert('Homepage data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
@@ -1479,20 +1447,7 @@ title: Admin Panel
             const apiBase = getApiBaseUrl();
             let response;
             
-            // Try API first (for local development)
-            try {
-                response = await fetch(`${apiBase}/api/design-services`);
-                if (response.ok) {
-                    designServicesData = await response.json();
-                    renderDesignServicesContent();
-                    showAlert('Design services data loaded successfully!', 'success');
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to static file fallback
-            }
-            
-            // Try static file paths (for Cloudflare Pages)
+            // Load from static files (no server-side API)
             const staticPaths = [
                 `${apiBase}/_data/designServices.json`,
                 `${apiBase}/src/_data/designServices.json`,
@@ -1849,25 +1804,7 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanDesignServicesData(JSON.parse(JSON.stringify(designServicesData)));
             
-            const apiBase = getApiBaseUrl();
-            
-            // Try API first (for local development)
-            try {
-                const response = await fetch(`${apiBase}/api/design-services`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cleanedData, null, 2)
-                });
-                if (response.ok) {
-                    showAlert('Design services data saved successfully to server!', 'success');
-                    designServicesData = cleanedData;
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to GitHub API
-            }
-            
-            // Try GitHub API (for Cloudflare Pages)
+            // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/designServices.json', cleanedData);
             if (saved) {
                 showAlert('Design services data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
@@ -1900,20 +1837,7 @@ title: Admin Panel
             const apiBase = getApiBaseUrl();
             let response;
             
-            // Try API first (for local development)
-            try {
-                response = await fetch(`${apiBase}/api/contact`);
-                if (response.ok) {
-                    contactData = await response.json();
-                    renderContactContent();
-                    showAlert('Contact data loaded successfully!', 'success');
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to static file fallback
-            }
-            
-            // Try static file paths (for Cloudflare Pages)
+            // Load from static files (no server-side API)
             const staticPaths = [
                 `${apiBase}/_data/contact.json`,
                 `${apiBase}/src/_data/contact.json`,
@@ -2125,25 +2049,7 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanContactData(JSON.parse(JSON.stringify(contactData)));
             
-            const apiBase = getApiBaseUrl();
-            
-            // Try API first (for local development)
-            try {
-                const response = await fetch(`${apiBase}/api/contact`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cleanedData, null, 2)
-                });
-                if (response.ok) {
-                    showAlert('Contact data saved successfully to server!', 'success');
-                    contactData = cleanedData;
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to GitHub API
-            }
-            
-            // Try GitHub API (for Cloudflare Pages)
+            // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/contact.json', cleanedData);
             if (saved) {
                 showAlert('Contact data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
@@ -2172,22 +2078,8 @@ title: Admin Panel
     async function loadPackagesData() {
         try {
             const apiBase = getApiBaseUrl();
-            let response;
             
-            // Try API first (for local development)
-            try {
-                response = await fetch(`${apiBase}/api/packages`);
-                if (response.ok) {
-                    packagesData = await response.json();
-                    renderPackagesList();
-                    showAlert('Packages data loaded successfully!', 'success');
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to static file fallback
-            }
-            
-            // Try static file paths (for Cloudflare Pages)
+            // Load from static files (no server-side API)
             const staticPaths = [
                 `${apiBase}/_data/packages.json`,
                 `${apiBase}/src/_data/packages.json`,
@@ -2663,24 +2555,7 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanPackagesData(JSON.parse(JSON.stringify(packagesData)));
             
-            // Try to save via API first (for local development)
-            const apiBase = getApiBaseUrl();
-            try {
-                const response = await fetch(`${apiBase}/api/packages`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cleanedData, null, 2)
-                });
-                if (response.ok) {
-                    showAlert('Packages data saved successfully to server!', 'success');
-                    packagesData = cleanedData;
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, try GitHub API
-            }
-            
-            // Try GitHub API for Cloudflare Pages
+            // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/packages.json', cleanedData);
             if (saved) {
                 showAlert('Packages data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
@@ -2703,20 +2578,7 @@ title: Admin Panel
             const apiBase = getApiBaseUrl();
             let response;
             
-            // Try API first (for local development)
-            try {
-                response = await fetch(`${apiBase}/api/products`);
-                if (response.ok) {
-                    productsData = await response.json();
-                    renderProductsList();
-                    showAlert('Products data loaded successfully!', 'success');
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to static file fallback
-            }
-            
-            // Try static file paths (for Cloudflare Pages)
+            // Load from static files (no server-side API)
             const staticPaths = [
                 `${apiBase}/_data/products.json`,
                 `${apiBase}/src/_data/products.json`,
@@ -2920,24 +2782,7 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanProductsData(JSON.parse(JSON.stringify(productsData)));
             
-            // Try to save via API first (for local development)
-            const apiBase = getApiBaseUrl();
-            try {
-                const response = await fetch(`${apiBase}/api/products`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cleanedData, null, 2)
-                });
-                if (response.ok) {
-                    showAlert('Products data saved successfully to server!', 'success');
-                    productsData = cleanedData;
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, try GitHub API
-            }
-            
-            // Try GitHub API for Cloudflare Pages
+            // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/products.json', cleanedData);
             if (saved) {
                 showAlert('Products data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
@@ -2960,20 +2805,7 @@ title: Admin Panel
             const apiBase = getApiBaseUrl();
             let response;
             
-            // Try API first (for local development)
-            try {
-                response = await fetch(`${apiBase}/api/furniture`);
-                if (response.ok) {
-                    furnitureData = await response.json();
-                    renderFurnitureList();
-                    showAlert('Furniture data loaded successfully!', 'success');
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to static file fallback
-            }
-            
-            // Try static file paths (for Cloudflare Pages)
+            // Load from static files (no server-side API)
             const staticPaths = [
                 `${apiBase}/_data/furniture.json`,
                 `${apiBase}/src/_data/furniture.json`,
@@ -3155,24 +2987,7 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanFurnitureData(JSON.parse(JSON.stringify(furnitureData)));
             
-            // Try to save via API first (for local development)
-            const apiBase = getApiBaseUrl();
-            try {
-                const response = await fetch(`${apiBase}/api/furniture`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cleanedData, null, 2)
-                });
-                if (response.ok) {
-                    showAlert('Furniture data saved successfully to server!', 'success');
-                    furnitureData = cleanedData;
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, try GitHub API
-            }
-            
-            // Try GitHub API for Cloudflare Pages
+            // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/furniture.json', cleanedData);
             if (saved) {
                 showAlert('Furniture data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
@@ -3195,20 +3010,7 @@ title: Admin Panel
             const apiBase = getApiBaseUrl();
             let response;
             
-            // Try API first (for local development)
-            try {
-                response = await fetch(`${apiBase}/api/projects`);
-                if (response.ok) {
-                    projectsData = await response.json();
-                    renderProjectsList();
-                    showAlert('Projects data loaded successfully!', 'success');
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, continue to static file fallback
-            }
-            
-            // Try static file paths (for Cloudflare Pages)
+            // Load from static files (no server-side API)
             const staticPaths = [
                 `${apiBase}/_data/projects.json`,
                 `${apiBase}/src/_data/projects.json`,
@@ -3562,25 +3364,7 @@ title: Admin Panel
             // Clean data before saving - remove fields not in admin panel
             const cleanedData = cleanProjectsData(JSON.parse(JSON.stringify(projectsData)));
             
-            // Try to save via API first (for local development)
-            const apiBase = getApiBaseUrl();
-            try {
-                const response = await fetch(`${apiBase}/api/projects`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cleanedData, null, 2)
-                });
-                if (response.ok) {
-                    showAlert('Projects data saved successfully to server!', 'success');
-                    // Update local data with cleaned version
-                    projectsData = cleanedData;
-                    return;
-                }
-            } catch (apiError) {
-                // API not available, try GitHub API
-            }
-            
-            // Try GitHub API for Cloudflare Pages
+            // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/projects.json', cleanedData);
             if (saved) {
                 showAlert('Projects data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
