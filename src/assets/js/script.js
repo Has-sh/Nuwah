@@ -904,7 +904,9 @@ function loadReviews() {
 		},
 		pagination: {
 			el: ".swiper-pagination",
-			clickable: true
+			clickable: true,
+			bulletClass: 'custom-pagination-bullet',
+			bulletActiveClass: 'custom-pagination-bullet-active'
 		},
 		breakpoints: {
 			768: { slidesPerView: 2 },

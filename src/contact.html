@@ -98,12 +98,17 @@ image: /assets/img/footer-logo-Photoroom.png
     background: #dc3545;
     border: none;
     padding: 12px 30px;
+    min-height: 44px;
+    min-width: 44px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     border-radius: 6px;
     transition: all 0.3s ease;
     font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .btn-send:hover {
@@ -277,7 +282,7 @@ image: /assets/img/footer-logo-Photoroom.png
   <div class="container-fluid">
     
       <div class="touch-header">
-        <h1>{{ contact.header.title | default('Reach Out with Confidence') }}</h1>
+        <h2>{{ contact.header.title | default('Reach Out with Confidence') }}</h2>
         <p>{{ contact.header.description | default('If you have any questions, please feel free to get in touch with us via phone, text, email, the form below, or even on social media!') }}</p>
       </div>
 

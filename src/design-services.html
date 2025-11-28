@@ -187,6 +187,8 @@ image: /assets/img/footer-logo-Photoroom.png
         background-color: #333;
         color: white;
         padding: 15px 40px;
+        min-height: 44px;
+        min-width: 44px;
         border: none;
         text-transform: uppercase;
         font-weight: 600;
@@ -194,6 +196,9 @@ image: /assets/img/footer-logo-Photoroom.png
         transition: all 0.3s ease;
         cursor: pointer;
         font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .btn-view-more:hover {
@@ -279,13 +284,17 @@ image: /assets/img/footer-logo-Photoroom.png
         background-color: white;
         color: #333;
         padding: 15px 40px;
+        min-height: 44px;
+        min-width: 44px;
         border: none;
         text-transform: uppercase;
         font-weight: 600;
         letter-spacing: 1px;
         transition: all 0.3s ease;
         text-decoration: none;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .btn-cta:hover {
@@ -392,6 +401,8 @@ image: /assets/img/footer-logo-Photoroom.png
         background-color: #333;
         color: white;
         padding: 12px 30px;
+        min-height: 44px;
+        min-width: 44px;
         border: none;
         text-transform: uppercase;
         font-weight: 600;
@@ -399,6 +410,9 @@ image: /assets/img/footer-logo-Photoroom.png
         transition: all 0.3s ease;
         width: 100%;
         margin-top: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .btn-pricing:hover {
@@ -495,7 +509,7 @@ image: /assets/img/footer-logo-Photoroom.png
     <div class="container">
         <div class="custom-header" data-aos="fade-up">
             <p class="custom-header-subtitle">{{ designServices.servicesSection.subtitle | default('Our Services') }}</p>
-            <h1 class="custom-header-title">{{ designServices.servicesSection.title | default('Comprehensive Design Solutions') }}</h1>
+            <h2 class="custom-header-title">{{ designServices.servicesSection.title | default('Comprehensive Design Solutions') }}</h2>
         </div>
 
         <div class="row g-4">
@@ -529,7 +543,7 @@ image: /assets/img/footer-logo-Photoroom.png
     <div class="container">
         <div class="custom-header" data-aos="fade-up">
             <p class="custom-header-subtitle">{{ designServices.processSection.subtitle | default('Our Process') }}</p>
-            <h1 class="custom-header-title">{{ designServices.processSection.title | default('How We Work With You') }}</h1>
+            <h2 class="custom-header-title">{{ designServices.processSection.title | default('How We Work With You') }}</h2>
         </div>
 
         <div class="row">
@@ -553,7 +567,7 @@ image: /assets/img/footer-logo-Photoroom.png
     <div class="container">
         <div class="custom-header" data-aos="fade-up">
             <p class="custom-header-subtitle">Our Portfolio</p>
-            <h1 class="custom-header-title">Recent Projects</h1>
+            <h2 class="custom-header-title">Recent Projects</h2>
         </div>
 
         <div class="portfolio-grid" id="portfolioGrid">
@@ -594,7 +608,7 @@ image: /assets/img/footer-logo-Photoroom.png
 <div class="container-fluid custom-padding">
     <div class="custom-header" data-aos="fade-up">
         <p class="custom-header-subtitle">{{ designServices.pricingSection.subtitle | default('Our Packages') }}</p>
-        <h1 class="custom-header-title">{{ designServices.pricingSection.title | default('Design Service Packages') }}</h1>
+        <h2 class="custom-header-title">{{ designServices.pricingSection.title | default('Design Service Packages') }}</h2>
     </div>
 
     <div class="pricing-container">

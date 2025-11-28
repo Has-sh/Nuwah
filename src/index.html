@@ -19,8 +19,8 @@ image: /assets/img/footer-logo-Photoroom.png
 		<div class="content-wrapper">
 			<div class="text-content">
 				<!-- <h1 class="brand-name">Nuwah</h1> -->
-				<h2 class="welcome-text">{{ homepage.hero.welcomeText }}</h2>
-				<h3 class="tagline">{{ homepage.hero.tagline }}</h3>
+				<h1 class="welcome-text">{{ homepage.hero.welcomeText }}</h1>
+				<h2 class="tagline">{{ homepage.hero.tagline }}</h2>
 				<p class="description">
 					{{ homepage.hero.description }}
 				</p>
@@ -33,9 +33,9 @@ image: /assets/img/footer-logo-Photoroom.png
 
 			<!-- Vertical Social Media Links -->
 			<div class="social-links">
-				<a href="{{ homepage.hero.socialLinks.instagram }}" class="social-btn"><i class="fab fa-instagram"></i></a>
-				<a href="{{ homepage.hero.socialLinks.twitter }}" class="social-btn"><i class="fab fa-twitter"></i></a>
-				<a href="{{ homepage.hero.socialLinks.facebook }}" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+				<a href="{{ homepage.hero.socialLinks.instagram }}" class="social-btn" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+				<a href="{{ homepage.hero.socialLinks.twitter }}" class="social-btn" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+				<a href="{{ homepage.hero.socialLinks.facebook }}" class="social-btn" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
 			</div>
 		</div>
 	</div>
@@ -45,7 +45,7 @@ image: /assets/img/footer-logo-Photoroom.png
 	<div class="row g-0 justify-content-center overflow-hidden">
 		{% for category in homepage.categories %}
 		<div class="col-lg-2 col-md-4 col-6">
-			<div class="furn-item" data-category="{{ category.id }}">
+			<div class="furn-item" data-category="{{ category.id }}" role="button" tabindex="0" aria-label="View {{ category.title }} category">
 				{% if category.id == "sofas" %}
 				<svg class="furn-icon" viewBox="0 0 24 24">
 					<path d="M3 10v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9" />
@@ -110,42 +110,42 @@ image: /assets/img/footer-logo-Photoroom.png
 
 	<div class="row g-4" id="category-grid">
 		<div class="col-lg-6 col-md-12 col-12">
-			<div class="category-card" data-category="sectional-sofas">
+			<div class="category-card" data-category="sectional-sofas" role="button" tabindex="0" aria-label="View Sectional Sofas collection">
 				<div class="bg-layer bg1"></div>
 				<div class="bg-layer bg2"></div>
 
 				<div class="category-content">
-					<h2 class="category-title">Sectional Sofas</h2>
+					<h3 class="category-title">Sectional Sofas</h3>
 					<p class="category-subtitle">Perfect for large living spaces with modular design</p>
-					<div class="arrow-btn">
+					<div class="arrow-btn" aria-hidden="true">
 						<span>›</span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-6 col-sm-6 col-12">
-			<div class="category-card" data-category="leather-sofas">
+			<div class="category-card" data-category="leather-sofas" role="button" tabindex="0" aria-label="View Leather Sofas collection">
 				<div class="bg-layer bg1"></div>
 				<div class="bg-layer bg2"></div>
 
 				<div class="category-content">
-					<h2 class="category-title">Leather Sofas</h2>
+					<h3 class="category-title">Leather Sofas</h3>
 					<p class="category-subtitle">Premium leather craftsmanship for timeless elegance</p>
-					<div class="arrow-btn">
+					<div class="arrow-btn" aria-hidden="true">
 						<span>›</span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-6 col-sm-6 col-12">
-			<div class="category-card" data-category="fabric-sofas">
+			<div class="category-card" data-category="fabric-sofas" role="button" tabindex="0" aria-label="View Fabric Sofas collection">
 				<div class="bg-layer bg1"></div>
 				<div class="bg-layer bg2"></div>
 
 				<div class="category-content">
-					<h2 class="category-title">Fabric Sofas</h2>
+					<h3 class="category-title">Fabric Sofas</h3>
 					<p class="category-subtitle">Comfortable and stylish fabric options in various colors</p>
-					<div class="arrow-btn">
+					<div class="arrow-btn" aria-hidden="true">
 						<span>›</span>
 					</div>
 				</div>
@@ -157,7 +157,7 @@ image: /assets/img/footer-logo-Photoroom.png
 <div class="container-fluid custom-padding">
 	<div class="custom-header header-padding">
 		<p class="custom-header-subtitle">{{ homepage.packagesSection.subtitle }}</p>
-		<h1 class="custom-header-title">{{ homepage.packagesSection.title }}</h1>
+		<h2 class="custom-header-title">{{ homepage.packagesSection.title }}</h2>
 	</div>
 
 	<div class="row">
@@ -168,7 +168,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="Modern Retreat for Stylish Living Room" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">Modern Retreat for Stylish Living Room</h5>
+					<h3 class="custom-card-title">Modern Retreat for Stylish Living Room</h3>
 					<p class="custom-dimensions">Dimensions: 120 × 150 × 150 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -185,7 +185,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="Light Wood Scandinavian Kitchen Design" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">Light Wood Scandinavian Kitchen Design</h5>
+					<h3 class="custom-card-title">Light Wood Scandinavian Kitchen Design</h5>
 					<p class="custom-dimensions">Dimensions: 120 × 150 × 150 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -202,7 +202,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="Sleek Wall-Mounted Wash Basin Unit" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">Sleek Wall-Mounted Wash Basin Unit</h5>
+					<h3 class="custom-card-title">Sleek Wall-Mounted Wash Basin Unit</h5>
 					<p class="custom-dimensions">Dimensions: 120 × 150 × 150 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -219,7 +219,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="An Engaging And Practical Kids Bedroom" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">An Engaging And Practical Kids Bedroom</h5>
+					<h3 class="custom-card-title">An Engaging And Practical Kids Bedroom</h5>
 					<p class="custom-dimensions">Dimensions: 100 × 120 × 130 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -236,7 +236,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="Natural Light Cottage Style Luxurious Bedroom" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">Natural Light Cottage Style Luxurious Bedroom</h5>
+					<h3 class="custom-card-title">Natural Light Cottage Style Luxurious Bedroom</h5>
 					<p class="custom-dimensions">Dimensions: 120 × 120 × 120 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -253,7 +253,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="Contemporary Personal Office Room Design" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">Contemporary Personal Office Room Design</h5>
+					<h3 class="custom-card-title">Contemporary Personal Office Room Design</h5>
 					<p class="custom-dimensions">Dimensions: 110 × 150 × 120 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -270,7 +270,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="Contemporary Personal Office Room Design" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">Contemporary Personal Office Room Design</h5>
+					<h3 class="custom-card-title">Contemporary Personal Office Room Design</h5>
 					<p class="custom-dimensions">Dimensions: 110 × 150 × 120 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -286,7 +286,7 @@ image: /assets/img/footer-logo-Photoroom.png
 						alt="Contemporary Personal Office Room Design" class="custom-image">
 				</div>
 				<div class="custom-card-content">
-					<h5 class="custom-card-title">Contemporary Personal Office Room Design</h5>
+					<h3 class="custom-card-title">Contemporary Personal Office Room Design</h5>
 					<p class="custom-dimensions">Dimensions: 110 × 150 × 120 سینٹی میٹر</p>
 					<div class="custom-button-group">
 						<button class="custom-btn" onclick="handleButtonClick(this)">Enquire Now</button>
@@ -303,7 +303,7 @@ image: /assets/img/footer-logo-Photoroom.png
 	<div class="row header-padding">
 		<div class="custom-header header-padding">
 			<p class="custom-header-subtitle">{{ homepage.furnitureSection.subtitle }}</p>
-			<h1 class="custom-header-title">{{ homepage.furnitureSection.title }}</h1>
+			<h2 class="custom-header-title">{{ homepage.furnitureSection.title }}</h2>
 		</div>
 	</div>
 	<div class="row g-4" id="product-list">
@@ -374,7 +374,7 @@ image: /assets/img/footer-logo-Photoroom.png
 <div class="container-fluid custom-padding">
 	<div class="custom-header header-padding">
 		<p class="custom-header-subtitle">{{ homepage.showcaseSection.subtitle }}</p>
-		<h1 class="custom-header-title">{{ homepage.showcaseSection.title }}</h1>
+		<h2 class="custom-header-title">{{ homepage.showcaseSection.title }}</h2>
 	</div>
 
 	<div class="grid-container">
@@ -484,7 +484,7 @@ image: /assets/img/footer-logo-Photoroom.png
 <div class="container-fluid custom-padding">
 	<div class="custom-header header-padding">
 		<p class="custom-header-subtitle">{{ homepage.projectsSection.subtitle }}</p>
-		<h1 class="custom-header-title">{{ homepage.projectsSection.title }}</h1>
+		<h2 class="custom-header-title">{{ homepage.projectsSection.title }}</h2>
 	</div>
 
 	<div class="nav-wrapper">
@@ -535,7 +535,7 @@ image: /assets/img/footer-logo-Photoroom.png
 <div class="container-fluid custom-padding" style="background-color: #F7F7F7">
 	<div class="custom-header header-padding">
 		<p class="custom-header-subtitle">{{ homepage.reviewsSection.subtitle }}</p>
-		<h1 class="custom-header-title">{{ homepage.reviewsSection.title }}</h1>
+		<h2 class="custom-header-title">{{ homepage.reviewsSection.title }}</h2>
 	</div>
 	<div class="swiper-container-wrapper">
 		<!-- Navigation buttons OUTSIDE .swiper -->

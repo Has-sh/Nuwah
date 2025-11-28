@@ -482,13 +482,17 @@ body {
 	background-color: white !important;
 	color: var(--bg-color) !important;
 	padding: 12px 30px !important;
+	min-height: 44px;
+	min-width: 44px;
 	border-radius: 0 !important;
 	margin-right: 15px !important;
 	font-weight: 600 !important;
 	border: 2px solid var(--primary-color) !important;
 	transition: all 0.3s ease;
 	text-decoration: none;
-
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .btn-primary-custom:hover {
@@ -500,11 +504,16 @@ body {
 	background-color: transparent;
 	color: white !important;
 	padding: 12px 30px !important;
+	min-height: 44px;
+	min-width: 44px;
 	border-radius: 0 !important;
 	font-weight: 600 !important;
 	border: 2px solid var(--primary-color) !important;
 	transition: all 0.3s ease;
 	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .btn-outline-custom:hover {
@@ -518,6 +527,8 @@ body {
 	justify-content: center;
 	width: 50px;
 	height: 50px;
+	min-width: 44px;
+	min-height: 44px;
 	border-radius: 50%;
 	background-color: transparent;
 	color: var(--primary-color);
@@ -666,6 +677,8 @@ body {
             cursor: pointer;
             transition: all 0.3s ease;
             transform: scale(1);
+            min-height: 44px;
+            min-width: 44px;
             position: relative;
             z-index: 1;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -754,6 +767,8 @@ body {
             transition: transform 0.3s ease, opacity 0.5s ease;
             border-radius: 0;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            min-height: 44px;
         }
 
         /* Overlay remains the same */
@@ -823,7 +838,8 @@ body {
 
         .arrow-btn {
             width: 50px;
-            height: 30px;
+            height: 44px;
+            min-height: 44px;
             background: white;
             border-radius: 20px;
             display: flex;
@@ -1059,7 +1075,7 @@ body {
         }
 
         .custom-header-subtitle {
-            color: #666666be;
+            color: #555;
             font-size: 18px;
             margin-bottom: 5px;
         }
@@ -1121,10 +1137,15 @@ body {
 
         .custom-btn {
             padding: 10px 20px;
+            min-height: 44px;
+            min-width: 44px;
             font-size: 12px;
             border-radius: 0;
             text-decoration: none;
             text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border: 1px solid #000000;
             background: white;
             color: #333;
@@ -1453,6 +1474,8 @@ body {
 .dropdown-toggle {
 	display: none;
 	padding: 15px;
+	min-height: 44px;
+	min-width: 44px;
 	background: black;
 	color: white;
 	font-size: 16px;
@@ -1481,7 +1504,7 @@ body {
 	display: flex;
 	width: 210px;
 	height: 70px;
-
+	min-height: 44px;
 	cursor: pointer;
 	user-select: none;
 	transition: all 0.3s ease;
@@ -1501,6 +1524,8 @@ body {
 	flex: 1;
 	background-color: black;
 	color: white;
+	padding: 15px 20px;
+	min-height: 44px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -1983,19 +2008,30 @@ textarea.form-control {
 	color: black !important;
 }
 
-.swiper-pagination-bullet-active {
-	background: black !important;
-}
-
-.swiper-pagination-bullet {
-	padding: 0 !important;
-	background-color: #ccc !important;
-	border: none !important;
+/* Custom pagination bullets for review section */
+.custom-pagination-bullet {
+	display: inline-block;
+	background-color: #ccc;
+	border: none;
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
 	margin: 0 4px;
 	cursor: pointer;
+	transition: background-color 0.3s ease;
+	vertical-align: middle;
+	padding: 2px;
+	box-sizing: content-box;
+}
+
+.custom-pagination-bullet-active {
+	background: black !important;
+	width: 8px;
+	height: 8px;
+	display: inline-block;
+	vertical-align: middle;
+	padding: 2px;
+	box-sizing: content-box;
 }
 
 .swiper-button-prev,
@@ -2005,6 +2041,8 @@ textarea.form-control {
 	transform: translateY(-50%);
 	width: 40px;
 	height: 40px;
+	min-width: 44px;
+	min-height: 44px;
 	border-radius: 50%;
 	background: none !important;
 	color: #fff;
@@ -2015,6 +2053,8 @@ textarea.form-control {
 	justify-content: center;
 	z-index: 10;
 	transition: background-color 0.3s, transform 0.3s;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 .swiper-button-prev:hover,
@@ -2062,17 +2102,30 @@ textarea.form-control {
 	padding-bottom: 50px !important;
 }
 
-.swiper-pagination-bullet {
-	background-color: #ccc !important;
+/* Custom pagination bullets for review section */
+.custom-pagination-bullet {
+	display: inline-block;
+	background-color: #ccc;
+	border: none;
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
 	margin: 0 4px;
 	cursor: pointer;
+	transition: background-color 0.3s ease;
+	vertical-align: middle;
+	padding: 2px;
+	box-sizing: content-box;
 }
 
-.swiper-pagination-bullet-active {
+.custom-pagination-bullet-active {
 	background: black !important;
+	width: 8px;
+	height: 8px;
+	display: inline-block;
+	vertical-align: middle;
+	padding: 2px;
+	box-sizing: content-box;
 }
 
 .swiper-button-prev,
@@ -2082,6 +2135,8 @@ textarea.form-control {
 	transform: translateY(-50%);
 	width: 40px;
 	height: 40px;
+	min-width: 44px;
+	min-height: 44px;
 	border-radius: 50%;
 	background: #ffffff;
 	color: black;
@@ -2092,6 +2147,8 @@ textarea.form-control {
 	justify-content: center;
 	z-index: 10;
 	transition: background-color 0.3s, transform 0.3s;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 .swiper-button-prev {
@@ -2247,8 +2304,10 @@ textarea.form-control {
 }
 
 .md-social-link {
-	width: 38px;
-	height: 38px;
+	width: 44px;
+	height: 44px;
+	min-width: 44px;
+	min-height: 44px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
