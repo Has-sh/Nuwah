@@ -7,7 +7,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets/img");
   eleventyConfig.addPassthroughCopy({ "src/assets/img/favicon": "/" });
   eleventyConfig.addPassthroughCopy("src/assets/vid");
-  eleventyConfig.addPassthroughCopy("src/robots.txt");
   
   // Copy data files for admin panel access on Cloudflare Pages
   // Copy specific JSON files to _data directory in output
