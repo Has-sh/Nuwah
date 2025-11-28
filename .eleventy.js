@@ -73,12 +73,33 @@ eleventyConfig.addCollection("projects", function (collectionApi) {
       .trim('-');                  // Remove leading/trailing hyphens
   });
 
-  // Date filter for sitemap
+  // Date filter for sitemap and general use
+  eleventyConfig.addFilter("date", function(date, format) {
+    if (!date) return "";
+    const d = date === "now" ? new Date() : new Date(date);
+    if (isNaN(d.getTime())) return "";
+    
+    if (format === "%Y-%m-%d") {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+    // Default to ISO format
+    return d.toISOString().split('T')[0];
+  });
+  
+  // Keep dateFormat for backward compatibility
   eleventyConfig.addFilter("dateFormat", function(date, format) {
     if (!date) return "";
     const d = date === "now" ? new Date() : new Date(date);
+    if (isNaN(d.getTime())) return "";
+    
     if (format === "YYYY-MM-DD") {
-      return d.toISOString().split('T')[0];
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
     return d.toISOString().split('T')[0];
   });

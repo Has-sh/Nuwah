@@ -7,7 +7,7 @@ eleventyExcludeFromCollections: true
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   {% set siteUrl = "https://nuwah.pages.dev" %}
   
-  {% set today = "now" | dateFormat("YYYY-MM-DD") %}
+  {% set today = "now" | date: "%Y-%m-%d" %}
   
   <!-- Homepage -->
   <url>
