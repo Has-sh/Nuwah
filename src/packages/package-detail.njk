@@ -339,6 +339,51 @@ eleventyComputed:
         }
     </style>
 
+<!-- Schema.org Product Markup for Google Ads -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ package.name }}",
+  "description": "{{ package.description | default('Premium interior design package by Nuwah in Dubai') | replace('"', '\\"') }}",
+  "image": [
+    {% for color in package.colors %}
+      {% if color.name == package.defaultColor %}
+        {% for image in color.images %}
+          {% if image | slice(0, 4) == 'http' %}
+            "{{ image }}"{% if not loop.last %},{% endif %}
+          {% else %}
+            "{{ site.url }}{{ image }}"{% if not loop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  ],
+  "brand": {
+    "@type": "Brand",
+    "name": "Nuwah"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ site.url }}/packages/{{ package.slug }}/",
+    "priceCurrency": "AED",
+    "price": "{{ package.roomTypes[0].currentPrice | replace(',', '') | replace(' ', '') }}",
+    "priceValidUntil": "2026-12-31",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Organization",
+      "name": "Nuwah"
+    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ package.rating }}",
+    "reviewCount": "{{ package.reviewCount }}"
+  }
+}
+</script>
+
 <div class="container custom-padding">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
@@ -627,12 +672,19 @@ eleventyComputed:
             }
         }
 
-        // WhatsApp button functionality
+        // WhatsApp button functionality with conversion tracking
         document.querySelector('.whatsapp-btn').addEventListener('click', function() {
             const packageName = document.querySelector('.package-title').textContent;
             const colorName = document.getElementById('selectedColorName').textContent;
             const roomTypeName = document.getElementById('selectedRoomTypeName').textContent;
             const currentPrice = document.getElementById('priceValue').textContent;
+            
+            // Track conversion event for Google Ads
+            // Replace 'CONVERSION_LABEL' with your actual conversion label from Google Ads
+            if (typeof window.trackGoogleAdsConversion === 'function') {
+                const priceValue = parseFloat(currentPrice.replace(/,/g, '').replace(/[^\d.]/g, '')) || 0;
+                window.trackGoogleAdsConversion('CONVERSION_LABEL', priceValue, 'AED');
+            }
             
             const message = `Hi! I'm interested in the ${packageName}. 
 Color: ${colorName}

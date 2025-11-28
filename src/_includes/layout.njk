@@ -220,7 +220,39 @@
   <!-- Load JavaScript asynchronously to prevent render blocking -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
+  
+  <!-- Inject Cloudflare Pages environment variables for Google API -->
+  <script>
+    // These will be replaced by Cloudflare Pages build process
+    // Set GOOGLE_API_KEY and GOOGLE_PLACE_ID as environment variables in Cloudflare Pages
+    window.GOOGLE_API_KEY = '{{ env.GOOGLE_API_KEY }}';
+    window.GOOGLE_PLACE_ID = '{{ env.GOOGLE_PLACE_ID }}';
+  </script>
+  
   <script src="/assets/js/script.js" defer></script>
+  
+  <!-- Google Ads Conversion Tracking -->
+  <!-- Replace AW-XXXXXXXXXX with your Google Ads conversion ID -->
+  <!-- Get your conversion ID from: Tools & Settings > Conversions in Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-XXXXXXXXXX');
+    
+    // Helper function to track conversions
+    window.trackGoogleAdsConversion = function(conversionLabel, value, currency = 'AED') {
+      if (typeof gtag !== 'undefined' && conversionLabel) {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-XXXXXXXXXX/' + conversionLabel,
+          'value': value || 0,
+          'currency': currency,
+          'transaction_id': ''
+        });
+      }
+    };
+  </script>
   
   <!-- Google Analytics (Replace G-XXXXXXXXXX with your actual tracking ID) -->
   <!--

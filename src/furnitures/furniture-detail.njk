@@ -746,6 +746,54 @@ eleventyComputed:
         }
 </style>
 
+<!-- Schema.org Product Markup for Google Ads -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "description": "{{ product.description | default('Premium ' + product.name + ' furniture piece from Nuwah collection in Dubai') | replace('"', '\\"') }}",
+  "image": [
+    {% set defaultColor = product.colorOptions[0] %}
+    {% if defaultColor.image %}
+      {% if defaultColor.image | slice(0, 4) == 'http' %}
+        "{{ defaultColor.image }}"
+      {% else %}
+        "{{ site.url }}{{ defaultColor.image }}"
+      {% endif %}
+      {% if defaultColor.gallery and defaultColor.gallery.length > 0 %},{% endif %}
+    {% endif %}
+    {% if defaultColor.gallery %}
+      {% for galleryImage in defaultColor.gallery %}
+        {% if galleryImage | slice(0, 4) == 'http' %}
+          "{{ galleryImage }}"{% if not loop.last %},{% endif %}
+        {% else %}
+          "{{ site.url }}{{ galleryImage }}"{% if not loop.last %},{% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  ],
+  "brand": {
+    "@type": "Brand",
+    "name": "Nuwah"
+  },
+  "category": "{{ product.category | capitalize }}",
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ site.url }}/furniture/{{ product.category }}/{{ product.slug }}/",
+    "priceCurrency": "AED",
+    "price": "{{ (defaultColor.price or product.price) | replace(',', '') | replace(' ', '') }}",
+    "priceValidUntil": "2026-12-31",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Organization",
+      "name": "Nuwah"
+    }
+  }
+}
+</script>
+
 <div class="container custom-padding">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="d-none d-sm-block">
@@ -999,11 +1047,20 @@ eleventyComputed:
 
     document.addEventListener('DOMContentLoaded', function () {
         // Quantity controls
-            // WhatsApp button functionality
+            // WhatsApp button functionality with conversion tracking
         document.querySelector('.whatsapp-btn')?.addEventListener('click', function () {
             const packageName = document.querySelector('.product-title')?.textContent?.trim() || '';
             const color = document.getElementById('selectedColor')?.textContent?.trim() || '';
             const quantity = document.querySelector('.quantity-input')?.value?.trim() || '1';
+            const priceElement = document.getElementById('priceValue');
+            const currentPrice = priceElement ? priceElement.textContent.trim() : '';
+
+            // Track conversion event for Google Ads
+            // Replace 'CONVERSION_LABEL' with your actual conversion label from Google Ads
+            if (typeof window.trackGoogleAdsConversion === 'function') {
+                const priceValue = parseFloat(currentPrice.replace(/,/g, '').replace(/[^\d.]/g, '')) || 0;
+                window.trackGoogleAdsConversion('CONVERSION_LABEL', priceValue, 'AED');
+            }
 
             const message = `Hi! I'm interested in the ${packageName}.
             Color: ${color}

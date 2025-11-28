@@ -1,7 +1,7 @@
 # Nuwah Admin Panel
 
 ## Overview
-The admin panel allows you to dynamically manage all content on your website without editing code directly.
+The admin panel allows you to dynamically manage all content on your website without editing code directly. It works entirely client-side and saves changes via GitHub API (perfect for Cloudflare Pages).
 
 ## Setup
 
@@ -10,21 +10,16 @@ The admin panel allows you to dynamically manage all content on your website wit
    npm install
    ```
 
-2. **Start the Unified Server**
+2. **Build the Site**
    ```bash
-   npm start
+   npm run build
    ```
 
 3. **Access the Admin Panel**
-   Open your browser and navigate to:
-   ```
-   http://localhost:8080/admin/
-   ```
-
-   The admin panel is now integrated into the main server, so you can access:
-   - Main site: `http://localhost:8080/`
-   - Admin panel: `http://localhost:8080/admin/`
-   - API endpoints: `http://localhost:8080/api/*`
+   - **Local Development**: Open `_site/admin/index.html` in your browser
+   - **Production**: Access at `https://nuwah.pages.dev/admin/` (or your domain)
+   
+   The admin panel works entirely client-side - no server required!
 
 ## Features
 
@@ -48,13 +43,12 @@ The admin panel allows you to dynamically manage all content on your website wit
 
 ## How to Use
 
-1. **Load Current Data**: Click "Load Current Data" to see what's currently on your site
+1. **Load Current Data**: The admin panel automatically loads data from JSON files
 2. **Make Changes**: Edit any fields you want to change
-3. **Save**: Click "Save" to save your changes directly to the JSON files
-4. **Rebuild Site**: After saving, rebuild your Eleventy site:
-   ```bash
-   npm run build
-   ```
+3. **Save**: Click "Save" to save your changes:
+   - **With GitHub Token**: Saves directly to GitHub repository (Cloudflare Pages will auto-rebuild)
+   - **Without Token**: Downloads JSON file for manual upload
+4. **Auto-Rebuild**: If using GitHub API, Cloudflare Pages will automatically rebuild after changes
 
 ## File Structure
 
@@ -65,16 +59,27 @@ The admin panel manages these JSON files:
 
 ## Notes
 
-- Changes are saved directly to the JSON files
-- The server automatically rebuilds the site when you save changes
-- Everything runs on port 8080 (unified server)
-- The server watches for file changes and rebuilds automatically
+- **No Server Required**: The admin panel works entirely client-side
+- **GitHub Integration**: Saves changes via GitHub API (requires Fine-grained Personal Access Token)
+- **Cloudflare Pages**: Automatically rebuilds when changes are pushed to GitHub
+- **Static Files**: Loads data from `/_data/*.json` files
+- **Fallback**: If GitHub API fails, downloads JSON files for manual upload
+
+## GitHub Token Setup
+
+1. Go to [GitHub Settings → Tokens](https://github.com/settings/tokens?type=beta)
+2. Click "Generate new token" → "Generate new token (fine-grained)"
+3. Name: "Nuwah Admin Panel"
+4. Repository access: Select "Only select repositories" → Choose your repository
+5. Permissions → Repository permissions:
+   - **Contents: Read and write** (REQUIRED)
+6. Generate token and enter it in the admin panel when prompted
 
 ## Troubleshooting
 
 If you can't access the admin panel:
-1. Make sure the server is running (`npm start`)
-2. Check that port 8080 is not in use
-3. Verify dependencies are installed (`npm install`)
-4. Check the console for any error messages
+1. Make sure the site is built (`npm run build`)
+2. Open `_site/admin/index.html` in your browser (local) or access via your deployed URL
+3. Check browser console for any error messages
+4. Verify JSON files exist in `src/_data/` directory
 

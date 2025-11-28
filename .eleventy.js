@@ -1,6 +1,8 @@
 const fs = require("fs");
 
 module.exports = function(eleventyConfig) {
+  // Make environment variables available to templates
+  eleventyConfig.addGlobalData("env", process.env);
   // Copy static assets
   eleventyConfig.addPassthroughCopy("src/assets/css");
   eleventyConfig.addPassthroughCopy("src/assets/js");

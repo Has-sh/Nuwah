@@ -876,24 +876,50 @@ async function loadReviews() {
 	wrapper.innerHTML = '<div class="text-center p-4"><div class="spinner-border" role="status"><span class="visually-hidden">Loading reviews...</span></div></div>';
 	
 	try {
-		// Try to fetch from API first
-		const response = await fetch('/api/reviews');
+		// Get API key and Place ID from environment (injected by Cloudflare Pages at build time)
+		// These are available as global variables set during build
+		const apiKey = window.GOOGLE_API_KEY || '';
+		const placeId = window.GOOGLE_PLACE_ID || '';
 		
-		if (!response.ok) {
-			throw new Error('Failed to fetch reviews');
-		}
-		
-		const data = await response.json();
-		const reviews = data.reviews || [];
-		
-		if (reviews.length === 0) {
-			// Fallback to fake reviews if no reviews found
-			console.warn('No reviews found, using fallback data');
+		if (!apiKey || !placeId) {
+			console.warn('Google API credentials not configured, using fallback reviews');
 			renderReviews(fakeReviews);
 			return;
 		}
 		
-		renderReviews(reviews);
+		// Call Google Places API directly
+		const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${apiKey}`;
+		
+		const response = await fetch(url);
+		
+		if (!response.ok) {
+			throw new Error('Failed to fetch reviews from Google API');
+		}
+		
+		const data = await response.json();
+		
+		if (data.status === 'OK' && data.result && data.result.reviews) {
+			// Transform Google reviews to match your format
+			const reviews = data.result.reviews.map(review => ({
+				author_name: review.author_name,
+				profile_photo_url: review.profile_photo_url || 'https://via.placeholder.com/50',
+				rating: review.rating,
+				time: review.time,
+				text: review.text,
+				relative_time_description: review.relative_time_description
+			}));
+			
+			if (reviews.length === 0) {
+				console.warn('No reviews found, using fallback data');
+				renderReviews(fakeReviews);
+				return;
+			}
+			
+			renderReviews(reviews);
+		} else {
+			console.warn('Google API returned error:', data.error_message || data.status, 'Using fallback reviews');
+			renderReviews(fakeReviews);
+		}
 	} catch (error) {
 		console.error('Error loading reviews:', error);
 		// Fallback to fake reviews on error
