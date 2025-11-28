@@ -3,6 +3,14 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const cors = require('cors');
+const https = require('https');
+
+// Load environment variables
+try {
+    require('dotenv').config();
+} catch (e) {
+    console.log('dotenv not installed, skipping .env file loading');
+}
 
 const app = express();
 const PORT = 8080;
@@ -175,6 +183,72 @@ app.post('/api/contact', async (req, res) => {
         res.json({ success: true, message: 'Contact data saved successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+// Get Google Maps reviews
+app.get('/api/reviews', async (req, res) => {
+    try {
+        const placeId = process.env.GOOGLE_PLACE_ID || 'YOUR_PLACE_ID_HERE';
+        const apiKey = process.env.GOOGLE_API_KEY || 'YOUR_API_KEY_HERE';
+        
+        if (!placeId || !apiKey || placeId === 'YOUR_PLACE_ID_HERE' || apiKey === 'YOUR_API_KEY_HERE') {
+            return res.status(500).json({ 
+                error: 'Google Places API not configured. Please set GOOGLE_PLACE_ID and GOOGLE_API_KEY environment variables.',
+                reviews: [] // Return empty array so frontend can use fallback
+            });
+        }
+
+        const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${apiKey}`;
+        
+        https.get(url, (apiRes) => {
+            let data = '';
+            
+            apiRes.on('data', (chunk) => {
+                data += chunk;
+            });
+            
+            apiRes.on('end', () => {
+                try {
+                    const result = JSON.parse(data);
+                    
+                    if (result.status === 'OK' && result.result && result.result.reviews) {
+                        // Transform Google reviews to match your format
+                        const reviews = result.result.reviews.map(review => ({
+                            author_name: review.author_name,
+                            profile_photo_url: review.profile_photo_url || 'https://via.placeholder.com/50',
+                            rating: review.rating,
+                            time: review.time,
+                            text: review.text,
+                            relative_time_description: review.relative_time_description
+                        }));
+                        
+                        res.json({ reviews });
+                    } else {
+                        res.status(500).json({ 
+                            error: result.error_message || 'Failed to fetch reviews',
+                            status: result.status,
+                            reviews: [] // Return empty array so frontend can use fallback
+                        });
+                    }
+                } catch (error) {
+                    res.status(500).json({ 
+                        error: 'Failed to parse API response',
+                        reviews: [] // Return empty array so frontend can use fallback
+                    });
+                }
+            });
+        }).on('error', (error) => {
+            res.status(500).json({ 
+                error: 'Failed to fetch reviews from Google API',
+                reviews: [] // Return empty array so frontend can use fallback
+            });
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            error: error.message,
+            reviews: [] // Return empty array so frontend can use fallback
+        });
     }
 });
 

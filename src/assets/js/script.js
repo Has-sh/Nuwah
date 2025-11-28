@@ -869,33 +869,78 @@ function generateStars(rating) {
 		'<i class="far fa-star"></i>'.repeat(5 - rating);
 }
 
-function loadReviews() {
+async function loadReviews() {
 	const wrapper = document.getElementById("swiper-wrapper");
-	wrapper.innerHTML = ""; // Clear existing slides if any
+	if (!wrapper) return;
+	
+	wrapper.innerHTML = '<div class="text-center p-4"><div class="spinner-border" role="status"><span class="visually-hidden">Loading reviews...</span></div></div>';
+	
+	try {
+		// Try to fetch from API first
+		const response = await fetch('/api/reviews');
+		
+		if (!response.ok) {
+			throw new Error('Failed to fetch reviews');
+		}
+		
+		const data = await response.json();
+		const reviews = data.reviews || [];
+		
+		if (reviews.length === 0) {
+			// Fallback to fake reviews if no reviews found
+			console.warn('No reviews found, using fallback data');
+			renderReviews(fakeReviews);
+			return;
+		}
+		
+		renderReviews(reviews);
+	} catch (error) {
+		console.error('Error loading reviews:', error);
+		// Fallback to fake reviews on error
+		renderReviews(fakeReviews);
+	}
+}
 
-	fakeReviews.forEach(review => {
+function renderReviews(reviews) {
+	const wrapper = document.getElementById("swiper-wrapper");
+	wrapper.innerHTML = ""; // Clear existing slides
+	
+	reviews.forEach(review => {
 		const slide = document.createElement("div");
 		slide.className = "swiper-slide";
-
+		
+		// Format date - Google uses timestamp in seconds
+		const reviewDate = review.time 
+			? new Date(review.time * 1000).toLocaleDateString()
+			: review.relative_time_description || 'Recently';
+		
 		slide.innerHTML = `
-      <div class="review-card">
-        <div class="d-flex align-items-center mb-2">
-          <img src="${review.profile_photo_url}" class="review-avatar" alt="${review.author_name}">
-          <div>
-            <strong>${review.author_name}</strong><br>
-            <small>${new Date(review.time * 1000).toLocaleDateString()}</small>
-          </div>
-        </div>
-        <div class="review-stars mb-2">${generateStars(review.rating)}</div>
-        <p>${review.text}</p>
-      </div>
-    `;
-
+			<div class="review-card">
+				<div class="d-flex align-items-center mb-2">
+					<img src="${review.profile_photo_url}" 
+						 class="review-avatar" 
+						 alt="${review.author_name}"
+						 onerror="this.src='https://via.placeholder.com/50'">
+					<div>
+						<strong>${review.author_name}</strong><br>
+						<small>${reviewDate}</small>
+					</div>
+				</div>
+				<div class="review-stars mb-2">${generateStars(review.rating)}</div>
+				<p>${review.text}</p>
+			</div>
+		`;
+		
 		wrapper.appendChild(slide);
 	});
-
-	const swiper = new Swiper(".swiper", {
-		loop: true,
+	
+	// Initialize or update Swiper
+	if (window.reviewsSwiper) {
+		window.reviewsSwiper.destroy();
+	}
+	
+	window.reviewsSwiper = new Swiper(".swiper", {
+		loop: reviews.length > 3,
 		spaceBetween: 20,
 		slidesPerView: 1,
 		navigation: {
@@ -917,29 +962,29 @@ function loadReviews() {
 			resize: equalizeCardHeights
 		}
 	});
-
+	
 	// Run once after short delay for guaranteed layout
 	setTimeout(equalizeCardHeights, 100);
+}
 
-	function equalizeCardHeights() {
-		const cards = document.querySelectorAll('.review-card');
-		let maxHeight = 0;
+function equalizeCardHeights() {
+	const cards = document.querySelectorAll('.review-card');
+	let maxHeight = 0;
 
-		// Reset heights first
-		cards.forEach(card => {
-			card.style.height = 'auto';
-		});
+	// Reset heights first
+	cards.forEach(card => {
+		card.style.height = 'auto';
+	});
 
-		// Get max height
-		cards.forEach(card => {
-			maxHeight = Math.max(maxHeight, card.offsetHeight);
-		});
+	// Get max height
+	cards.forEach(card => {
+		maxHeight = Math.max(maxHeight, card.offsetHeight);
+	});
 
-		// Apply to all
-		cards.forEach(card => {
-			card.style.height = maxHeight + 'px';
-		});
-	}
+	// Apply to all
+	cards.forEach(card => {
+		card.style.height = maxHeight + 'px';
+	});
 }
 
 window.onload = loadReviews;
