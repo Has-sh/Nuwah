@@ -2,5 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://nuwah.pages.dev/sitemap.xml
+Sitemap: https://nuwah.pages.dev/sitemap_index.xml
 
