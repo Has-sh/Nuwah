@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "eleventy",
+    "postbuild": "npm run minify",
     "build:minify": "npm run build && npm run minify",
     "minify": "npm run minify:js && npm run minify:css",
     "minify:js": "terser _site/assets/js/script.js -o _site/assets/js/script.js -c -m",
