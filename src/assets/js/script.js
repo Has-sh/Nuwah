@@ -597,13 +597,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			let newProducts = '';
 			remainingItems.forEach((item) => {
 				const saleBadge = item.onSale ? '<div class="homepage-furniture-sale-badge">SALE!</div>' : '';
+				// Optimize image URLs for mobile
+				const defaultImg = item.defaultImage ? item.defaultImage.replace(/w=\d+/, 'w=300').replace(/q=\d+/, 'q=75') : '';
+				const hoverImg = item.hoverImage ? item.hoverImage.replace(/w=\d+/, 'w=300').replace(/q=\d+/, 'q=75') : '';
+				
 				newProducts += `
 					<div class="col-lg-3 col-md-3 col-6">
 						<div class="card product-card h-100">
 							${saleBadge}
 							<div class="product-img-container">
-								<img src="${item.defaultImage || ''}" class="product-img default-img" alt="${item.title || ''}" />
-								${item.hoverImage ? `<img src="${item.hoverImage}" class="product-img hover-img" alt="${item.title || ''} Hover" />` : ''}
+								<img src="${defaultImg}" class="product-img default-img" alt="${item.title || ''}" width="300" height="333" loading="lazy" />
+								${hoverImg ? `<img src="${hoverImg}" class="product-img hover-img" alt="${item.title || ''} Hover" width="300" height="333" loading="lazy" />` : ''}
 							</div>
 							<div class="card-body">
 								<h6 class="card-title">${item.title || ''}</h6>

@@ -7,6 +7,16 @@
 	--bg-color: #121212;
 }
 
+/* Font Display Optimization */
+@font-face {
+	font-family: 'Font Awesome 6 Brands';
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Font Awesome 6 Free';
+	font-display: swap;
+}
+
 /* Reset & Global */
 * {
 	box-sizing: border-box;

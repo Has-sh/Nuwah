@@ -404,13 +404,21 @@ eleventyComputed:
             <div class="col-lg-8 mb-5">
                 <div class="gallery-main" data-aos="fade-up">
                     <img src="{{ project.gallery[0].image }}" 
-                         alt="{{ project.gallery[0].alt }}" id="mainImage">
+                         alt="{{ project.gallery[0].alt }}" 
+                         id="mainImage"
+                         width="800" 
+                         height="600" 
+                         loading="eager">
                 </div>
                 <div class="gallery-thumbnails" data-aos="fade-up" data-aos-delay="200">
                     {% for image in project.gallery %}
                     <div class="thumbnail {% if loop.first %}active{% endif %}" 
                          onclick="changeMainImage(this, '{{ image.image }}')">
-                        <img src="{{ image.thumbnail or image.image }}" alt="{{ image.alt }}">
+                        <img src="{{ image.thumbnail or image.image }}" 
+                             alt="{{ image.alt }}" 
+                             width="150" 
+                             height="150" 
+                             loading="lazy">
                     </div>
                     {% endfor %}
                 </div>
@@ -473,9 +481,18 @@ eleventyComputed:
             <div class="col-lg-12" data-aos="zoom-in">
                 <div class="comparison-slider" id="comparisonSlider">
                     <img src="{{ project.before_after.before_image }}" 
-                         alt="Before" class="before-image">
+                         alt="Before" 
+                         class="before-image"
+                         width="800" 
+                         height="450" 
+                         loading="lazy">
                     <img src="{{ project.before_after.after_image }}" 
-                         alt="After" class="after-image" id="sliderAfterImage">
+                         alt="After" 
+                         class="after-image" 
+                         id="sliderAfterImage"
+                         width="800" 
+                         height="450" 
+                         loading="lazy">
                     <div class="slider-handleSlider" id="sliderHandle"></div>
                 </div>
             </div>
@@ -534,7 +551,11 @@ eleventyComputed:
                                 {% if not relatedImage %}
                                     {% set relatedImage = 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop' %}
                                 {% endif %}
-                                <img src="{{ relatedImage }}" alt="{{ related.title }}">
+                                <img src="{{ relatedImage }}" 
+                                     alt="{{ related.title }}" 
+                                     width="400" 
+                                     height="300" 
+                                     loading="lazy">
                             </div>
                             <h4 class="related-title">{{ related.title }}</h4>
                             <p class="related-category">{{ related.category }}</p>

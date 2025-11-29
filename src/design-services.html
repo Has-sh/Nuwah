@@ -475,8 +475,11 @@ image: /assets/img/footer-logo-Photoroom.png
 <!-- <div class="hero-container">
     <div class="hero-image">
         <div class="hero-image" style="position: relative; width: 100%; overflow: hidden;">
-            <img src="https://plus.unsplash.com/premium_photo-1670360414483-64e6d9ba9038?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            <img src="https://plus.unsplash.com/premium_photo-1670360414483-64e6d9ba9038?q=75&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Interior Packages Cover"
+                width="1200" 
+                height="600" 
+                loading="lazy">
                 style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
         </div>
     </div>
@@ -517,7 +520,12 @@ image: /assets/img/footer-logo-Photoroom.png
             {% for service in designServices.servicesSection.services %}
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
                 <div class="service-card">
-                    <img src="{{ service.image }}" alt="{{ service.title }}" class="service-img">
+                    <img src="{{ service.image }}" 
+                         alt="{{ service.title }}" 
+                         class="service-img"
+                         width="400" 
+                         height="300" 
+                         loading="lazy">
                     <div class="service-content">
                         <div class="service-icon">
                             <i class="{{ service.icon }}"></i>
@@ -583,7 +591,11 @@ image: /assets/img/footer-logo-Photoroom.png
                             {% set projectImage = 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop' %}
                         {% endif %}
                         <img src="{{ projectImage }}"
-                            alt="{{ project.title }}" class="portfolio-img">
+                            alt="{{ project.title }}" 
+                            class="portfolio-img"
+                            width="400" 
+                            height="300" 
+                            loading="lazy">
                         <div class="portfolio-overlay">
                             <h4 class="portfolio-title">{{ project.title }}</h4>
                             <p class="portfolio-category">{{ project.category }}</p>
