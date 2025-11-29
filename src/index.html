@@ -341,7 +341,9 @@ image: /assets/img/footer-logo-Photoroom.png
 		</div>
 		<div class="col-lg-3 col-md-3 col-6">
 			<div class="card product-card h-100">
-				<div class="homepage-furniture-sale-badge">SALE!</div>
+				{% if homepage.furnitureSection.furniture[1].onSale %}
+				<div class="homepage-furniture-sale-badge">{{ homepage.furnitureSection.furniture[1].salePercentage or 'On Sale' }}</div>
+				{% endif %}
 				<div class="product-img-container">
 					<img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=75"
 						srcset="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=75 200w,

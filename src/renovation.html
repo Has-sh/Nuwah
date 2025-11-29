@@ -425,30 +425,36 @@ image: /assets/img/footer-logo-Photoroom.png
     });
 
     // Renovation email notification form
-    document.querySelector('.renovation-notify-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-        const email = document.querySelector('.renovation-email-input').value;
-        
-        if (email && email.includes('@')) {
-            // Simulate form submission
-            this.textContent = 'Thank You!';
-            this.style.background = '#28a745';
-            this.style.color = 'white';
+    const notifyBtn = document.querySelector('.renovation-notify-btn');
+    if (notifyBtn) {
+        notifyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const emailInput = document.querySelector('.renovation-email-input');
+            if (!emailInput) return;
             
-            setTimeout(() => {
-                this.textContent = 'Notify Me';
-                this.style.background = 'white';
-                this.style.color = '#333';
-                document.querySelector('.renovation-email-input').value = '';
-            }, 2000);
-        } else {
-            // Basic validation feedback
-            document.querySelector('.renovation-email-input').style.borderColor = '#dc3545';
-            setTimeout(() => {
-                document.querySelector('.renovation-email-input').style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            }, 2000);
-        }
-    });
+            const email = emailInput.value;
+            
+            if (email && email.includes('@')) {
+                // Simulate form submission
+                this.textContent = 'Thank You!';
+                this.style.background = '#28a745';
+                this.style.color = 'white';
+                
+                setTimeout(() => {
+                    this.textContent = 'Notify Me';
+                    this.style.background = 'white';
+                    this.style.color = '#333';
+                    emailInput.value = '';
+                }, 2000);
+            } else {
+                // Basic validation feedback
+                emailInput.style.borderColor = '#dc3545';
+                setTimeout(() => {
+                    emailInput.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }, 2000);
+            }
+        });
+    }
 
     // Renovation feature cards animation on scroll
     const renovationObserverOptions = {

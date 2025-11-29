@@ -25,7 +25,11 @@ image: /assets/img/footer-logo-Photoroom.png
                         <img src="{{ pkg.images[0] }}" alt="{{ pkg.name }}" class="default-img" width="400" height="300" loading="lazy">
                         <img src="{{ pkg.images[1] }}" alt="{{ pkg.name }} Hover" class="hover-img" width="400" height="300" loading="lazy">
     
-                        <div class="custom-sale-badge">On sale</div>
+                        {% set packageSalePercentage = pkg | getPackageSalePercentage %}
+                        {% set minOriginal = pkg | minPackageOriginalPrice %}
+                        {% if packageSalePercentage or minOriginal != "0" %}
+                        <div class="custom-sale-badge">{{ packageSalePercentage or 'On Sale' }}</div>
+                        {% endif %}
                         <div class="delivery-badge">Delivery {{ pkg.deliveryTime }}</div>
                         <div class="tabby-logo">tabby</div>
     

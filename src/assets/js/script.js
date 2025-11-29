@@ -98,13 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	if (welcomeText) {
 		welcomeText.style.opacity = '0';
 		welcomeText.style.transform = 'translateY(20px)';
-	}
-	welcomeText.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+		welcomeText.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
 
-	setTimeout(() => {
-		welcomeText.style.opacity = '1';
-		welcomeText.style.transform = 'translateY(0)';
-	}, 300);
+		setTimeout(() => {
+			welcomeText.style.opacity = '1';
+			welcomeText.style.transform = 'translateY(0)';
+		}, 300);
+	}
 
 	// Social buttons animation
 	const socialBtns = document.querySelectorAll('.social-btn');
@@ -513,27 +513,27 @@ function updateContent(category) {
 
 // Add click event listeners to navigation items
 function setupFurnItemListeners() {
-	document.querySelectorAll('.furn-item').forEach(item => {
+document.querySelectorAll('.furn-item').forEach(item => {
 		// Remove existing listeners by cloning
 		const newItem = item.cloneNode(true);
 		item.parentNode.replaceChild(newItem, item);
 		
 		newItem.addEventListener('click', function () {
-			// Remove active class from all items
-			document.querySelectorAll('.furn-item').forEach(i => i.classList.remove('active'));
+		// Remove active class from all items
+		document.querySelectorAll('.furn-item').forEach(i => i.classList.remove('active'));
 
-			// Add active class to clicked item
-			this.classList.add('active');
+		// Add active class to clicked item
+		this.classList.add('active');
 
-			// Get category from data attribute
-			const category = this.dataset.category;
+		// Get category from data attribute
+		const category = this.dataset.category;
 
-			// Update content
+		// Update content
 			if (category) {
-				updateContent(category);
+		updateContent(category);
 			}
-		});
 	});
+});
 }
 
 // Initialize on page load
@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const defaultFurnItem = document.querySelector('.furn-item[data-category="sofas"]');
 	if (defaultFurnItem) {
 		defaultFurnItem.classList.add("active");
-		updateContent("sofas");
+	updateContent("sofas");
 	}
 });
 
@@ -571,11 +571,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	const loadMoreBtn = document.getElementById("loadMoreBtn");
 	if (loadMoreBtn) {
-		loadMoreBtn.addEventListener("click", () => {
-		if (loadedOnce) return;
+loadMoreBtn.addEventListener("click", () => {
+	if (loadedOnce) return;
 
-		loadMoreBtn.disabled = true;
-		loadMoreBtn.innerHTML = `
+	loadMoreBtn.disabled = true;
+	loadMoreBtn.innerHTML = `
       <span class="loading-spinner">
         Loading
         <span class="dot"></span>
@@ -584,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </span>
     `;
 
-		setTimeout(() => {
+	setTimeout(() => {
 			// Get remaining furniture items (skip the first 4 that are already displayed)
 			const remainingItems = furnitureData.slice(initialFurnitureCount);
 			
@@ -596,99 +596,99 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			let newProducts = '';
 			remainingItems.forEach((item) => {
-				const saleBadge = item.onSale ? '<div class="homepage-furniture-sale-badge">SALE!</div>' : '';
+				const saleBadge = item.onSale && item.salePercentage ? `<div class="homepage-furniture-sale-badge">${item.salePercentage}</div>` : (item.onSale ? '<div class="homepage-furniture-sale-badge">On Sale</div>' : '');
 				// Optimize image URLs for mobile
 				const defaultImg = item.defaultImage ? item.defaultImage.replace(/w=\d+/, 'w=300').replace(/q=\d+/, 'q=75') : '';
 				const hoverImg = item.hoverImage ? item.hoverImage.replace(/w=\d+/, 'w=300').replace(/q=\d+/, 'q=75') : '';
 				
 				newProducts += `
-					<div class="col-lg-3 col-md-3 col-6">
-						<div class="card product-card h-100">
+        <div class="col-lg-3 col-md-3 col-6">
+          <div class="card product-card h-100">
 							${saleBadge}
 							<div class="product-img-container">
 								<img src="${defaultImg}" class="product-img default-img" alt="${item.title || ''}" width="300" height="333" loading="lazy" />
 								${hoverImg ? `<img src="${hoverImg}" class="product-img hover-img" alt="${item.title || ''} Hover" width="300" height="333" loading="lazy" />` : ''}
 							</div>
-							<div class="card-body">
+            <div class="card-body">
 								<h6 class="card-title">${item.title || ''}</h6>
 								<p class="card-text text-muted">${item.price || ''}</p>
-							</div>
-						</div>
-					</div>
-				`;
+            </div>
+          </div>
+        </div>
+      `;
 			});
 
 			const productList = document.getElementById("product-list");
 			if (productList) {
-				productList.insertAdjacentHTML("beforeend", newProducts);
+		productList.insertAdjacentHTML("beforeend", newProducts);
 			}
 
-			loadMoreBtn.outerHTML = `<div class="all-loaded text-center mt-2">✔ All items loaded</div>`;
-			loadedOnce = true;
-		}, 2000);
-		});
+		loadMoreBtn.outerHTML = `<div class="all-loaded text-center mt-2">✔ All items loaded</div>`;
+		loadedOnce = true;
+	}, 2000);
+});
 	}
 
 	// Slider functionality
-	const sliderContainer = document.getElementById('sliderContainer');
-	const handle = document.getElementById('sliderHandle');
-	const afterImage = document.getElementById('afterImg');
-	const beforeImage = document.getElementById('beforeImg');
-	const labelBefore = document.querySelector('.label.before');
-	const labelAfter = document.querySelector('.label.after');
+const sliderContainer = document.getElementById('sliderContainer');
+const handle = document.getElementById('sliderHandle');
+const afterImage = document.getElementById('afterImg');
+const beforeImage = document.getElementById('beforeImg');
+const labelBefore = document.querySelector('.label.before');
+const labelAfter = document.querySelector('.label.after');
 
 	if (sliderContainer && handle && afterImage && beforeImage) {
-		let isDragging = false;
+let isDragging = false;
 
-		const updateSlider = (clientX) => {
-			const rect = sliderContainer.getBoundingClientRect();
-			let offsetX = clientX - rect.left;
-			offsetX = Math.max(0, Math.min(offsetX, rect.width));
-			const percent = (offsetX / rect.width) * 100;
+const updateSlider = (clientX) => {
+	const rect = sliderContainer.getBoundingClientRect();
+	let offsetX = clientX - rect.left;
+	offsetX = Math.max(0, Math.min(offsetX, rect.width));
+	const percent = (offsetX / rect.width) * 100;
 
-			handle.style.left = `${percent}%`;
-			afterImage.style.clipPath = `polygon(${percent}% 0%, 100% 0%, 100% 100%, ${percent}% 100%)`;
+	handle.style.left = `${percent}%`;
+	afterImage.style.clipPath = `polygon(${percent}% 0%, 100% 0%, 100% 100%, ${percent}% 100%)`;
 
 			if (labelBefore) labelBefore.style.opacity = percent < 15 ? '0' : '1';
 			if (labelAfter) labelAfter.style.opacity = percent > 85 ? '0' : '1';
-		};
+};
 
-		handle.addEventListener('mousedown', (e) => {
-			isDragging = true;
-			document.body.classList.add('dragging');
-			e.preventDefault();
-		});
+handle.addEventListener('mousedown', (e) => {
+	isDragging = true;
+	document.body.classList.add('dragging');
+	e.preventDefault();
+});
 
-		document.addEventListener('mouseup', () => {
-			if (isDragging) {
-				isDragging = false;
-				document.body.classList.remove('dragging');
-			}
-		});
+document.addEventListener('mouseup', () => {
+	if (isDragging) {
+		isDragging = false;
+		document.body.classList.remove('dragging');
+	}
+});
 
-		document.addEventListener('mousemove', (e) => {
-			if (isDragging) {
-				updateSlider(e.clientX);
-			}
-		});
+document.addEventListener('mousemove', (e) => {
+	if (isDragging) {
+		updateSlider(e.clientX);
+	}
+});
 
-		handle.addEventListener('touchstart', (e) => {
-			isDragging = true;
-			document.body.classList.add('dragging');
-			e.preventDefault();
-		});
+handle.addEventListener('touchstart', (e) => {
+	isDragging = true;
+	document.body.classList.add('dragging');
+	e.preventDefault();
+});
 
-		document.addEventListener('touchend', () => {
-			if (isDragging) {
-				isDragging = false;
-				document.body.classList.remove('dragging');
-			}
-		});
+document.addEventListener('touchend', () => {
+	if (isDragging) {
+		isDragging = false;
+		document.body.classList.remove('dragging');
+	}
+});
 
-		document.addEventListener('touchmove', (e) => {
-			if (isDragging) {
-				updateSlider(e.touches[0].clientX);
-				e.preventDefault();
+document.addEventListener('touchmove', (e) => {
+	if (isDragging) {
+		updateSlider(e.touches[0].clientX);
+		e.preventDefault();
 			}
 		});
 	}
@@ -741,7 +741,7 @@ async function loadProjectImages() {
 function toggleDropdown() {
 	const nav = document.getElementById('navBar');
 	if (nav) {
-		nav.classList.toggle('show');
+	nav.classList.toggle('show');
 	}
 }
 
@@ -759,14 +759,15 @@ function handleButtonClick(button) {
 		window.open(whatsappUrl, '_blank');
 	} else if (buttonText === 'View More') {
 		// Handle view more - you can customize this
-		// For now, just log or navigate to a detail page
-		console.log('View more for:', cardTitle);
+		// For now, just navigate to a detail page
 		// window.location.href = `/packages/${cardTitle.toLowerCase().replace(/\s+/g, '-')}`;
 	}
 }
 
 function handleResize() {
 	const nav = document.getElementById('navBar');
+	if (!nav) return;
+	
 	if (window.innerWidth > 768) {
 		nav.classList.add('show');
 	} else {
@@ -791,34 +792,34 @@ document.addEventListener('DOMContentLoaded', async function() {
 	
 	if (navItems.length > 0 && beforeImage && afterImage && handle) {
 		navItems.forEach(btn => {
-			btn.addEventListener('click', () => {
-				document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-				btn.classList.add('active');
+	btn.addEventListener('click', () => {
+		document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+		btn.classList.add('active');
 
-				const label = btn.textContent.trim();
+		const label = btn.textContent.trim();
 				const activeLabel = document.getElementById('activeLabel');
 				if (activeLabel) {
 					activeLabel.textContent = label.toUpperCase();
 				}
 
-				const images = imageMap[label];
-				if (images) {
-					beforeImage.src = images.before;
-					afterImage.src = images.after;
+		const images = imageMap[label];
+		if (images) {
+			beforeImage.src = images.before;
+			afterImage.src = images.after;
 
-					handle.style.left = `50%`;
-					afterImage.style.clipPath = `polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)`;
+			handle.style.left = `50%`;
+			afterImage.style.clipPath = `polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)`;
 					if (labelBefore) labelBefore.style.opacity = '1';
 					if (labelAfter) labelAfter.style.opacity = '1';
-				}
+		}
 
-				if (window.innerWidth <= 768) {
+		if (window.innerWidth <= 768) {
 					const navBar = document.getElementById('navBar');
 					if (navBar) {
 						navBar.classList.remove('show');
 					}
-				}
-			});
+		}
+	});
 		});
 	}
 });
@@ -957,32 +958,32 @@ function renderReviews(reviews) {
 	reviews.forEach(review => {
 		const slide = document.createElement("div");
 		slide.className = "swiper-slide";
-		
+
 		// Format date - Google uses timestamp in seconds
 		const reviewDate = review.time 
 			? new Date(review.time * 1000).toLocaleDateString()
 			: review.relative_time_description || 'Recently';
 		
 		slide.innerHTML = `
-			<div class="review-card">
-				<div class="d-flex align-items-center mb-2">
+      <div class="review-card">
+        <div class="d-flex align-items-center mb-2">
 					<img src="${review.profile_photo_url}" 
 						 class="review-avatar" 
 						 alt="${review.author_name}"
 						 onerror="this.src='https://via.placeholder.com/50'">
-					<div>
-						<strong>${review.author_name}</strong><br>
+          <div>
+            <strong>${review.author_name}</strong><br>
 						<small>${reviewDate}</small>
-					</div>
-				</div>
-				<div class="review-stars mb-2">${generateStars(review.rating)}</div>
-				<p>${review.text}</p>
-			</div>
-		`;
-		
+          </div>
+        </div>
+        <div class="review-stars mb-2">${generateStars(review.rating)}</div>
+        <p>${review.text}</p>
+      </div>
+    `;
+
 		wrapper.appendChild(slide);
 	});
-	
+
 	// Initialize or update Swiper
 	if (window.reviewsSwiper) {
 		window.reviewsSwiper.destroy();
@@ -1011,30 +1012,30 @@ function renderReviews(reviews) {
 			resize: equalizeCardHeights
 		}
 	});
-	
+
 	// Run once after short delay for guaranteed layout
 	setTimeout(equalizeCardHeights, 100);
 }
 
-function equalizeCardHeights() {
-	const cards = document.querySelectorAll('.review-card');
-	let maxHeight = 0;
+	function equalizeCardHeights() {
+		const cards = document.querySelectorAll('.review-card');
+		let maxHeight = 0;
 
-	// Reset heights first
-	cards.forEach(card => {
-		card.style.height = 'auto';
-	});
+		// Reset heights first
+		cards.forEach(card => {
+			card.style.height = 'auto';
+		});
 
-	// Get max height
-	cards.forEach(card => {
-		maxHeight = Math.max(maxHeight, card.offsetHeight);
-	});
+		// Get max height
+		cards.forEach(card => {
+			maxHeight = Math.max(maxHeight, card.offsetHeight);
+		});
 
-	// Apply to all
-	cards.forEach(card => {
-		card.style.height = maxHeight + 'px';
-	});
-}
+		// Apply to all
+		cards.forEach(card => {
+			card.style.height = maxHeight + 'px';
+		});
+	}
 
 // Lazy load reviews when section is visible
 if ('IntersectionObserver' in window) {

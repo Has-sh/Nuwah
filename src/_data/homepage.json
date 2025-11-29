@@ -137,56 +137,64 @@
         "hoverImage": "/assets/img/furniture1.webp",
         "title": "Minimal Chair",
         "price": "$15.00 – $20.00",
-        "onSale": false
+        "onSale": false,
+        "salePercentage": ""
       },
       {
         "defaultImage": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
         "hoverImage": "https://images.unsplash.com/photo-1549497538-303791108f95?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
         "title": "Marius Bar Stool",
         "price": "$42.00 – $46.00",
-        "onSale": true
+        "onSale": true,
+        "salePercentage": ""
       },
       {
         "defaultImage": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
         "hoverImage": "https://images.unsplash.com/photo-1581539250439-c96689b516dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
         "title": "Comfy Wooden Chair",
         "price": "$45.00",
-        "onSale": false
+        "onSale": false,
+        "salePercentage": ""
       },
       {
         "defaultImage": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
         "hoverImage": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
         "title": "Red Chair",
         "price": "$18.00",
-        "onSale": false
+        "onSale": false,
+        "salePercentage": ""
       },
       {
         "defaultImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "hoverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "title": "Office Chair",
         "price": "$30.00",
-        "onSale": false
+        "onSale": false,
+        "salePercentage": ""
       },
       {
         "defaultImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "hoverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "title": "Dining Table",
         "price": "$120.00",
-        "onSale": true
+        "onSale": true,
+        "salePercentage": ""
       },
       {
         "defaultImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "hoverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "title": "Rocking Chair",
         "price": "$85.00",
-        "onSale": false
+        "onSale": false,
+        "salePercentage": ""
       },
       {
         "defaultImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "hoverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
         "title": "Coffee Table",
         "price": "$40.00",
-        "onSale": false
+        "onSale": false,
+        "salePercentage": ""
       }
     ]
   },

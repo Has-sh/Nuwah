@@ -607,6 +607,9 @@ title: Admin Panel
     <div class="admin-content" id="furniture-tab">
         <div class="admin-section">
             <h2>Furniture Management</h2>
+            <div class="alert alert-info" style="margin-bottom: 20px; padding: 12px; background: #e7f3ff; border-left: 4px solid #2196F3; border-radius: 4px;">
+                <strong>💡 Auto-Sync:</strong> When you save furniture data, corresponding products in <code>products.json</code> will be automatically created or updated (1-to-1 relationship). This keeps your data in sync and prevents discrepancies.
+            </div>
             <div id="furniture-list"></div>
             <button class="btn btn-secondary" onclick="addFurnitureCategory()">+ Add New Category</button>
         </div>
@@ -664,6 +667,12 @@ title: Admin Panel
 
     function getApiBaseUrl() {
         return '';
+    }
+
+    // Check if running locally
+    function isLocalEnvironment() {
+        const hostname = window.location.hostname;
+        return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
     }
 
     // GitHub API integration for Cloudflare Pages
@@ -794,6 +803,17 @@ title: Admin Panel
         return group;
     }
 
+    // Utility: Create read-only display field
+    function createReadOnlyField(label, value) {
+        const group = document.createElement('div');
+        group.className = 'form-group';
+        group.innerHTML = `
+            <label>${label}</label>
+            <input type="text" value="${value || ''}" readonly style="background-color: #f5f5f5; cursor: not-allowed;">
+        `;
+        return group;
+    }
+
     // Utility: Create array field (for images, features, etc.)
     function createArrayField(label, items, onAdd, onRemove, renderItem) {
         const group = document.createElement('div');
@@ -865,20 +885,61 @@ title: Admin Panel
     function createImageUploadField(label, currentImage, onChange) {
         const group = document.createElement('div');
         group.className = 'form-group';
+        const uniqueId = 'img-preview-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
         group.innerHTML = `
             <label>${label}</label>
-            <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
-                ${currentImage ? `<img src="${currentImage}" alt="Preview" style="max-width: 200px; max-height: 150px; border-radius: 6px; border: 2px solid #e0e0e0;">` : ''}
+            <div style="display: flex; gap: 10px; align-items: flex-start; margin-top: 10px;">
+                <div style="min-width: 200px; max-width: 200px; height: 150px; border: 2px solid #e0e0e0; border-radius: 6px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                    <img id="${uniqueId}" src="${currentImage || ''}" alt="Preview" 
+                        style="max-width: 100%; max-height: 100%; object-fit: contain; display: ${currentImage ? 'block' : 'none'};"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div style="display: ${currentImage ? 'none' : 'flex'}; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 0.85rem; text-align: center; padding: 10px;">
+                        <i class="fas fa-image" style="font-size: 2rem; margin-bottom: 5px; opacity: 0.5;"></i>
+                        <span>No preview</span>
+                    </div>
+                </div>
                 <div style="flex: 1;">
                     <input type="text" value="${currentImage || ''}" placeholder="Enter image URL or path" 
-                        onchange="${onChange}" style="margin-bottom: 10px;">
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="this.previousElementSibling.value=''; ${onChange.replace('this.value', '\'\'')}">
+                        oninput="updateImagePreview('${uniqueId}', this.value); ${onChange}" 
+                        onchange="${onChange}" 
+                        style="margin-bottom: 10px; width: 100%;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="this.previousElementSibling.value=''; updateImagePreview('${uniqueId}', ''); ${onChange.replace('this.value', '\'\'')}">
                         Clear Image
                     </button>
                 </div>
             </div>
         `;
         return group;
+    }
+
+    // Utility: Update image preview in real-time
+    function updateImagePreview(previewId, imageUrl) {
+        const previewImg = document.getElementById(previewId);
+        const placeholder = previewImg ? previewImg.nextElementSibling : null;
+        
+        if (!previewImg) return;
+        
+        if (imageUrl && imageUrl.trim() !== '') {
+            previewImg.src = imageUrl;
+            previewImg.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
+            
+            // Handle image load errors
+            previewImg.onerror = function() {
+                this.style.display = 'none';
+                if (placeholder) placeholder.style.display = 'flex';
+            };
+            
+            // Handle successful image load
+            previewImg.onload = function() {
+                this.style.display = 'block';
+                if (placeholder) placeholder.style.display = 'none';
+            };
+        } else {
+            previewImg.src = '';
+            previewImg.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'flex';
+        }
     }
 
     // HOMEPAGE MANAGEMENT
@@ -1104,7 +1165,7 @@ title: Admin Panel
                 <div class="array-item">
                     <div class="form-group">
                         <label>Card ${index + 1}</label>
-                        ${createFormField('ID', card.id || '', `updateCategoryCard("${categoryKey}", ${index}, "id", this.value)`).outerHTML}
+                        ${createReadOnlyField('ID', card.id || '').outerHTML}
                         ${createFormField('Title', card.title || '', `updateCategoryCard("${categoryKey}", ${index}, "title", this.value)`).outerHTML}
                         ${createFormField('Subtitle', card.subtitle || '', `updateCategoryCard("${categoryKey}", ${index}, "subtitle", this.value)`).outerHTML}
                         ${createFormField('Link/URL', card.link || '', `updateCategoryCard("${categoryKey}", ${index}, "link", this.value)`, 'text', 'e.g., /furnitures/?category=sectional-sofas').outerHTML}
@@ -1324,11 +1385,13 @@ title: Admin Panel
             const onSaleField = document.createElement('div');
             onSaleField.className = 'form-group';
             onSaleField.innerHTML = `
-                <label>
+                <label title="If checked, fill in sale percentage. If unchecked, leave that field empty.">
                     <input type="checkbox" ${item.onSale ? 'checked' : ''} onchange="updateFurnitureCard(${index}, 'onSale', this.checked)">
                     On Sale (Show Sale Badge)
+                    <span style="margin-left: 5px; color: #666; cursor: help;" title="If checked, fill in sale percentage. If unchecked, leave that field empty.">ℹ️</span>
                 </label>
             `;
+            const salePercentageField = createFormField('Sale Percentage', item.salePercentage || '', `updateFurnitureCard(${index}, 'salePercentage', this.value)`, 'text', 'e.g., 13% OFF');
             
             html += `
                 <div class="array-item">
@@ -1339,6 +1402,7 @@ title: Admin Panel
                         ${titleField.outerHTML}
                         ${priceField.outerHTML}
                         ${onSaleField.outerHTML}
+                        ${salePercentageField.outerHTML}
                         <button type="button" class="btn btn-danger btn-sm" onclick="removeFurnitureCard(${index})" style="margin-top: 15px;">Remove Card</button>
                     </div>
                 </div>
@@ -1356,7 +1420,8 @@ title: Admin Panel
             hoverImage: '',
             title: '',
             price: '',
-            onSale: false
+            onSale: false,
+            salePercentage: ''
         });
         renderHomepageContent();
     }
@@ -1422,6 +1487,14 @@ title: Admin Panel
         try {
             // Clean data before saving
             const cleanedData = cleanHomepageData(JSON.parse(JSON.stringify(homepageData)));
+            
+            // If local environment, skip GitHub and download directly
+            if (isLocalEnvironment()) {
+                downloadJSON('homepage');
+                homepageData = cleanedData;
+                showAlert('Homepage data downloaded! Copy the file to src/_data/homepage.json to save changes locally.', 'success');
+                return;
+            }
             
             // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/homepage.json', cleanedData);
@@ -1804,6 +1877,14 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanDesignServicesData(JSON.parse(JSON.stringify(designServicesData)));
             
+            // If local environment, skip GitHub and download directly
+            if (isLocalEnvironment()) {
+                downloadJSON('design-services');
+                designServicesData = cleanedData;
+                showAlert('Design services data downloaded! Copy the file to src/_data/designServices.json to save changes locally.', 'success');
+                return;
+            }
+            
             // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/designServices.json', cleanedData);
             if (saved) {
@@ -1813,16 +1894,9 @@ title: Admin Panel
             }
             
             // Fallback to download
-            const dataStr = JSON.stringify(cleanedData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'designServices.json';
-            link.click();
-            URL.revokeObjectURL(url);
+            downloadJSON('design-services');
             designServicesData = cleanedData;
-            showAlert('Design services data downloaded! Upload design-services.json to your repository to save changes.', 'success');
+            showAlert('Design services data downloaded! Upload designServices.json to your repository to save changes.', 'success');
         } catch (error) {
             console.error('Error saving design services data:', error);
             showAlert('Error saving design services data: ' + error.message, 'error');
@@ -2049,6 +2123,14 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanContactData(JSON.parse(JSON.stringify(contactData)));
             
+            // If local environment, skip GitHub and download directly
+            if (isLocalEnvironment()) {
+                downloadJSON('contact');
+                contactData = cleanedData;
+                showAlert('Contact data downloaded! Copy the file to src/_data/contact.json to save changes locally.', 'success');
+                return;
+            }
+            
             // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/contact.json', cleanedData);
             if (saved) {
@@ -2057,15 +2139,8 @@ title: Admin Panel
                 return;
             }
             
-            // Fallback to download
-            const dataStr = JSON.stringify(cleanedData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'contact.json';
-            link.click();
-            URL.revokeObjectURL(url);
+            // Fallback: download the file
+            downloadJSON('contact');
             contactData = cleanedData;
             showAlert('Contact data downloaded! Upload contact.json to your repository to save changes.', 'success');
         } catch (error) {
@@ -2555,6 +2630,14 @@ title: Admin Panel
             // Clean data before saving
             const cleanedData = cleanPackagesData(JSON.parse(JSON.stringify(packagesData)));
             
+            // If local environment, skip GitHub and download directly
+            if (isLocalEnvironment()) {
+                downloadJSON('packages');
+                packagesData = cleanedData;
+                showAlert('Packages data downloaded! Copy the file to src/_data/packages.json to save changes locally.', 'success');
+                return;
+            }
+            
             // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/packages.json', cleanedData);
             if (saved) {
@@ -2625,7 +2708,7 @@ title: Admin Panel
                     <h3>${product.name || 'Unnamed Product'}</h3>
                     <button class="btn btn-danger btn-sm" onclick="deleteProduct(${prodIndex})">Delete</button>
                 </div>
-                ${createFormField('ID', product.id, `updateProductField(${prodIndex}, 'id', this.value)`).outerHTML}
+                ${createReadOnlyField('ID', product.id).outerHTML}
                 ${createFormField('Name', product.name, `updateProductField(${prodIndex}, 'name', this.value)`).outerHTML}
                 ${createFormField('Slug', product.slug, `updateProductField(${prodIndex}, 'slug', this.value)`).outerHTML}
                 ${createFormField('Category', product.category, `updateProductField(${prodIndex}, 'category', this.value)`).outerHTML}
@@ -2680,13 +2763,9 @@ title: Admin Panel
             `;
             container.appendChild(coCard);
             
-            // Render gallery separately
+            // Render gallery separately with showcase checkboxes
             const galleryContainer = document.getElementById(`product-gallery-${prodIndex}-${coIndex}`);
-            const galleryField = createImageArrayField('Gallery', colorOpt.gallery || [], 
-                (url) => addProductColorOptionGallery(prodIndex, coIndex, url),
-                (index) => removeProductColorOptionGallery(prodIndex, coIndex, index)
-            );
-            galleryContainer.appendChild(galleryField);
+            renderProductColorOptionGallery(prodIndex, coIndex, colorOpt.gallery || [], colorOpt.showcaseImage);
         });
     }
 
@@ -2707,7 +2786,8 @@ title: Admin Panel
             originalPrice: '0.00',
             salePercentage: '0% OFF',
             image: '',
-            gallery: []
+            gallery: [],
+            showcaseImage: ''
         });
         renderProductColorOptions(prodIndex, productsData.products[prodIndex].colorOptions);
     }
@@ -2721,32 +2801,104 @@ title: Admin Panel
         productsData.products[prodIndex].colorOptions[coIndex][field] = value;
     }
 
+    function renderProductColorOptionGallery(prodIndex, coIndex, gallery, showcaseImage) {
+        const container = document.getElementById(`product-gallery-${prodIndex}-${coIndex}`);
+        container.innerHTML = '';
+        
+        const group = document.createElement('div');
+        group.className = 'form-group';
+        const labelEl = document.createElement('label');
+        labelEl.textContent = 'Gallery (check image to use as showcase)';
+        group.appendChild(labelEl);
+        
+        const imageList = document.createElement('div');
+        imageList.className = 'image-list';
+        
+        gallery.forEach((img, index) => {
+            const imageItem = document.createElement('div');
+            imageItem.className = 'image-item';
+            imageItem.style.position = 'relative';
+            
+            const imgEl = document.createElement('img');
+            imgEl.src = img;
+            imgEl.alt = `Image ${index + 1}`;
+            imgEl.onerror = () => { imgEl.src = 'https://via.placeholder.com/100'; };
+            imageItem.appendChild(imgEl);
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = () => removeProductColorOptionGallery(prodIndex, coIndex, index);
+            imageItem.appendChild(removeBtn);
+            
+            // Add showcase checkbox
+            const showcaseLabel = document.createElement('label');
+            showcaseLabel.style.position = 'absolute';
+            showcaseLabel.style.bottom = '5px';
+            showcaseLabel.style.left = '5px';
+            showcaseLabel.style.background = 'rgba(255, 255, 255, 0.9)';
+            showcaseLabel.style.padding = '4px 8px';
+            showcaseLabel.style.borderRadius = '4px';
+            showcaseLabel.style.fontSize = '11px';
+            showcaseLabel.style.cursor = 'pointer';
+            showcaseLabel.style.display = 'flex';
+            showcaseLabel.style.alignItems = 'center';
+            showcaseLabel.style.gap = '4px';
+            showcaseLabel.title = 'Check to use this image as showcase in furniture listing';
+            
+            const showcaseCheckbox = document.createElement('input');
+            showcaseCheckbox.type = 'checkbox';
+            showcaseCheckbox.checked = (img === showcaseImage);
+            showcaseCheckbox.onchange = () => setProductColorOptionShowcase(prodIndex, coIndex, img);
+            showcaseLabel.appendChild(showcaseCheckbox);
+            showcaseLabel.appendChild(document.createTextNode('Showcase'));
+            imageItem.appendChild(showcaseLabel);
+            
+            imageList.appendChild(imageItem);
+        });
+        
+        const addBtn = document.createElement('div');
+        addBtn.className = 'add-image-btn';
+        addBtn.innerHTML = '+';
+        addBtn.onclick = () => {
+            const url = prompt('Enter image URL:');
+            if (url) addProductColorOptionGallery(prodIndex, coIndex, url);
+        };
+        imageList.appendChild(addBtn);
+        
+        group.appendChild(imageList);
+        container.appendChild(group);
+    }
+
+    function setProductColorOptionShowcase(prodIndex, coIndex, imageUrl) {
+        productsData.products[prodIndex].colorOptions[coIndex].showcaseImage = imageUrl;
+        // Re-render to update checkbox states
+        const colorOpt = productsData.products[prodIndex].colorOptions[coIndex];
+        renderProductColorOptionGallery(prodIndex, coIndex, colorOpt.gallery || [], colorOpt.showcaseImage);
+    }
+
     function addProductColorOptionGallery(prodIndex, coIndex, url) {
         if (!url) return;
         if (!productsData.products[prodIndex].colorOptions[coIndex].gallery) {
             productsData.products[prodIndex].colorOptions[coIndex].gallery = [];
         }
         productsData.products[prodIndex].colorOptions[coIndex].gallery.push(url);
-        // Re-render just the gallery field
-        const container = document.getElementById(`product-gallery-${prodIndex}-${coIndex}`);
-        container.innerHTML = '';
-        const galleryField = createImageArrayField('Gallery', productsData.products[prodIndex].colorOptions[coIndex].gallery || [], 
-            (url) => addProductColorOptionGallery(prodIndex, coIndex, url),
-            (index) => removeProductColorOptionGallery(prodIndex, coIndex, index)
-        );
-        container.appendChild(galleryField);
+        // Re-render gallery
+        const colorOpt = productsData.products[prodIndex].colorOptions[coIndex];
+        renderProductColorOptionGallery(prodIndex, coIndex, colorOpt.gallery || [], colorOpt.showcaseImage);
     }
 
     function removeProductColorOptionGallery(prodIndex, coIndex, galleryIndex) {
-        productsData.products[prodIndex].colorOptions[coIndex].gallery.splice(galleryIndex, 1);
-        // Re-render just the gallery field
-        const container = document.getElementById(`product-gallery-${prodIndex}-${coIndex}`);
-        container.innerHTML = '';
-        const galleryField = createImageArrayField('Gallery', productsData.products[prodIndex].colorOptions[coIndex].gallery || [], 
-            (url) => addProductColorOptionGallery(prodIndex, coIndex, url),
-            (index) => removeProductColorOptionGallery(prodIndex, coIndex, index)
-        );
-        container.appendChild(galleryField);
+        const colorOpt = productsData.products[prodIndex].colorOptions[coIndex];
+        const removedImage = colorOpt.gallery[galleryIndex];
+        colorOpt.gallery.splice(galleryIndex, 1);
+        // If removed image was showcase, clear showcase
+        if (colorOpt.showcaseImage === removedImage) {
+            colorOpt.showcaseImage = '';
+        }
+        // Re-render gallery
+        renderProductColorOptionGallery(prodIndex, coIndex, colorOpt.gallery || [], colorOpt.showcaseImage);
     }
 
     function addProduct() {
@@ -2781,6 +2933,14 @@ title: Admin Panel
         try {
             // Clean data before saving
             const cleanedData = cleanProductsData(JSON.parse(JSON.stringify(productsData)));
+            
+            // If local environment, skip GitHub and download directly
+            if (isLocalEnvironment()) {
+                downloadJSON('products');
+                productsData = cleanedData;
+                showAlert('Products data downloaded! Copy the file to src/_data/products.json to save changes locally.', 'success');
+                return;
+            }
             
             // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/products.json', cleanedData);
@@ -2854,6 +3014,14 @@ title: Admin Panel
                 </div>
                 ${createFormField('Category Name', category.category, `updateFurnitureCategory(${catIndex}, 'category', this.value)`).outerHTML}
                 <div class="nested-section">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Hero Section</h4>
+                    <div class="collapsible-content">
+                        ${createFormField('Hero Title', category.hero?.title || category.category || '', `updateFurnitureCategory(${catIndex}, 'hero', this.value, 'title')`).outerHTML}
+                        ${createImageUploadField('Hero Background Image', category.hero?.image || '', `updateFurnitureCategory(${catIndex}, 'hero', this.value, 'image')`).outerHTML}
+                        ${createFormField('Hero Description', category.hero?.description || '', `updateFurnitureCategory(${catIndex}, 'hero', this.value, 'description')`, 'textarea').outerHTML}
+                    </div>
+                </div>
+                <div class="nested-section">
                     <h4 class="collapsible" onclick="toggleCollapsible(this)">Products (${category.products?.length || 0})</h4>
                     <div class="collapsible-content">
                         <div id="furniture-products-${catIndex}"></div>
@@ -2877,7 +3045,7 @@ title: Admin Panel
                     <span class="array-item-title">${product.title || 'Unnamed Product'}</span>
                     <button class="btn btn-danger btn-sm" onclick="removeFurnitureProduct(${catIndex}, ${prodIndex})">Remove</button>
                 </div>
-                ${createFormField('ID', product.id, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'id', this.value)`, 'number').outerHTML}
+                ${createReadOnlyField('ID', product.id).outerHTML}
                 ${createFormField('Title', product.title, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'title', this.value)`).outerHTML}
                 ${createFormField('Slug', product.slug, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'slug', this.value)`).outerHTML}
                 <div class="form-row">
@@ -2885,28 +3053,35 @@ title: Admin Panel
                     ${createFormField('Featured', product.featured, `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'featured', this.value)`, 'number').outerHTML}
                 </div>
                 <div class="form-group">
-                    <label>
+                    <label title="If checked, fill in original price and sale percentage. If unchecked, leave those fields empty.">
                         <input type="checkbox" ${product.onSale ? 'checked' : ''} 
                                onchange="updateFurnitureProduct(${catIndex}, ${prodIndex}, 'onSale', this.checked)">
                         On Sale
+                        <span style="margin-left: 5px; color: #666; cursor: help;" title="If checked, fill in original price and sale percentage. If unchecked, leave those fields empty.">ℹ️</span>
                     </label>
                 </div>
-                <div id="furniture-colors-${catIndex}-${prodIndex}"></div>
+                <div class="nested-section" style="margin-top: 15px;">
+                    <h4 class="collapsible" onclick="toggleCollapsible(this)">Sale Pricing</h4>
+                    <div class="collapsible-content">
+                        ${createFormField('Original Price', product.originalPrice || '', `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'originalPrice', this.value)`, 'number', 'e.g., 1499.99').outerHTML}
+                        ${createFormField('Sale Percentage', product.salePercentage || '', `updateFurnitureProduct(${catIndex}, ${prodIndex}, 'salePercentage', this.value)`, 'text', 'e.g., 13% OFF').outerHTML}
+                    </div>
+                </div>
             `;
             container.appendChild(prodCard);
-            
-            // Render furniture product colors separately
-            const colorsContainer = document.getElementById(`furniture-colors-${catIndex}-${prodIndex}`);
-            const colorsField = createImageArrayField('Color Options', product.colorOptions || [], 
-                (url) => addFurnitureProductColor(catIndex, prodIndex, url),
-                (index) => removeFurnitureProductColor(catIndex, prodIndex, index)
-            );
-            colorsContainer.appendChild(colorsField);
         });
     }
 
-    function updateFurnitureCategory(catIndex, field, value) {
-        furnitureData[catIndex][field] = value;
+    function updateFurnitureCategory(catIndex, field, value, subField) {
+        if (field === 'hero' && subField) {
+            // Handle nested hero fields
+            if (!furnitureData[catIndex].hero) {
+                furnitureData[catIndex].hero = {};
+            }
+            furnitureData[catIndex].hero[subField] = value;
+        } else {
+            furnitureData[catIndex][field] = value;
+        }
     }
 
     function addFurnitureProduct(catIndex) {
@@ -2918,7 +3093,8 @@ title: Admin Panel
             featured: 0,
             slug: 'new-product-' + Date.now(),
             onSale: false,
-            colorOptions: []
+            originalPrice: '',
+            salePercentage: ''
         });
         renderFurnitureProducts(catIndex, furnitureData[catIndex].products);
     }
@@ -2933,38 +3109,13 @@ title: Admin Panel
             furnitureData[catIndex].products[prodIndex][field] = parseFloat(value) || 0;
         } else if (field === 'onSale') {
             furnitureData[catIndex].products[prodIndex][field] = Boolean(value);
+        } else if (field === 'originalPrice') {
+            furnitureData[catIndex].products[prodIndex][field] = value ? parseFloat(value) || '' : '';
         } else {
             furnitureData[catIndex].products[prodIndex][field] = value;
         }
     }
 
-    function addFurnitureProductColor(catIndex, prodIndex, url) {
-        if (!url) return;
-        if (!furnitureData[catIndex].products[prodIndex].colorOptions) {
-            furnitureData[catIndex].products[prodIndex].colorOptions = [];
-        }
-        furnitureData[catIndex].products[prodIndex].colorOptions.push(url);
-        // Re-render just the colors field
-        const container = document.getElementById(`furniture-colors-${catIndex}-${prodIndex}`);
-        container.innerHTML = '';
-        const colorsField = createImageArrayField('Color Options', furnitureData[catIndex].products[prodIndex].colorOptions || [], 
-            (url) => addFurnitureProductColor(catIndex, prodIndex, url),
-            (index) => removeFurnitureProductColor(catIndex, prodIndex, index)
-        );
-        container.appendChild(colorsField);
-    }
-
-    function removeFurnitureProductColor(catIndex, prodIndex, colorIndex) {
-        furnitureData[catIndex].products[prodIndex].colorOptions.splice(colorIndex, 1);
-        // Re-render just the colors field
-        const container = document.getElementById(`furniture-colors-${catIndex}-${prodIndex}`);
-        container.innerHTML = '';
-        const colorsField = createImageArrayField('Color Options', furnitureData[catIndex].products[prodIndex].colorOptions || [], 
-            (url) => addFurnitureProductColor(catIndex, prodIndex, url),
-            (index) => removeFurnitureProductColor(catIndex, prodIndex, index)
-        );
-        container.appendChild(colorsField);
-    }
 
     function addFurnitureCategory() {
         if (!furnitureData) furnitureData = [];
@@ -2982,23 +3133,134 @@ title: Admin Panel
         }
     }
 
+    // Sync furniture products to products.json (1-to-1 relationship)
+    function syncFurnitureToProducts(furnitureData) {
+        if (!productsData || !productsData.products) {
+            productsData = { products: [] };
+        }
+        
+        const productMap = new Map();
+        // Create a map of existing products by slug
+        productsData.products.forEach(prod => {
+            productMap.set(prod.slug, prod);
+        });
+        
+        // Process each furniture category
+        furnitureData.forEach(category => {
+            if (!category.products) return;
+            
+            category.products.forEach(furnitureItem => {
+                if (!furnitureItem.slug) return;
+                
+                const categoryLower = (category.category || '').toLowerCase();
+                const existingProduct = productMap.get(furnitureItem.slug);
+                
+                // Use existing product colorOptions if available, otherwise create default
+                let colorOptions = [];
+                if (existingProduct && existingProduct.colorOptions && Array.isArray(existingProduct.colorOptions)) {
+                    // Preserve existing colorOptions from products.json
+                    colorOptions = existingProduct.colorOptions;
+                } else {
+                    // Create default colorOption if none exists
+                    colorOptions = [{
+                        name: 'Default',
+                        code: '#F5F5F5',
+                        price: furnitureItem.price ? String(furnitureItem.price).replace(/,/g, '') : '0',
+                        originalPrice: furnitureItem.originalPrice ? String(furnitureItem.originalPrice).replace(/,/g, '') : '',
+                        salePercentage: furnitureItem.salePercentage || '',
+                        image: '/assets/img/footer-logo-Photoroom.png',
+                        gallery: ['/assets/img/footer-logo-Photoroom.png']
+                    }];
+                }
+                
+                // Create or update product
+                const productData = {
+                    id: furnitureItem.slug,
+                    category: categoryLower,
+                    slug: furnitureItem.slug,
+                    name: furnitureItem.title || furnitureItem.name || 'Unnamed Product',
+                    price: furnitureItem.price ? String(furnitureItem.price).replace(/,/g, '') : '0',
+                    currency: 'Dhs.',
+                    color: colorOptions.length > 0 ? colorOptions[0].name : 'Default',
+                    colorCode: colorOptions.length > 0 ? colorOptions[0].code : '#F5F5F5',
+                    colorOptions: colorOptions,
+                    description: existingProduct?.description || `Premium ${furnitureItem.title || 'furniture'} piece from Nuwah collection in Dubai.`,
+                    features: existingProduct?.features || '',
+                    deliveryDays: existingProduct?.deliveryDays || 12,
+                    monthlyPayment: existingProduct?.monthlyPayment || '',
+                    installmentPayment: existingProduct?.installmentPayment || ''
+                };
+                
+                if (existingProduct) {
+                    // Update existing product - preserve description, features, etc. but update basic info
+                    const index = productsData.products.findIndex(p => p.slug === furnitureItem.slug);
+                    if (index !== -1) {
+                        productsData.products[index] = {
+                            ...existingProduct,
+                            ...productData,
+                            description: existingProduct.description || productData.description,
+                            features: existingProduct.features || productData.features,
+                            deliveryDays: existingProduct.deliveryDays || productData.deliveryDays,
+                            monthlyPayment: existingProduct.monthlyPayment || productData.monthlyPayment,
+                            installmentPayment: existingProduct.installmentPayment || productData.installmentPayment
+                        };
+                    }
+                } else {
+                    // Add new product
+                    productsData.products.push(productData);
+                }
+            });
+        });
+        
+        // Remove products that no longer exist in furniture.json
+        const furnitureSlugs = new Set();
+        furnitureData.forEach(category => {
+            if (category.products) {
+                category.products.forEach(item => {
+                    if (item.slug) furnitureSlugs.add(item.slug);
+                });
+            }
+        });
+        
+        productsData.products = productsData.products.filter(prod => {
+            // Keep products that exist in furniture OR are not furniture-related (different category)
+            return furnitureSlugs.has(prod.slug) || !['sofa', 'table', 'chair'].includes(prod.category?.toLowerCase());
+        });
+    }
+
     async function saveFurnitureData() {
         try {
+            // Ensure products data is loaded before syncing
+            if (!productsData || !productsData.products) {
+                await loadProductsData();
+            }
+            
             // Clean data before saving
             const cleanedData = cleanFurnitureData(JSON.parse(JSON.stringify(furnitureData)));
             
-            // Save via GitHub API (for Cloudflare Pages)
-            const saved = await saveToGitHub('src/_data/furniture.json', cleanedData);
-            if (saved) {
-                showAlert('Furniture data saved to GitHub! Cloudflare Pages will rebuild automatically.', 'success');
+            // Sync furniture to products.json (1-to-1 relationship)
+            syncFurnitureToProducts(cleanedData);
+            
+            // Save furniture.json
+            const savedFurniture = await saveToGitHub('src/_data/furniture.json', cleanedData);
+            
+            // Save products.json (synced from furniture)
+            const cleanedProductsData = cleanProductsData(JSON.parse(JSON.stringify(productsData)));
+            const savedProducts = await saveToGitHub('src/_data/products.json', cleanedProductsData);
+            
+            if (savedFurniture && savedProducts) {
+                showAlert('Furniture and Products data saved to GitHub! Products automatically synced from furniture. Cloudflare Pages will rebuild automatically.', 'success');
                 furnitureData = cleanedData;
+                productsData = cleanedProductsData;
                 return;
             }
             
-            // Fallback: download the file
+            // Fallback: download the files
             downloadJSON('furniture');
+            downloadJSON('products');
             furnitureData = cleanedData;
-            showAlert('Furniture data downloaded! Upload furniture.json to your repository to save changes.', 'success');
+            productsData = cleanedProductsData;
+            showAlert('Furniture and Products data downloaded! Products automatically synced from furniture. Upload both JSON files to your repository to save changes.', 'success');
         } catch (error) {
             showAlert('Error saving furniture data: ' + error.message, 'error');
         }
@@ -3364,6 +3626,14 @@ title: Admin Panel
             // Clean data before saving - remove fields not in admin panel
             const cleanedData = cleanProjectsData(JSON.parse(JSON.stringify(projectsData)));
             
+            // If local environment, skip GitHub and download directly
+            if (isLocalEnvironment()) {
+                downloadJSON('projects');
+                projectsData = cleanedData;
+                showAlert('Projects data downloaded! Copy the file to src/_data/projects.json to save changes locally.', 'success');
+                return;
+            }
+            
             // Save via GitHub API (for Cloudflare Pages)
             const saved = await saveToGitHub('src/_data/projects.json', cleanedData);
             if (saved) {
@@ -3374,15 +3644,7 @@ title: Admin Panel
             }
             
             // Fallback: download the file
-            const dataStr = JSON.stringify(cleanedData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'projects.json';
-            link.click();
-            URL.revokeObjectURL(url);
-            // Update local data with cleaned version
+            downloadJSON('projects');
             projectsData = cleanedData;
             showAlert('Projects data downloaded! Upload projects.json to your repository to save changes.', 'success');
         } catch (error) {

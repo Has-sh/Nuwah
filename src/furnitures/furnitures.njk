@@ -274,27 +274,47 @@ eleventyComputed:
     border-width: 2px;
 }
 
-/* Category Header */
-.category-header {
+/* Furniture Hero Section */
+.furniture-hero {
+    background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), 
+                var(--hero-bg-image, url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=800&fit=crop&q=75')) center/cover;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    margin-bottom: 40px;
-    padding: 40px 0 20px 0;
+    color: white;
+    position: relative;
 }
 
-.category-title {
-    font-size: 2.5rem;
-    font-weight: 400;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-    text-transform: capitalize;
+.furniture-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.category-description {
-    font-size: 1.1rem;
-    color: var(--text-muted);
+.furniture-hero p {
+    font-size: 1.2rem;
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .furniture-hero {
+        height: 60vh;
+    }
+    
+    .furniture-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .furniture-hero p {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
 }
 
 /* Product count indicator */
@@ -358,14 +378,6 @@ eleventyComputed:
     .product-image-container {
         height: 200px;
     }
-
-    .category-title {
-        font-size: 2rem;
-    }
-    
-    .category-description {
-        font-size: 1rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -385,10 +397,6 @@ eleventyComputed:
 
     .product-image-container {
         height: 200px;
-    }
-    
-    .category-title {
-        font-size: 1.75rem;
     }
 }
 
@@ -449,7 +457,27 @@ eleventyComputed:
 }
 </style>
 
-<div class="container custom-padding">
+<!-- Hero Section -->
+<div class="furniture-hero" {% if items.hero and items.hero.image %}style="background-image: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('{{ items.hero.image }}');"{% endif %}>
+    <div class="container">
+        <h1>{{ items.hero.title if items.hero and items.hero.title else (items.category | capitalize) }}</h1>
+        <p>
+          {% if items.hero and items.hero.description %}
+            {{ items.hero.description }}
+          {% elif items.category | lower == 'sofa' %}
+            Discover our premium collection of sofas and chairs, designed to combine comfort with elegant style for your living spaces. Each piece is carefully selected to bring sophistication and relaxation to your home. From modern sectionals to classic designs, our sofa collection offers versatile seating solutions that transform any living area into a welcoming retreat. Experience the perfect blend of luxury craftsmanship and contemporary aesthetics.
+          {% elif items.category | lower == 'table' %}
+            Explore our carefully curated selection of tables, from dining to coffee tables, crafted to enhance any room. Our table collection features exquisite designs that serve as both functional furniture and stunning centerpieces. Whether you're looking for a statement dining table or an elegant coffee table, each piece is thoughtfully designed to complement your interior style while providing practical functionality for everyday living.
+          {% elif items.category | lower == 'chair' %}
+            Browse our comfortable and stylish chair collection, perfect for any room in your home. Our chairs combine ergonomic design with aesthetic appeal, offering seating solutions that are both beautiful and functional. From accent chairs that add personality to your space to comfortable dining chairs that make every meal enjoyable, our collection features designs that elevate your home's interior while providing exceptional comfort and support.
+          {% else %}
+            Browse our premium furniture collection, thoughtfully designed for modern living. Each piece in our collection is selected for its quality, style, and ability to transform your space. We offer furniture that combines timeless elegance with contemporary design, ensuring your home reflects your personal style while maintaining the highest standards of craftsmanship and durability.
+          {% endif %}
+        </p>
+    </div>
+</div>
+
+<div class="container" style="padding-top: 40px;">
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -459,24 +487,8 @@ eleventyComputed:
         </ol>
   </nav>
 
-  <!-- Category Header -->
-<div class="category-header">
-    <h1 class="category-title">{{ items.category | capitalize }}</h1>
-    <p class="category-description">
-      {% if items.category == 'sofa' %}
-        Discover our premium collection of sofas and chairs, designed to combine comfort with elegant style for your living spaces. Each piece is carefully selected to bring sophistication and relaxation to your home. From modern sectionals to classic designs, our sofa collection offers versatile seating solutions that transform any living area into a welcoming retreat. Experience the perfect blend of luxury craftsmanship and contemporary aesthetics.
-      {% elif items.category == 'table' %}
-        Explore our carefully curated selection of tables, from dining to coffee tables, crafted to enhance any room. Our table collection features exquisite designs that serve as both functional furniture and stunning centerpieces. Whether you're looking for a statement dining table or an elegant coffee table, each piece is thoughtfully designed to complement your interior style while providing practical functionality for everyday living.
-      {% elif items.category == 'chair' %}
-        Browse our comfortable and stylish chair collection, perfect for any room in your home. Our chairs combine ergonomic design with aesthetic appeal, offering seating solutions that are both beautiful and functional. From accent chairs that add personality to your space to comfortable dining chairs that make every meal enjoyable, our collection features designs that elevate your home's interior while providing exceptional comfort and support.
-      {% else %}
-        Browse our premium furniture collection, thoughtfully designed for modern living. Each piece in our collection is selected for its quality, style, and ability to transform your space. We offer furniture that combines timeless elegance with contemporary design, ensuring your home reflects your personal style while maintaining the highest standards of craftsmanship and durability.
-      {% endif %}
-    </p>
-  </div>
-
   <!-- Header Controls -->
-  <div class="header-controls">
+  <div class="header-controls" style="padding-top: 15px;">
     <div class="filter-controls">
       <!-- Price Dropdown -->
       <div class="dropdown-wrapper">
@@ -525,9 +537,15 @@ eleventyComputed:
              data-category="{{ items.category }}">
           <div class="product-image-container">
             {% if product.onSale %}
+            {% set salePercentage = product | getFurnitureSalePercentage %}
+            {% if salePercentage %}
+            <span class="product-sale-badge">{{ salePercentage }}</span>
+            {% else %}
             <span class="product-sale-badge">On Sale</span>
             {% endif %}
-            <img src="{{ product.colorOptions[0] }}" 
+            {% endif %}
+            {% set productImage = product | getFurnitureProductImage %}
+            <img src="{{ productImage }}" 
                  alt="{{ product.title }}" 
                  class="product-image" 
                  id="main-image-{{ product.id }}"
@@ -539,22 +557,12 @@ eleventyComputed:
               {% set minPrice = product | minFurniturePrice %}
               {% set minOriginalPrice = product | minFurnitureOriginalPrice %}
               <span class="current-price">From Dhs. {{ minPrice }}</span>
-              {% if minOriginalPrice %}
-              <span class="original-price">Dhs. {{ minOriginalPrice }}</span>
+              {% if product.onSale and product.originalPrice %}
+              <span class="original-price" style="text-decoration: line-through; color: #999; margin-left: 10px;">Dhs. {{ product.originalPrice }}</span>
+              {% elif minOriginalPrice %}
+              <span class="original-price" style="text-decoration: line-through; color: #999; margin-left: 10px;">Dhs. {{ minOriginalPrice }}</span>
               {% endif %}
             </div>
-            {% if product.colorOptions | length > 1 and product.slug != 'vintage-armchair' and product.slug != 'boston-accent-chair' %}
-            <div class="color-options">
-              {% for color in product.colorOptions %}
-              <img 
-                src="{{ color }}" 
-                class="color-option{% if loop.index == 1 %} active{% endif %}" 
-                onclick="changeMainImage({{ product.id }}, '{{ color }}', this)"
-                alt="Color option {{ loop.index }}"
-                loading="lazy">
-              {% endfor %}
-            </div>
-            {% endif %}
           </div>
         </div>
       </a>
@@ -571,16 +579,6 @@ eleventyComputed:
 </div>
 
 <script>
-// Image change functionality
-function changeMainImage(productId, newImageSrc, clickedElement) {
-  const mainImage = document.getElementById(`main-image-${productId}`);
-  if (mainImage) mainImage.src = newImageSrc;
-
-  const colorOptions = clickedElement.parentElement.querySelectorAll('.color-option');
-  colorOptions.forEach(opt => opt.classList.remove('active'));
-  clickedElement.classList.add('active');
-}
-
 // Main functionality
 document.addEventListener("DOMContentLoaded", function () {
   let currentSortButton = null;

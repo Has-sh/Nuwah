@@ -5,36 +5,22 @@
       "category": "sofa",
       "slug": "modern-sectional-sofa",
       "name": "Modern Sectional Sofa",
-      "price": "1,299.99",
+      "price": "1299.99",
       "currency": "Dhs.",
-      "color": "White Boucle",
+      "color": "Color 1",
       "colorCode": "#F5F5F5",
       "colorOptions": [
         {
-          "name": "White Boucle",
+          "name": "Color 1",
           "code": "#F5F5F5",
-          "price": "1,299.99",
-          "originalPrice": "1,499.99",
+          "price": "1299.99",
+          "originalPrice": "1499.99",
           "salePercentage": "13% OFF",
-          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
           "gallery": [
-            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
-            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
-          ]
-        },
-        {
-          "name": "Black Boucle",
-          "code": "#000000",
-          "price": "1,399.99",
-          "originalPrice": "1,599.99",
-          "salePercentage": "12% OFF",
-          "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
-          "gallery": [
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
-            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
-            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
-          ]
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
         }
       ],
       "description": "The Modern Sectional Sofa combines timeless elegance with exceptional comfort. Wrapped in soft white boucle fabric, its gracefully curved lines, broad arms, and plush cushions create an inviting and stylish seating experience.",
@@ -42,6 +28,303 @@
       "deliveryDays": 12,
       "monthlyPayment": "233.03",
       "installmentPayment": "597.50"
+    },
+    {
+      "id": "luxury-leather-sofa",
+      "category": "sofa",
+      "slug": "luxury-leather-sofa",
+      "name": "Luxury Leather Sofa",
+      "price": "2199.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "2199.99",
+          "originalPrice": "2599.99",
+          "salePercentage": "15% OFF",
+          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+          "gallery": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        }
+      ],
+      "description": "Premium Luxury Leather Sofa piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "minimalist-loveseat",
+      "category": "sofa",
+      "slug": "minimalist-loveseat",
+      "name": "Minimalist Loveseat",
+      "price": "899.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "899.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+          "gallery": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+        }
+      ],
+      "description": "Premium Minimalist Loveseat piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "oak-dining-table",
+      "category": "table",
+      "slug": "oak-dining-table",
+      "name": "Oak Dining Table",
+      "price": "899.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "899.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+          "gallery": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+        }
+      ],
+      "description": "Premium Oak Dining Table piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "glass-coffee-table",
+      "category": "table",
+      "slug": "glass-coffee-table",
+      "name": "Glass Coffee Table",
+      "price": "549.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "549.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+          "gallery": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        }
+      ],
+      "description": "Premium Glass Coffee Table piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "industrial-desk",
+      "category": "table",
+      "slug": "industrial-desk",
+      "name": "Industrial Desk",
+      "price": "1299.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "1299.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+          "gallery": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+        }
+      ],
+      "description": "Premium Industrial Desk piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "office-chair",
+      "category": "chair",
+      "slug": "office-chair",
+      "name": "Office Chair",
+      "price": "299.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "299.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+          "gallery": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+        }
+      ],
+      "description": "Premium Office Chair piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "ergonomic-desk-chair",
+      "category": "chair",
+      "slug": "ergonomic-desk-chair",
+      "name": "Ergonomic Desk Chair",
+      "price": "599.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "599.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+          "gallery": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        }
+      ],
+      "description": "Premium Ergonomic Desk Chair piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "vintage-armchair",
+      "category": "chair",
+      "slug": "vintage-armchair",
+      "name": "Vintage Armchair",
+      "price": "799.99",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "799.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+          "gallery": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+        },
+        {
+          "name": "Color 2",
+          "code": "#F5F5F5",
+          "price": "799.99",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+          "gallery": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        }
+      ],
+      "description": "Premium Vintage Armchair piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
+    },
+    {
+      "id": "boston-accent-chair",
+      "category": "chair",
+      "slug": "boston-accent-chair",
+      "name": "Boston Accent Chair",
+      "price": "2390",
+      "currency": "Dhs.",
+      "color": "Color 1",
+      "colorCode": "#F5F5F5",
+      "colorOptions": [
+        {
+          "name": "Color 1",
+          "code": "#F5F5F5",
+          "price": "2390",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+          "gallery": [
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+        },
+        {
+          "name": "Color 2",
+          "code": "#F5F5F5",
+          "price": "2390",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+          "gallery": [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"
+        },
+        {
+          "name": "Color 3",
+          "code": "#F5F5F5",
+          "price": "2390",
+          "originalPrice": "",
+          "salePercentage": "",
+          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+          "gallery": [
+            "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+          ],
+          "showcaseImage": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"
+        }
+      ],
+      "description": "Premium Boston Accent Chair piece from Nuwah collection in Dubai.",
+      "features": "",
+      "deliveryDays": 12,
+      "monthlyPayment": "",
+      "installmentPayment": ""
     }
   ]
 }

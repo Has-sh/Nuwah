@@ -201,6 +201,31 @@ eleventyConfig.addCollection("projects", function (collectionApi) {
     return minPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   });
 
+  // Get sale percentage from packages.json (from colors or roomTypes)
+  eleventyConfig.addFilter("getPackageSalePercentage", function(pkg) {
+    if (!pkg) return '';
+    
+    // First check colors for salePercentage
+    if (pkg.colors && Array.isArray(pkg.colors)) {
+      for (const color of pkg.colors) {
+        if (color.salePercentage && color.salePercentage.trim() !== '') {
+          return color.salePercentage;
+        }
+      }
+    }
+    
+    // Then check roomTypes for salePercentage
+    if (pkg.roomTypes && Array.isArray(pkg.roomTypes)) {
+      for (const room of pkg.roomTypes) {
+        if (room.salePercentage && room.salePercentage.trim() !== '') {
+          return room.salePercentage;
+        }
+      }
+    }
+    
+    return '';
+  });
+
   // Get minimum original price from products.json for a furniture item by slug
   eleventyConfig.addFilter("minFurnitureOriginalPrice", function(furnitureItem) {
     if (!furnitureItem) return null;
@@ -233,6 +258,95 @@ eleventyConfig.addCollection("projects", function (collectionApi) {
     }
     
     return null;
+  });
+
+  // Get sale percentage from products.json for a furniture item by slug
+  eleventyConfig.addFilter("getFurnitureSalePercentage", function(furnitureItem) {
+    if (!furnitureItem || !furnitureItem.slug) return '';
+    
+    // First check if furniture item has salePercentage directly
+    if (furnitureItem.salePercentage) {
+      return furnitureItem.salePercentage;
+    }
+    
+    // Load products.json
+    const productsPath = "./src/_data/products.json";
+    if (fs.existsSync(productsPath)) {
+      try {
+        const productsData = JSON.parse(fs.readFileSync(productsPath, "utf-8"));
+        const matchingProduct = productsData.products?.find(p => p.slug === furnitureItem.slug);
+        
+        if (matchingProduct && matchingProduct.colorOptions && Array.isArray(matchingProduct.colorOptions)) {
+          // Find first colorOption with a salePercentage
+          for (const colorOpt of matchingProduct.colorOptions) {
+            if (colorOpt.salePercentage && colorOpt.salePercentage.trim() !== '') {
+              return colorOpt.salePercentage;
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error reading products.json:", error);
+      }
+    }
+    
+    return '';
+  });
+
+  // Get product image from products.json for a furniture item by slug
+  eleventyConfig.addFilter("getFurnitureProductImage", function(furnitureItem) {
+    if (!furnitureItem || !furnitureItem.slug) return '/assets/img/footer-logo-Photoroom.png';
+    
+    // Load products.json
+    const productsPath = "./src/_data/products.json";
+    if (fs.existsSync(productsPath)) {
+      try {
+        const productsData = JSON.parse(fs.readFileSync(productsPath, "utf-8"));
+        const matchingProduct = productsData.products?.find(p => p.slug === furnitureItem.slug);
+        
+        if (matchingProduct && matchingProduct.colorOptions && Array.isArray(matchingProduct.colorOptions) && matchingProduct.colorOptions.length > 0) {
+          // First, try to find a colorOption with a showcaseImage
+          for (const colorOpt of matchingProduct.colorOptions) {
+            if (colorOpt.showcaseImage) {
+              return colorOpt.showcaseImage;
+            }
+          }
+          // If no showcase image, try first colorOption's main image
+          if (matchingProduct.colorOptions[0].image) {
+            return matchingProduct.colorOptions[0].image;
+          }
+          // If no main image, try first gallery image
+          if (matchingProduct.colorOptions[0].gallery && matchingProduct.colorOptions[0].gallery.length > 0) {
+            return matchingProduct.colorOptions[0].gallery[0];
+          }
+        }
+      } catch (error) {
+        console.error("Error reading products.json:", error);
+      }
+    }
+    
+    return '/assets/img/footer-logo-Photoroom.png';
+  });
+
+  // Get product colorOptions from products.json for a furniture item by slug
+  eleventyConfig.addFilter("getFurnitureProductColorOptions", function(furnitureItem) {
+    if (!furnitureItem || !furnitureItem.slug) return [];
+    
+    // Load products.json
+    const productsPath = "./src/_data/products.json";
+    if (fs.existsSync(productsPath)) {
+      try {
+        const productsData = JSON.parse(fs.readFileSync(productsPath, "utf-8"));
+        const matchingProduct = productsData.products?.find(p => p.slug === furnitureItem.slug);
+        
+        if (matchingProduct && matchingProduct.colorOptions && Array.isArray(matchingProduct.colorOptions)) {
+          return matchingProduct.colorOptions;
+        }
+      } catch (error) {
+        console.error("Error reading products.json:", error);
+      }
+    }
+    
+    return [];
   });
 
   // Development server options
