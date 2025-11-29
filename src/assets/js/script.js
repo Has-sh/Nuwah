@@ -873,11 +873,30 @@ function generateStars(rating) {
 		'<i class="far fa-star"></i>'.repeat(5 - rating);
 }
 
+// Lazy load Swiper when needed
+async function loadSwiper() {
+	if (window.Swiper) {
+		return Promise.resolve();
+	}
+	
+	return new Promise((resolve, reject) => {
+		const script = document.createElement('script');
+		script.src = 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js';
+		script.async = true;
+		script.onload = () => resolve();
+		script.onerror = () => reject(new Error('Failed to load Swiper'));
+		document.head.appendChild(script);
+	});
+}
+
 async function loadReviews() {
 	const wrapper = document.getElementById("swiper-wrapper");
 	if (!wrapper) return;
 	
 	wrapper.innerHTML = '<div class="text-center p-4"><div class="spinner-border" role="status"><span class="visually-hidden">Loading reviews...</span></div></div>';
+	
+	// Lazy load Swiper before initializing
+	await loadSwiper();
 	
 	try {
 		// Get API key and Place ID from environment (injected by Cloudflare Pages at build time)
@@ -1017,5 +1036,28 @@ function equalizeCardHeights() {
 	});
 }
 
-window.onload = loadReviews;
+// Lazy load reviews when section is visible
+if ('IntersectionObserver' in window) {
+	const reviewsObserver = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				loadReviews();
+				reviewsObserver.unobserve(entry.target);
+			}
+		});
+	}, {
+		rootMargin: '100px' // Start loading 100px before section is visible
+	});
+	
+	const reviewsSection = document.querySelector('.swiper-container, .swiper');
+	if (reviewsSection) {
+		reviewsObserver.observe(reviewsSection);
+	} else {
+		// Fallback: load on window load if section not found
+		window.addEventListener('load', loadReviews);
+	}
+} else {
+	// Fallback for browsers without IntersectionObserver
+	window.addEventListener('load', loadReviews);
+}
 
