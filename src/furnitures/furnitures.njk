@@ -8,7 +8,7 @@ pagination:
 permalink: "/furniture/{{ items.category | slugify }}/index.html"
 eleventyComputed:
   title: "{{ items.category | capitalize }} Furniture Collection - Luxury {{ items.category }} in Dubai | Nuwah"
-  description: "Browse our premium {{ items.category }} furniture collection in Dubai. Discover luxury {{ items.category | lower }} designs with quality craftsmanship and elegant styles."
+  description: "Browse premium {{ items.category }} furniture in Dubai. Luxury {{ items.category | lower }} designs with quality craftsmanship."
   image: "/assets/img/footer-logo-Photoroom.png"
 ---
 
@@ -460,20 +460,20 @@ eleventyComputed:
   </nav>
 
   <!-- Category Header -->
-<!--<div class="category-header">
+<div class="category-header">
     <h1 class="category-title">{{ items.category | capitalize }}</h1>
     <p class="category-description">
       {% if items.category == 'sofa' %}
-        Discover our premium collection of sofas and chairs, designed to combine comfort with elegant style for your living spaces.
+        Discover our premium collection of sofas and chairs, designed to combine comfort with elegant style for your living spaces. Each piece is carefully selected to bring sophistication and relaxation to your home. From modern sectionals to classic designs, our sofa collection offers versatile seating solutions that transform any living area into a welcoming retreat. Experience the perfect blend of luxury craftsmanship and contemporary aesthetics.
       {% elif items.category == 'table' %}
-        Explore our carefully curated selection of tables, from dining to coffee tables, crafted to enhance any room.
+        Explore our carefully curated selection of tables, from dining to coffee tables, crafted to enhance any room. Our table collection features exquisite designs that serve as both functional furniture and stunning centerpieces. Whether you're looking for a statement dining table or an elegant coffee table, each piece is thoughtfully designed to complement your interior style while providing practical functionality for everyday living.
       {% elif items.category == 'chair' %}
-        Browse our comfortable and stylish chair collection, perfect for any room in your home.
+        Browse our comfortable and stylish chair collection, perfect for any room in your home. Our chairs combine ergonomic design with aesthetic appeal, offering seating solutions that are both beautiful and functional. From accent chairs that add personality to your space to comfortable dining chairs that make every meal enjoyable, our collection features designs that elevate your home's interior while providing exceptional comfort and support.
       {% else %}
-        Browse our premium furniture collection, thoughtfully designed for modern living.
+        Browse our premium furniture collection, thoughtfully designed for modern living. Each piece in our collection is selected for its quality, style, and ability to transform your space. We offer furniture that combines timeless elegance with contemporary design, ensuring your home reflects your personal style while maintaining the highest standards of craftsmanship and durability.
       {% endif %}
     </p>
-  </div>-->
+  </div>
 
   <!-- Header Controls -->
   <div class="header-controls">

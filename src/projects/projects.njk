@@ -7,7 +7,7 @@ pagination:
 permalink: "/projects/{{ project.slug }}/"
 eleventyComputed:
   title: "{{ project.title }} - Interior Design Project | Nuwah"
-  description: "{{ project.description.lead | default('Explore this stunning interior design project by Nuwah in Dubai.') }}"
+  description: "{{ project.description.lead | default('Explore this stunning interior design project by Nuwah in Dubai.') | truncate(130) }}"
   image: "{{ project.hero_image | default('/assets/img/footer-logo-Photoroom.png') }}"
 ---
 

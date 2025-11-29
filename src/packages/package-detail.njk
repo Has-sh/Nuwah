@@ -6,8 +6,8 @@ pagination:
 permalink: "/packages/{{ package.slug }}/"
 layout: layout.njk
 eleventyComputed:
-  title: "{{ package.title }} - Interior Design Package | Nuwah"
-  description: "{{ package.description | default('Explore this premium interior design package by Nuwah in Dubai.') | truncate(160) }}"
+  title: "{{ package.name | default(package.slug | replace('-', ' ') | title) }} - Interior Design Package | Nuwah"
+  description: "{{ package.description | default('Explore this premium interior design package by Nuwah in Dubai.') | truncate(130) }}"
   image: "{{ package.heroImage | default('/assets/img/footer-logo-Photoroom.png') }}"
 ---
 
