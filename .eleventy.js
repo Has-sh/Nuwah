@@ -9,6 +9,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets/img");
   eleventyConfig.addPassthroughCopy({ "src/assets/img/favicon": "/" });
   eleventyConfig.addPassthroughCopy("src/assets/vid");
+  // Copy _headers file for Cloudflare Pages
+  eleventyConfig.addPassthroughCopy("src/_headers");
   
   // Copy data files for admin panel access on Cloudflare Pages
   // Copy specific JSON files to _data directory in output
