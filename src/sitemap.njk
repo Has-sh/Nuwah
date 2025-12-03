@@ -3,155 +3,71 @@ permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% set siteUrl = site.url %}
+{% set today = "now" | date("%Y-%m-%d") %}
 <url>
-<loc>https://nuwah.pages.dev/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>1.00</priority>
+<loc>{{ siteUrl }}/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1.0</priority>
 </url>
-
 <url>
-<loc>https://nuwah.pages.dev/packages/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.80</priority>
+<loc>{{ siteUrl }}/packages/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.9</priority>
 </url>
-
 <url>
-<loc>https://nuwah.pages.dev/furniture/sofa/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.80</priority>
+<loc>{{ siteUrl }}/design-services/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.9</priority>
 </url>
-
 <url>
-<loc>https://nuwah.pages.dev/furniture/table/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.80</priority>
+<loc>{{ siteUrl }}/contact/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
 </url>
-
 <url>
-<loc>https://nuwah.pages.dev/furniture/chair/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.80</priority>
+<loc>{{ siteUrl }}/renovation/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
 </url>
-
 <url>
-<loc>https://nuwah.pages.dev/renovation/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.80</priority>
+<loc>{{ siteUrl }}/furniture/sofa/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
 </url>
-
 <url>
-<loc>https://nuwah.pages.dev/design-services/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.80</priority>
+<loc>{{ siteUrl }}/furniture/table/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
 </url>
-
 <url>
-<loc>https://nuwah.pages.dev/contact/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.80</priority>
+<loc>{{ siteUrl }}/furniture/chair/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
 </url>
-
+{% for package in collections.packages %}
 <url>
-<loc>https://nuwah.pages.dev/packages/marble-package/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
+<loc>{{ siteUrl }}/packages/{{ package.slug }}/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
-
+{% endfor %}
+{% for project in collections.projects %}
 <url>
-<loc>https://nuwah.pages.dev/packages/minimalism-package/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
+<loc>{{ siteUrl }}/projects/{{ project.slug }}/</loc>
+<lastmod>{{ today }}</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
-
-<url>
-<loc>https://nuwah.pages.dev/packages/sand-package/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/packages/wood-package/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/sofa/modern-sectional-sofa/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/sofa/luxury-leather-sofa/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/sofa/minimalist-loveseat/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/table/oak-dining-table/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/table/glass-coffee-table/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/table/industrial-desk/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/chair/office-chair/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/chair/ergonomic-desk-chair/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/chair/vintage-armchair/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/furniture/chair/boston-accent-chair/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/projects/modern-living-space/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
-<url>
-<loc>https://nuwah.pages.dev/projects/test-project/</loc>
-<lastmod>2025-12-03T06:00:46+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-
+{% endfor %}
 </urlset>
