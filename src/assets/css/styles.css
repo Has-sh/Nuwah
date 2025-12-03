@@ -659,15 +659,42 @@ body {
 		font-size: 1.5rem;
 	}
 
+	.social-links {
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 8px;
+		padding: 0 10px;
+	}
+
 	.social-btn {
-		width: 45px;
-		height: 45px;
-		margin: 0 15px;
-		font-size: 1.1rem;
+		width: 40px;
+		height: 40px;
+		margin: 0 5px;
+		font-size: 1rem;
 	}
 
 	.description {
 		font-size: 1rem;
+	}
+}
+
+@media (max-width: 320px) {
+	.hero-content {
+		padding: 0 3%;
+	}
+
+	.social-links {
+		padding: 0 5px;
+		gap: 5px;
+	}
+
+	.social-btn {
+		width: 36px;
+		height: 36px;
+		margin: 0 3px;
+		font-size: 0.9rem;
+		min-width: 36px;
+		min-height: 36px;
 	}
 }
 
@@ -695,6 +722,8 @@ body {
             position: relative;
             z-index: 1;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .furn-item:hover {
@@ -738,8 +767,20 @@ body {
         }
 
         @media (max-width: 768px) {
+            .furn-nav .row {
+                margin: 0;
+            }
+
+            .furn-nav .col-6 {
+                padding: 0 !important;
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+
             .furn-item {
                 padding: 15px 10px;
+                width: 100%;
+                min-width: 100%;
             }
 
             .furn-icon {
@@ -754,8 +795,16 @@ body {
         }
 
         @media (max-width: 576px) {
+            .furn-nav .col-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding: 0 !important;
+            }
+
             .furn-item {
                 padding: 12px 8px;
+                width: 100%;
+                min-width: 100%;
             }
 
             .furn-icon {
