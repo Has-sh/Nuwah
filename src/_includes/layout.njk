@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   
   <!-- Preconnect for Performance - Must be first in head (max 4 for best performance) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,9 +90,10 @@
       "name": "United Arab Emirates"
     },
     "sameAs": [
-      "https://www.instagram.com/nuwah",
-      "https://www.facebook.com/nuwah",
-      "https://www.twitter.com/nuwah"
+      "{{ site.socialMedia.facebook }}",
+      "{{ site.socialMedia.instagram }}",
+      "{{ site.socialMedia.youtube }}",
+      "{{ site.socialMedia.linkedin }}"
     ]
   }
   </script>
@@ -106,9 +107,10 @@
     "logo": "{{ siteUrl }}/assets/img/footer-logo-Photoroom.png",
     "description": "{{ pageDescription }}",
     "sameAs": [
-      "https://www.instagram.com/nuwah",
-      "https://www.facebook.com/nuwah",
-      "https://www.twitter.com/nuwah"
+      "{{ site.socialMedia.facebook }}",
+      "{{ site.socialMedia.instagram }}",
+      "{{ site.socialMedia.youtube }}",
+      "{{ site.socialMedia.linkedin }}"
     ]
   }
   </script>
@@ -192,14 +194,17 @@
 
       <!-- Social Links -->
       <div class="md-social-container mb-3">
-        <a href="#" class="md-social-link md-facebook me-3" aria-label="Follow us on Facebook">
+        <a href="{{ site.socialMedia.facebook }}" target="_blank" rel="noopener noreferrer" class="md-social-link md-facebook me-3" aria-label="Follow us on Facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
-        <a href="#" class="md-social-link md-instagram me-3" aria-label="Follow us on Instagram">
+        <a href="{{ site.socialMedia.instagram }}" target="_blank" rel="noopener noreferrer" class="md-social-link md-instagram me-3" aria-label="Follow us on Instagram">
           <i class="fab fa-instagram"></i>
         </a>
-        <a href="#" class="md-social-link md-youtube" aria-label="Follow us on YouTube">
+        <a href="{{ site.socialMedia.youtube }}" target="_blank" rel="noopener noreferrer" class="md-social-link md-youtube me-3" aria-label="Follow us on YouTube">
           <i class="fab fa-youtube"></i>
+        </a>
+        <a href="{{ site.socialMedia.linkedin }}" target="_blank" rel="noopener noreferrer" class="md-social-link md-linkedin" aria-label="Follow us on LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
         </a>
       </div>
 
@@ -224,7 +229,16 @@
     window.GOOGLE_PLACE_ID = '{{ env.GOOGLE_PLACE_ID }}';
   </script>
   
+  <!-- Load main script with defer and use requestIdleCallback for non-critical initialization -->
   <script src="/assets/js/script.js" defer></script>
+  <script>
+    // Defer non-critical JavaScript execution to improve INP
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(function() {
+        // Non-critical initialization can go here
+      }, { timeout: 2000 });
+    }
+  </script>
   
   <!-- Google Ads Conversion Tracking - Deferred for better performance -->
   <!-- Replace AW-XXXXXXXXXX with your Google Ads conversion ID -->

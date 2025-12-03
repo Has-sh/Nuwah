@@ -29,6 +29,9 @@ body {
 	color: var(--primary-color);
 	background-color: var(--bg-color);
 	line-height: 1.6;
+	font-size: 16px; /* Minimum readable font size for mobile */
+	-webkit-text-size-adjust: 100%; /* Prevent iOS text size adjustment */
+	text-size-adjust: 100%;
 }
 
 .custom-padding {
@@ -2346,6 +2349,14 @@ textarea.form-control {
 	background-color: #cd201f;
 }
 
+.md-twitter {
+	background-color: #000000;
+}
+
+.md-linkedin {
+	background-color: #0077b5;
+}
+
 .md-footer {
 	text-align: center;
 	padding: 2rem;
@@ -2372,6 +2383,25 @@ textarea.form-control {
 
 	.md-social-container {
 		gap: 0.5rem;
+	}
+	
+	/* Ensure minimum font sizes for mobile readability */
+	body {
+		font-size: 16px;
+	}
+	
+	.md-navigation a {
+		font-size: 1rem; /* Minimum 16px for readability */
+		padding: 12px 16px; /* Increase tap target */
+	}
+	
+	/* Ensure all buttons and links have adequate tap targets */
+	a, button, [role="button"] {
+		min-height: 44px;
+		min-width: 44px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 	}
 }
 
