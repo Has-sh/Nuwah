@@ -738,15 +738,16 @@ async function loadProjectImages() {
 }
 
 
-function toggleDropdown() {
+// Make toggleDropdown available globally for onclick handlers
+window.toggleDropdown = function() {
 	const nav = document.getElementById('navBar');
 	if (nav) {
-	nav.classList.toggle('show');
+		nav.classList.toggle('show');
 	}
-}
+};
 
-// Handle button clicks for package cards
-function handleButtonClick(button) {
+// Handle button clicks for package cards - make available globally for onclick handlers
+window.handleButtonClick = function(button) {
 	const buttonText = button.textContent.trim();
 	const card = button.closest('.custom-card');
 	const cardTitle = card ? card.querySelector('.custom-card-title')?.textContent : '';

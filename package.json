@@ -7,8 +7,8 @@
     "postbuild": "npm run minify",
     "build:minify": "npm run build && npm run minify",
     "minify": "npm run minify:js && npm run minify:css",
-    "minify:js": "terser _site/assets/js/script.js -o _site/assets/js/script.js -c -m",
-    "minify:css": "postcss _site/assets/css/styles.css -o _site/assets/css/styles.css --use cssnano",
+    "minify:js": "terser _site/assets/js/script.js -o _site/assets/js/script.js -c passes=3,drop_console=true,dead_code=true,unused=true -m --keep-classnames",
+    "minify:css": "postcss _site/assets/css/styles.css -o _site/assets/css/styles.css",
     "dev": "eleventy --serve"
   },
   "keywords": [],
@@ -17,9 +17,10 @@
   "description": "",
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
-    "terser": "^5.24.0",
+    "@fullhuman/postcss-purgecss": "^7.0.2",
     "cssnano": "^6.0.1",
     "postcss": "^8.4.32",
-    "postcss-cli": "^10.1.0"
+    "postcss-cli": "^10.1.0",
+    "terser": "^5.24.0"
   }
 }

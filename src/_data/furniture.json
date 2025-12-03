@@ -4,7 +4,7 @@
     "hero": {
       "title": "Sofa",
       "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=800&fit=crop&q=75",
-      "description": "Discover our premium collection of sofas and chairs, designed to combine comfort with elegant style for your living spaces. Each piece is carefully selected to bring sophistication and relaxation to your home. From modern sectionals to classic designs, our sofa collection offers versatile seating solutions that transform any living area into a welcoming retreat. Experience the perfect blend of luxury craftsmanship and contemporary aesthetics."
+      "description": "Discover our premium collection of sofas, designed to combine comfort with elegant style for your living spaces. Experience the perfect blend of luxury craftsmanship and contemporary aesthetics."
     },
     "products": [
       {
@@ -42,7 +42,7 @@
     "hero": {
       "title": "Table",
       "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=800&fit=crop&q=75",
-      "description": "Explore our carefully curated selection of tables, from dining to coffee tables, crafted to enhance any room. Our table collection features exquisite designs that serve as both functional furniture and stunning centerpieces. Whether you're looking for a statement dining table or an elegant coffee table, each piece is thoughtfully designed to complement your interior style while providing practical functionality for everyday living."
+      "description": "Explore our carefully curated selection of tables, from dining to coffee tables, crafted to enhance any room. Each piece is thoughtfully designed to complement your interior style while providing practical functionality for everyday living."
     },
     "products": [
       {
@@ -76,7 +76,7 @@
     "hero": {
       "title": "Chair",
       "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=800&fit=crop&q=75",
-      "description": "Browse our comfortable and stylish chair collection, perfect for any room in your home. Our chairs combine ergonomic design with aesthetic appeal, offering seating solutions that are both beautiful and functional. From accent chairs that add personality to your space to comfortable dining chairs that make every meal enjoyable, our collection features designs that elevate your home's interior while providing exceptional comfort and support."
+      "description": "Browse our comfortable and stylish chair collection, perfect for any room in your home. Our chairs combine ergonomic design with aesthetic appeal, offering seating solutions that are both beautiful and functional."
     },
     "products": [
       {
