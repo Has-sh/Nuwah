@@ -660,17 +660,19 @@ body {
 	}
 
 	.social-links {
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		justify-content: center;
 		gap: 8px;
 		padding: 0 10px;
+		width: 100%;
 	}
 
 	.social-btn {
 		width: 40px;
 		height: 40px;
-		margin: 0 5px;
+		margin: 0;
 		font-size: 1rem;
+		flex-shrink: 0;
 	}
 
 	.description {
@@ -678,9 +680,36 @@ body {
 	}
 }
 
+@media (max-width: 480px) {
+	.social-links {
+		gap: 6px;
+	}
+
+	.social-btn {
+		width: 36px;
+		height: 36px;
+		font-size: 0.9rem;
+	}
+}
+
 @media (max-width: 320px) {
 	.hero-content {
 		padding: 0 3%;
+	}
+
+	.social-links {
+		flex-wrap: nowrap;
+		gap: 4px;
+		justify-content: center;
+		padding: 0 5px;
+		width: 100%;
+	}
+
+	.social-btn {
+		width: 32px;
+		height: 32px;
+		font-size: 0.85rem;
+		flex-shrink: 0;
 	}
 
 	.social-links {
