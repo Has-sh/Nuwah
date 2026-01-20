@@ -351,6 +351,18 @@ eleventyConfig.addCollection("projects", function (collectionApi) {
     return [];
   });
 
+  // Clean sitemap.xml - remove any injected script tags to ensure valid XML
+  eleventyConfig.addTransform("cleanSitemap", function(content, outputPath) {
+    if (outputPath && outputPath.endsWith("sitemap.xml")) {
+      // Remove any script tags that might be injected
+      content = content.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+      content = content.replace(/<script[^>]*\/>/gi, '');
+      // Ensure clean XML structure
+      return content.trim();
+    }
+    return content;
+  });
+
   // Development server options
   eleventyConfig.setServerOptions({
     showAllHosts: true,
