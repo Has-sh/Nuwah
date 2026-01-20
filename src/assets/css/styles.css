@@ -2236,6 +2236,16 @@ textarea.form-control {
 	.swiper-button-next {
 		display: none;
 	}
+
+	.custom-pagination-bullet,
+	.custom-pagination-bullet-active {
+		min-height: 0 !important;
+		min-width: 0 !important;
+		width: 8px !important;
+		height: 8px !important;
+		padding: 2px !important;
+		display: inline-block !important;
+	}
 }
 
 @media (max-width: 768px) {
