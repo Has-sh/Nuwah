@@ -11,6 +11,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets/vid");
   // Copy _headers file for Cloudflare Pages
   eleventyConfig.addPassthroughCopy("src/_headers");
+  // Copy static sitemap.xml
+  eleventyConfig.addPassthroughCopy("src/sitemap.xml");
   
   // Copy data files for admin panel access on Cloudflare Pages
   // Copy specific JSON files to _data directory in output
@@ -349,18 +351,6 @@ eleventyConfig.addCollection("projects", function (collectionApi) {
     }
     
     return [];
-  });
-
-  // Clean sitemap.xml - remove any injected script tags to ensure valid XML
-  eleventyConfig.addTransform("cleanSitemap", function(content, outputPath) {
-    if (outputPath && outputPath.endsWith("sitemap.xml")) {
-      // Remove any script tags that might be injected
-      content = content.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-      content = content.replace(/<script[^>]*\/>/gi, '');
-      // Ensure clean XML structure
-      return content.trim();
-    }
-    return content;
   });
 
   // Development server options
