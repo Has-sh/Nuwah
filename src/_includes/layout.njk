@@ -136,6 +136,20 @@
   }
   </script>
   {% endif %}
+
+  <!-- Stackwise Analytics -->
+  <script>
+    (function(w,d,s,id,sid,url){
+      w._swSettings={siteId:sid,trackUrl:url+'/api/analytics/track'};
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s);
+      j.async=true;
+      j.src=url+'/tracking/sw.js';
+      j.id=id;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','stackwise-tracker','sw_18_15','https://stackwise-660377895545.europe-west1.run.app');
+  </script>
+  <!-- End Stackwise Analytics -->
 </head>
 <body>
 <header>
